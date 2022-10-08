@@ -3,12 +3,14 @@ package tech.mathieu.epub;
 import tech.mathieu.epub.container.Container;
 import tech.mathieu.epub.opf.Package;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.xml.bind.JAXB;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipInputStream;
 
+@ApplicationScoped
 public class Reader {
 
   public Package read(InputStream ebook) throws IOException {
