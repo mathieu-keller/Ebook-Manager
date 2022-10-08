@@ -10,15 +10,21 @@ import java.math.BigDecimal;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "metadata"
+    "metadata",
+    "manifest"
 })
 @XmlRootElement(name = "package")
-public class Package {
+public class Opf {
 
   @XmlElement(
       required = true
   )
   private Metadata metadata;
+
+  @XmlElement(
+      required = true
+  )
+  private Manifest manifest;
 
   @XmlAttribute(
       name = "version",
@@ -31,7 +37,7 @@ public class Package {
   )
   private String uniqueIdentifier;
 
-  public Package() {
+  public Opf() {
   }
 
   public Metadata getMetadata() {
@@ -59,4 +65,11 @@ public class Package {
     this.uniqueIdentifier = value;
   }
 
+  public Manifest getManifest() {
+    return manifest;
+  }
+
+  public void setManifest(Manifest manifest) {
+    this.manifest = manifest;
+  }
 }
