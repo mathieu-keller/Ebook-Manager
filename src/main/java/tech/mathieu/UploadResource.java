@@ -16,11 +16,7 @@ import java.io.IOException;
 
 
 @Path("/api/upload/multi")
-@Transactional
-public class ExampleResource {
-
-  @Inject
-  Reader reader;
+public class UploadResource {
 
   @Inject
   BookService bookService;
@@ -28,14 +24,13 @@ public class ExampleResource {
   @POST
   @Blocking
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public String hello(@MultipartForm MultipartBody form) throws IOException {
+  public void upload(@MultipartForm MultipartBody form) {
     form.file.forEach(file -> {
-      try {
-        bookService.saveBook(new FileInputStream(file));
+      try(var in = new FileInputStream(file)) {
+        bookService.saveBook(in);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     });
-    return "DONE";
   }
 }

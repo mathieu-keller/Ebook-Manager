@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +22,7 @@ public class BookEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Id
   @Column(name = "id", nullable = false)
-  int id;
+  Long id;
 
   @Column(name = "title", nullable = true, length = 4000)
   String title;
@@ -31,6 +32,9 @@ public class BookEntity {
 
   @Column(name = "meta", nullable = true, length = 4000)
   String meta;
+  @Lob
+  @Column(name = "cover", nullable = true)
+  byte[] cover;
 
   @ManyToMany(
       targetEntity = CreatorEntity.class,
@@ -95,11 +99,11 @@ public class BookEntity {
   @OneToMany(mappedBy = "book",cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   private List<IdentifierEntity> identifierEntities;
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
@@ -175,6 +179,15 @@ public class BookEntity {
     this.subjectEntities = subjectEntities;
   }
 
+  public byte[] getCover() {
+    return cover;
+  }
+
+  public void setCover(byte[] cover) {
+    this.cover = cover;
+  }
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -183,11 +196,11 @@ public class BookEntity {
     if (!(o instanceof BookEntity that)) {
       return false;
     }
-    return id == that.id && Objects.equals(title, that.title) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(identifierEntities, that.identifierEntities);
+    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Objects.equals(cover, that.cover) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, date, meta, creatorEntities, contributorEntities, identifierEntities);
+    return Objects.hash(id, title, date, meta, cover, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities, identifierEntities);
   }
 }

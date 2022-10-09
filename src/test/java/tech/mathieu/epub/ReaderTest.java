@@ -25,7 +25,7 @@ public class ReaderTest {
   @Test
   public void test() throws Exception {
     try (var in = getClass().getResourceAsStream("/epub/TestBook.epub")) {
-      var book = reader.read(in);
+      var book = reader.read(in).opf();
 
       assertEquals(book.getVersion(), BigDecimal.valueOf(2.0));
       assertTitles(book);

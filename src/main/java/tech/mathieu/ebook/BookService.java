@@ -26,19 +26,31 @@ public class BookService {
   @Inject
   Reader reader;
 
+  public List<LibraryDto> getDtos() {
+    var t = entityManager.createQuery("select t from BookEntity t", BookEntity.class)
+        .getResultList()
+        .stream()
+        .map(bookEntity -> new LibraryDto(bookEntity.getId(), bookEntity.getCover() != null ? "data:image/jpeg;base64,"+new String(bookEntity.getCover()) : null,
+            bookEntity.title, "book", 1L))
+        .toList();
+    return t;
+  }
+
   public BookEntity saveBook(InputStream in) {
     try {
       var epub = reader.read(in);
+      var opf = epub.opf();
       var book = new BookEntity();
-      book.setTitle(getTitle(epub));
-      book.setMeta(getMeta(epub));
-      book.setDate(getDates(epub));
-      book.setCreatorEntities(getCreators(epub));
-      book.setIdentifierEntities(getIdentifiers(epub, book));
-      book.setContributorEntities(getContributors(epub));
-      book.setLanguageEntities(getLanguages(epub));
-      book.setPublisherEntities(getPublishers(epub));
-      book.setSubjectEntities(getSubjects(epub));
+      book.setCover(epub.cover());
+      book.setTitle(getTitle(opf));
+      book.setMeta(getMeta(opf));
+      book.setDate(getDates(opf));
+      book.setCreatorEntities(getCreators(opf));
+      book.setIdentifierEntities(getIdentifiers(opf, book));
+      book.setContributorEntities(getContributors(opf));
+      book.setLanguageEntities(getLanguages(opf));
+      book.setPublisherEntities(getPublishers(opf));
+      book.setSubjectEntities(getSubjects(opf));
       return entityManager.merge(book);
     } catch (IOException e) {
       throw new RuntimeException(e);
