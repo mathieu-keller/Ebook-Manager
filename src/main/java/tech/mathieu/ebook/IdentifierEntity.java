@@ -1,8 +1,5 @@
-package tech.mathieu.ebook.identifier;
+package tech.mathieu.ebook;
 
-import tech.mathieu.ebook.book.BookEntity;
-
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,26 +13,25 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "identifier", schema = "public", catalog = "ebooks")
+@Table(name = "identifier")
 public class IdentifierEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Id
   @Column(name = "id", nullable = false)
-  private int id;
+  int id;
 
   @ManyToOne(cascade= CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "BOOK_ID")
-  private BookEntity book;
+  BookEntity book;
 
-  @Basic
   @Column(name = "name", nullable = true, length = 4000)
-  private String name;
+  String name;
 
   @Column(name = "SCHEMA")
-  private String schema;
+  String schema;
 
   @Column(name = "IDENT_ID")
-  private String identId;
+  String identId;
 
   public int getId() {
     return id;

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
     "metadata"
 })
 @XmlRootElement(name = "package")
-public class Package {
+public class Opf {
 
   @XmlElement(
       required = true
@@ -31,7 +31,7 @@ public class Package {
   )
   private String uniqueIdentifier;
 
-  public Package() {
+  public Opf() {
   }
 
   public Metadata getMetadata() {
