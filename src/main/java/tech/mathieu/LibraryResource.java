@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.List ;
 
@@ -19,7 +20,7 @@ public class LibraryResource {
   @GET
   @Path(("/all"))
   @Produces(MediaType.APPLICATION_JSON)
-  public List<LibraryDto> getLibraryItems() {
-   return bookService.getDtos();
+  public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page) {
+   return bookService.getDtos(page);
   }
 }
