@@ -9,7 +9,7 @@ type ItemCardProps = {
   readonly id: number;
   readonly onClick: () => void;
   readonly name: string;
-  readonly cover: string | null;
+  readonly cover?: string;
   readonly itemType: 'book' | 'collection';
   readonly itemCount?: number;
 }
@@ -32,7 +32,7 @@ const ItemCard: Component<ItemCardProps> = (props) => {
           </Show>
 
           <img
-            src={props.cover === null ? defaultCover : props.cover}
+            src={props.cover === undefined ? defaultCover : props.cover}
             alt={`cover picture of ${props.name}`}
             width="270"
             height="470"
