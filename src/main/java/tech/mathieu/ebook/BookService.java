@@ -35,10 +35,10 @@ public class BookService {
         }
         return entityManager.createQuery("select t from BookEntity t", BookEntity.class)
                 .setFirstResult((p - 1) * PAGE_SIZE)
-                .setMaxResults(p * PAGE_SIZE)
+                .setMaxResults(PAGE_SIZE)
                 .getResultList()
                 .stream()
-                .map(bookEntity -> new LibraryDto(bookEntity.getId(), bookEntity.getCover() != null ? "data:image/jpeg;base64," + new String(bookEntity.getCover()) : null,
+                .map(bookEntity -> new LibraryDto(bookEntity.getId(), bookEntity.getCover() != null ? "data:image/jpg;base64," + new String(bookEntity.getCover()) : null,
                         bookEntity.title, "book", 1L))
                 .toList();
     }
