@@ -12,15 +12,15 @@ import javax.ws.rs.core.MediaType;
 @Path("/api/book")
 public class BookResource {
 
-    @Inject
-    BookService bookService;
+  @Inject
+  BookService bookService;
 
-    @Path("{book-title}")
-    @GET
-    @Compressed
-    @Produces(MediaType.APPLICATION_JSON)
-    public BookDto getBook(@PathParam("book-title") String bookTitle) {
-        return bookService.getBookDto(bookTitle);
-    }
+  @Path("{book-title}")
+  @GET
+  @Compressed
+  @Produces(MediaType.APPLICATION_JSON)
+  public BookDto getBook(@PathParam("book-title") String bookTitle) {
+    return bookService.getBookDto(bookTitle);
+  }
 
 }

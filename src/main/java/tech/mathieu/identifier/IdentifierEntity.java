@@ -22,7 +22,7 @@ public class IdentifierEntity {
   @Column(name = "id", nullable = false)
   int id;
 
-  @ManyToOne(cascade= CascadeType.MERGE, fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "BOOK_ID")
   BookEntity book;
 

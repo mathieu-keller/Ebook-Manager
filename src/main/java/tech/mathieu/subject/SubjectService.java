@@ -16,7 +16,7 @@ public class SubjectService {
   @Inject
   EntityManager entityManager;
 
-  public Optional<SubjectEntity> getSubjectByName(String name){
+  public Optional<SubjectEntity> getSubjectByName(String name) {
     return entityManager.createQuery("select t from SubjectEntity t where t.name = :name", SubjectEntity.class)
         .setParameter("name", name)
         .setMaxResults(1)

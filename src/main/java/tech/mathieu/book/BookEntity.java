@@ -103,7 +103,7 @@ public class BookEntity {
   )
   List<SubjectEntity> subjectEntities;
 
-  @OneToMany(mappedBy = "book",cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "book", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   private List<IdentifierEntity> identifierEntities;
 
   public Long getId() {
@@ -208,6 +208,7 @@ public class BookEntity {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, date, meta, cover, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities, identifierEntities);
+    return Objects.hash(id, title, date, meta, cover, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities,
+        identifierEntities);
   }
 }
