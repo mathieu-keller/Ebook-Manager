@@ -16,6 +16,14 @@ public class SubjectService {
   @Inject
   EntityManager entityManager;
 
+  public List<SubjectDto> getDtos() {
+    return entityManager.createQuery("select t from SubjectEntity t", SubjectEntity.class)
+        .getResultList()
+        .stream()
+        .map(entity -> new SubjectDto(entity.getId(), entity.getName()))
+        .toList();
+  }
+
   public Optional<SubjectEntity> getSubjectByName(String name) {
     return entityManager.createQuery("select t from SubjectEntity t where t.name = :name", SubjectEntity.class)
         .setParameter("name", name)
