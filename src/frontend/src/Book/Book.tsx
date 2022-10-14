@@ -14,7 +14,7 @@ const Book = () => {
   const [book, setBook] = createSignal<BookType | null>(null);
   const path = useParams<{ readonly book: string }>();
   const getBook = async (): Promise<BookType> => {
-    const response = await Rest.get<BookType>(BOOK_API(path.book));
+    const response = await Rest.get<BookType>(BOOK_API(encodeURIComponent(path.book)));
     return response.data;
   };
 
@@ -37,7 +37,7 @@ const Book = () => {
         <div class="grid max-w-[100%] sm:max-w-[90%] md:max-w-[70%] xl:max-w-[50%]">
           <img
             alt={`cover picture of ${book()!.title}`}
-            src={book()!.cover !== null ? book()!.cover : defaultCover}
+            src={book()!.cover !== undefined ? book()!.cover : defaultCover}
             width="270"
             height="470"
           />
