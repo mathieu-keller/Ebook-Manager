@@ -1,7 +1,6 @@
-package tech.mathieu;
+package tech.mathieu.library;
 
-import tech.mathieu.ebook.BookService;
-import tech.mathieu.ebook.LibraryDto;
+import tech.mathieu.book.BookService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

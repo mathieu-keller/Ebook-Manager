@@ -53,7 +53,7 @@ public class Metadata {
   @XmlElement(name = "subject", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Subject> subjects;
 
-  @XmlElement(name = "language", namespace = "http://purl.org/dc/elements/1.1/")
+  @XmlElement(name = "tech/mathieu/language", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Language> languages;
 
   @XmlElement(name = "meta", namespace = "http://www.idpf.org/2007/opf")

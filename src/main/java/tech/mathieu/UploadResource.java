@@ -2,7 +2,7 @@ package tech.mathieu;
 
 import io.smallrye.common.annotation.Blocking;
 import org.jboss.resteasy.reactive.MultipartForm;
-import tech.mathieu.ebook.BookService;
+import tech.mathieu.book.BookService;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

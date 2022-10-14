@@ -1,4 +1,6 @@
-package tech.mathieu.ebook;
+package tech.mathieu.identifier;
+
+import tech.mathieu.book.BookEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

@@ -1,4 +1,6 @@
-package tech.mathieu.ebook;
+package tech.mathieu.creator;
+
+import tech.mathieu.book.BookEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +17,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "publisher")
-public class PublisherEntity {
+@Table(name = "creator")
+public class CreatorEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Id
   @Column(name = "id", nullable = false)
@@ -31,8 +33,8 @@ public class PublisherEntity {
       cascade = CascadeType.MERGE
   )
   @JoinTable(
-      name = "publisher2book",
-      joinColumns = @JoinColumn(name = "publisher_id"),
+      name = "CREATOR2BOOK",
+      joinColumns = @JoinColumn(name = "CREATOR_ID"),
       inverseJoinColumns = @JoinColumn(name = "BOOK_ID")
   )
   List<BookEntity> bookEntities;
@@ -67,7 +69,7 @@ public class PublisherEntity {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof PublisherEntity that)) {
+    if (!(o instanceof CreatorEntity that)) {
       return false;
     }
     return id == that.id && Objects.equals(name, that.name) && Objects.equals(bookEntities, that.bookEntities);
