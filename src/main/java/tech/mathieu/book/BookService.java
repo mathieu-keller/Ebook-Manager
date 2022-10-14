@@ -1,14 +1,19 @@
 package tech.mathieu.book;
 
+import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.contributor.ContributorEntity;
 import tech.mathieu.creator.CreatorEntity;
+import tech.mathieu.creator.CreatorService;
 import tech.mathieu.identifier.IdentifierEntity;
+import tech.mathieu.identifier.IdentifierService;
 import tech.mathieu.language.LanguageDto;
 import tech.mathieu.language.LanguageEntity;
+import tech.mathieu.language.LanguageService;
 import tech.mathieu.library.LibraryDto;
 import tech.mathieu.publisher.PublisherDto;
 import tech.mathieu.publisher.PublisherEntity;
+import tech.mathieu.publisher.PublisherService;
 import tech.mathieu.subject.SubjectDto;
 import tech.mathieu.subject.SubjectEntity;
 import tech.mathieu.epub.Reader;
@@ -17,6 +22,7 @@ import tech.mathieu.epub.opf.metadata.Creator;
 import tech.mathieu.epub.opf.metadata.Date;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.epub.opf.metadata.Title;
+import tech.mathieu.subject.SubjectService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -32,33 +38,30 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookService {
 
-  private static final int PAGE_SIZE = 32;
-
   @Inject
   EntityManager entityManager;
 
   @Inject
+  SubjectService subjectService;
+
+  @Inject
+  CreatorService creatorService;
+
+  @Inject
+  PublisherService publisherService;
+
+  @Inject
+  LanguageService languageService;
+
+  @Inject
+  ContributorService contributorService;
+
+  @Inject
+  IdentifierService identifierService;
+
+  @Inject
   Reader reader;
 
-  public List<LibraryDto> getDtos(Integer page) {
-    int p = 1;
-    if (page != null) {
-      p = page;
-    }
-    return entityManager.createQuery("select t from BookEntity t", BookEntity.class)
-        .setFirstResult((p - 1) * PAGE_SIZE)
-        .setMaxResults(PAGE_SIZE)
-        .getResultList()
-        .stream()
-        .map(bookEntity -> new LibraryDto(bookEntity.getId(),
-            Optional.ofNullable(bookEntity.getCover())
-                .map(cover -> "data:image/jpg;base64," + new String(cover))
-                .orElse(null),
-            bookEntity.title,
-            "book",
-            1L))
-        .toList();
-  }
 
   public BookDto getBookDto(String title) {
     var entity = entityManager.createQuery("select t from BookEntity t where t.title = :title", BookEntity.class)
@@ -104,134 +107,16 @@ public class BookService {
       book.setTitle(getTitle(opf));
       book.setMeta(getMeta(opf));
       book.setDate(getDates(opf));
-      book.setCreatorEntities(getCreators(opf));
-      book.setIdentifierEntities(getIdentifiers(opf, book));
-      book.setContributorEntities(getContributors(opf));
-      book.setLanguageEntities(getLanguages(opf));
-      book.setPublisherEntities(getPublishers(opf));
-      book.setSubjectEntities(getSubjects(opf));
+      book.setCreatorEntities(creatorService.getCreators(opf));
+      book.setIdentifierEntities(identifierService.getIdentifiers(opf, book));
+      book.setContributorEntities(contributorService.getContributors(opf));
+      book.setLanguageEntities(languageService.getLanguages(opf));
+      book.setPublisherEntities(publisherService.getPublishers(opf));
+      book.setSubjectEntities(subjectService.getSubjects(opf));
       return entityManager.merge(book);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private List<SubjectEntity> getSubjects(Opf epub) {
-    if (epub.getMetadata().getSubjects() != null) {
-      return epub.getMetadata().getSubjects()
-          .stream()
-          .map(contributor -> {
-            var name = contributor.getValue().strip();
-            var entity = entityManager.createQuery("select t from SubjectEntity t where t.name = :name", SubjectEntity.class)
-                .setParameter("name", name)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElseGet(SubjectEntity::new);
-            entity.setName(name);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
-  }
-
-  private List<PublisherEntity> getPublishers(Opf epub) {
-    if (epub.getMetadata().getPublishers() != null) {
-      return epub.getMetadata().getPublishers()
-          .stream()
-          .map(contributor -> {
-            var name = contributor.getValue().strip();
-            var entity = entityManager.createQuery("select t from PublisherEntity t where t.name = :name", PublisherEntity.class)
-                .setParameter("name", name)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElseGet(PublisherEntity::new);
-            entity.setName(name);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
-  }
-
-  private List<LanguageEntity> getLanguages(Opf epub) {
-    if (epub.getMetadata().getLanguages() != null) {
-      return epub.getMetadata().getLanguages()
-          .stream()
-          .map(contributor -> {
-            var name = contributor.getValue().strip();
-            var entity = entityManager.createQuery("select t from LanguageEntity t where t.name = :name", LanguageEntity.class)
-                .setParameter("name", name)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElseGet(LanguageEntity::new);
-            entity.setName(name);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
-  }
-
-  private List<ContributorEntity> getContributors(Opf epub) {
-    if (epub.getMetadata().getContributors() != null) {
-      return epub.getMetadata().getContributors()
-          .stream()
-          .map(contributor -> {
-            var name = contributor.getValue().strip();
-            var entity = entityManager.createQuery("select t from ContributorEntity t where t.name = :name", ContributorEntity.class)
-                .setParameter("name", name)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElseGet(ContributorEntity::new);
-            entity.setName(name);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
-  }
-
-  private List<CreatorEntity> getCreators(Opf epub) {
-    if (epub.getMetadata().getCreators() != null) {
-      return epub.getMetadata().getCreators()
-          .stream()
-          .map(Creator::getValue)
-          .map(creator -> {
-            var name = creator.strip();
-            var entity = entityManager.createQuery("select t from CreatorEntity t where t.name = :name", CreatorEntity.class)
-                .setParameter("name", name)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElseGet(CreatorEntity::new);
-            entity.setName(name);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
-  }
-
-  private List<IdentifierEntity> getIdentifiers(Opf epub, BookEntity book) {
-    if (epub.getMetadata().getIdentifiers() != null) {
-      return epub.getMetadata().getIdentifiers()
-          .stream()
-          .map(identifier -> {
-            var entity = new IdentifierEntity();
-            entity.setIdentId(identifier.getId());
-            entity.setSchema(identifier.getScheme());
-            entity.setName(identifier.getValue());
-            entity.setBook(book);
-            return entity;
-          })
-          .toList();
-    }
-    return List.of();
   }
 
   private String getDates(Opf epub) {

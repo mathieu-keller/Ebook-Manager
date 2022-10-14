@@ -1,7 +1,6 @@
 package tech.mathieu.library;
 
 import io.quarkus.vertx.http.Compressed;
-import tech.mathieu.book.BookService;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -15,13 +14,13 @@ import java.util.List ;
 public class LibraryResource {
 
   @Inject
-  BookService bookService;
+  LibraryService libraryService;
 
   @GET
   @Path(("/all"))
   @Compressed
   @Produces(MediaType.APPLICATION_JSON)
   public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page) {
-   return bookService.getDtos(page);
+   return libraryService.getDtos(page);
   }
 }
