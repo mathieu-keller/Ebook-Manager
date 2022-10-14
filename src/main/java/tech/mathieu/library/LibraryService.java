@@ -1,13 +1,8 @@
 package tech.mathieu.library;
 
-import org.hibernate.query.Query;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Strings;
-import tech.mathieu.book.BookEntity;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;

@@ -4,17 +4,12 @@ import tech.mathieu.book.BookEntity;
 import tech.mathieu.epub.opf.Opf;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
 @Transactional
 public class IdentifierService {
-
-  @Inject
-  EntityManager entityManager;
 
   public List<IdentifierEntity> getIdentifiers(Opf epub, BookEntity book) {
     if (epub.getMetadata().getIdentifiers() != null) {

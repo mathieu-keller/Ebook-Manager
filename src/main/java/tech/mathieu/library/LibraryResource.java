@@ -8,7 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.List ;
+import java.util.List;
 
 @Path("/api/library")
 public class LibraryResource {
@@ -21,6 +21,6 @@ public class LibraryResource {
   @Compressed
   @Produces(MediaType.APPLICATION_JSON)
   public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page, @QueryParam("q") String search) {
-   return libraryService.getDtos(page, search);
+    return libraryService.getDtos(page, search);
   }
 }

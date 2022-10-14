@@ -5,5 +5,6 @@
 // Generated on: 2022.10.08 at 02:50:33 PM CEST
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "urn:oasis:names:tc:opendocument:xmlns:container", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "urn:oasis:names:tc:opendocument:xmlns:container",
+    elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package tech.mathieu.epub.container;
