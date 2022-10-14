@@ -17,10 +17,10 @@ public class LibraryResource {
   LibraryService libraryService;
 
   @GET
-  @Path(("/all"))
+  @Path(("/"))
   @Compressed
   @Produces(MediaType.APPLICATION_JSON)
-  public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page) {
-   return libraryService.getDtos(page);
+  public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page, @QueryParam("q") String search) {
+   return libraryService.getDtos(page, search);
   }
 }
