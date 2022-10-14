@@ -22,7 +22,7 @@ public class CreatorEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Id
   @Column(name = "id", nullable = false)
-  int id;
+  Long id;
 
   @Column(name = "name", nullable = true, length = 4000)
   String name;
@@ -39,11 +39,11 @@ public class CreatorEntity {
   )
   List<BookEntity> bookEntities;
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
