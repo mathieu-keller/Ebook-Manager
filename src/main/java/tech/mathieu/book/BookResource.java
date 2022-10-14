@@ -1,5 +1,7 @@
 package tech.mathieu.book;
 
+import io.quarkus.vertx.http.Compressed;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,6 +17,7 @@ public class BookResource {
 
     @Path("{book-title}")
     @GET
+    @Compressed
     @Produces(MediaType.APPLICATION_JSON)
     public BookDto getBook(@PathParam("book-title") String bookTitle) {
         return bookService.getBookDto(bookTitle);
