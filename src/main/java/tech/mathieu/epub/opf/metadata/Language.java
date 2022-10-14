@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "", propOrder = {
     "value"
 })
-@XmlRootElement(name = "language")
+@XmlRootElement(name = "tech/mathieu/language")
 public class Language {
   @XmlValue
   private String value;

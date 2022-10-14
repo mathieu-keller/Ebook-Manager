@@ -1,4 +1,11 @@
-package tech.mathieu.ebook;
+package tech.mathieu.book;
+
+import tech.mathieu.contributor.ContributorEntity;
+import tech.mathieu.creator.CreatorEntity;
+import tech.mathieu.identifier.IdentifierEntity;
+import tech.mathieu.language.LanguageEntity;
+import tech.mathieu.publisher.PublisherEntity;
+import tech.mathieu.subject.SubjectEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
