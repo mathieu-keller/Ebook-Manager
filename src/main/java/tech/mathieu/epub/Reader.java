@@ -6,7 +6,12 @@ import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 import javax.xml.bind.JAXB;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -47,21 +53,32 @@ public class Reader {
         return new Epub(opf, cover);
     }
 
-    private double determineImageScale(int sourceWidth, int sourceHeight, int targetWidth, int targetHeight) {
-        double scalex = (double) targetWidth / sourceWidth;
-        double scaley = (double) targetHeight / sourceHeight;
-        return Math.min(scalex, scaley);
+    private double determineImageScale(int sourceWidth, int sourceHeight, int targetWidth) {
+        return (double) targetWidth / sourceWidth;
     }
 
-    BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        var scale = determineImageScale(originalImage.getWidth(), originalImage.getHeight(), targetWidth, targetHeight);
+    byte[] resizeImage(BufferedImage originalImage, int targetWidth) throws IOException {
+        var scale = determineImageScale(originalImage.getWidth(), originalImage.getHeight(), targetWidth);
         var calculatedWidth = (int) (originalImage.getWidth() * scale);
         var calculatedHeight = (int) (originalImage.getHeight() * scale);
         BufferedImage resizedImage = new BufferedImage(calculatedWidth, calculatedHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = resizedImage.createGraphics();
         graphics2D.drawImage(originalImage, 0, 0, calculatedWidth, calculatedHeight, null);
         graphics2D.dispose();
-        return resizedImage;
+
+        ImageOutputStream ios =  ImageIO.createImageOutputStream(resizedImage);
+        Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpeg");
+        ImageWriter writer = iter.next();
+        ImageWriteParam iwp = writer.getDefaultWriteParam();
+        iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        iwp.setCompressionQuality(0.5f);
+
+        writer.setOutput(ios);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        writer.setOutput(new MemoryCacheImageOutputStream(baos));
+        writer.write(null, new IIOImage(resizedImage,null,null),iwp);
+        writer.dispose();
+        return Base64.getEncoder().encode(baos.toByteArray());
     }
 
     private byte[] getCover(Opf opf, String opfPath, InputStream ebook) throws IOException {
@@ -74,10 +91,7 @@ public class Reader {
             while ((zipEntry = zipIn.getNextEntry()) != null) {
                 var rootFolder = getRootPath(opfPath);
                 if (path.equals(zipEntry.getName()) || (rootFolder + "/" + path).equals(zipEntry.getName())) {
-                    var img = resizeImage(ImageIO.read(new ByteArrayInputStream(zipIn.readAllBytes())), 400, 400);
-                    var os = new ByteArrayOutputStream();
-                    ImageIO.write(img, "jpg", os);
-                    return Base64.getEncoder().encode(os.toByteArray());
+                    return resizeImage(ImageIO.read(new ByteArrayInputStream(zipIn.readAllBytes())), 270);
                 }
             }
         } catch (RuntimeException e) {

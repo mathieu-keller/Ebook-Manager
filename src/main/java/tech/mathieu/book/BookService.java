@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class BookService {
 
-  private static final int PAGE_SIZE = 15;
+  private static final int PAGE_SIZE = 32;
 
   @Inject
   EntityManager entityManager;
