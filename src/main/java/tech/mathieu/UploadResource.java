@@ -25,7 +25,7 @@ public class UploadResource {
   public void upload(@MultipartForm MultipartBody form) {
     form.file.forEach(file -> {
       try (var in = new FileInputStream(file)) {
-        bookService.saveBook(in);
+        bookService.uploadBook(in);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

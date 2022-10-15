@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import org.graalvm.collections.Pair;
 import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
@@ -20,10 +21,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.zip.ZipFile;
 
 @ApplicationScoped
 @Transactional
@@ -53,6 +59,9 @@ public class BookService {
   @Inject
   Reader reader;
 
+  public BookEntity getBookById(Long id) {
+    return entityManager.find(BookEntity.class, id);
+  }
 
   public BookDto getBookDto(String title) {
     var entity = entityManager.createQuery("select t from BookEntity t where t.title = :title", BookEntity.class)
@@ -89,9 +98,53 @@ public class BookService {
     );
   }
 
-  public BookEntity saveBook(InputStream in) {
+  public void uploadBook(InputStream in) {
+    var uuid = String.valueOf(UUID.randomUUID());
+    var inboxPath = "upload/inbox";
+    new File(inboxPath).mkdirs();
+    var inboxBookPath = inboxPath + "/" + uuid + ".epub";
     try {
-      var epub = reader.read(in);
+      saveBookToInbox(in, inboxBookPath);
+      processInbox(inboxBookPath);
+    } catch (RuntimeException e) {
+      new File(inboxBookPath).delete();
+      throw e;
+    }
+  }
+
+  private void processInbox(String inboxPath) {
+    try {
+      var zipFile = new ZipFile(inboxPath);
+      var book = saveBook(zipFile);
+      var destPath = new File(book.getPath());
+      destPath.mkdirs();
+      var dest = new File(destPath + "/orginal.epub");
+      var result = new File(zipFile.getName()).renameTo(dest);
+      if (!result) {
+        throw new IOException("can't rename file " + zipFile.getName() + " to " + dest.getName());
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static void saveBookToInbox(InputStream in, String inboxPath) {
+    var file = new File(inboxPath);
+    try (var fos = new FileOutputStream(file)) {
+      int read;
+      byte[] bytes = new byte[1024];
+      while ((read = in.read(bytes)) != -1) {
+        fos.write(bytes, 0, read);
+      }
+      fos.flush();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private BookEntity saveBook(ZipFile zipFile) {
+    try {
+      var epub = reader.read(zipFile);
       var opf = epub.opf();
       var book = new BookEntity();
       book.setCover(epub.cover());
@@ -104,6 +157,7 @@ public class BookService {
       book.setLanguageEntities(languageService.getLanguages(opf));
       book.setPublisherEntities(publisherService.getPublishers(opf));
       book.setSubjectEntities(subjectService.getSubjects(opf));
+      book.setPath("upload/ebooks/" + book.getTitle());
       return entityManager.merge(book);
     } catch (IOException e) {
       throw new RuntimeException(e);

@@ -2,18 +2,7 @@ package tech.mathieu.epub;
 
 import io.quarkus.test.junit.QuarkusTest;
 
-import org.junit.jupiter.api.Test;
-import tech.mathieu.epub.opf.Opf;
-
 import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.util.Objects;
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @QuarkusTest
@@ -22,7 +11,7 @@ public class ReaderTest {
   @Inject
   Reader reader;
 
-  @Test
+  /*@Test
   public void test() throws Exception {
     try (var in = getClass().getResourceAsStream("/epub/TestBook.epub")) {
       var book = reader.read(in).opf();
@@ -128,6 +117,6 @@ public class ReaderTest {
     assertNotNull(book.getMetadata().getTitles());
     assertEquals(book.getMetadata().getTitles().size(), 1);
     assertEquals(book.getMetadata().getTitles().get(0).getValue(), "Test Book");
-  }
+  }*/
 
 }

@@ -42,6 +42,8 @@ public class BookEntity {
   @Lob
   @Column(name = "cover", nullable = true)
   byte[] cover;
+  @Column(name = "path")
+  String path;
 
   @ManyToMany(
       targetEntity = CreatorEntity.class,
@@ -136,6 +138,14 @@ public class BookEntity {
 
   public void setMeta(String meta) {
     this.meta = meta;
+  }
+
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String path) {
+    this.path = path;
   }
 
   public List<CreatorEntity> getCreatorEntities() {
