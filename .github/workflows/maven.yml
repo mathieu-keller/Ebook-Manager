@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
@@ -32,9 +32,9 @@ jobs:
     needs: [ yarn ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
@@ -48,9 +48,9 @@ jobs:
     needs: [ yarn, lint ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache node_modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
