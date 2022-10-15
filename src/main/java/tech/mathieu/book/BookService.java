@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import org.graalvm.collections.Pair;
 import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,6 +59,9 @@ public class BookService {
   @Inject
   Reader reader;
 
+  public BookEntity getBookById(Long id) {
+    return entityManager.find(BookEntity.class, id);
+  }
 
   public BookDto getBookDto(String title) {
     var entity = entityManager.createQuery("select t from BookEntity t where t.title = :title", BookEntity.class)
