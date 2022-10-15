@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: frontend
-          path: frontend/dist
+          path: src/frontend/dist
   quarkus-build:
     name: build backend
     runs-on: ubuntu-latest
