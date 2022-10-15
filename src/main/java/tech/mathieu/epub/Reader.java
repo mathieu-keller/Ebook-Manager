@@ -13,37 +13,25 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 
 @ApplicationScoped
 public class Reader {
 
-  public Epub read(InputStream ebook) throws IOException {
-    var book = ebook.readAllBytes();
-    String opfPath;
-    try (var in = new ByteArrayInputStream(book)) {
-      opfPath = getOpfPath(in);
-    }
+  public Epub read(ZipFile zipFile) throws IOException {
+    var opfPath = getOpfPath(zipFile);
     if (opfPath == null) {
       return null;
     }
-    Opf opf;
-    try (var in = new ByteArrayInputStream(book)) {
-      opf = getPackage(in, opfPath);
-    }
+    var opf = getPackage(zipFile, opfPath);
     if (opf == null) {
       return null;
     }
-    byte[] cover;
-    try (var in = new ByteArrayInputStream(book)) {
-      cover = getCover(opf, opfPath, in);
-    }
+    var cover = getCover(opf, opfPath, zipFile);
     return new Epub(opf, cover);
   }
 
@@ -65,26 +53,19 @@ public class Reader {
     }
   }
 
-  private byte[] getCover(Opf opf, String opfPath, InputStream ebook) throws IOException {
+  private byte[] getCover(Opf opf, String opfPath, ZipFile zipFile) throws IOException {
     var path = getCoverPath(opf);
     if (path == null) {
       return null;
     }
-    try (var zipIn = new ZipInputStream(ebook)) {
-      ZipEntry zipEntry;
-      while ((zipEntry = zipIn.getNextEntry()) != null) {
-        var rootFolder = getRootPath(opfPath);
-        if (path.equals(zipEntry.getName()) || (rootFolder + "/" + path).equals(zipEntry.getName())) {
-          try (var baos = new ByteArrayInputStream(zipIn.readAllBytes())) {
-            return resizeImage(ImageIO.read(baos), 270);
-          }
-        }
-      }
-    } catch (RuntimeException e) {
-      System.out.println(e.getMessage());
-      throw e;
+    var zipEntry = zipFile.getEntry(path);
+    if (zipEntry == null) {
+      var rootFolder = getRootPath(opfPath);
+      zipEntry = zipFile.getEntry(rootFolder + "/" + path);
     }
-    return null;
+    try (var zipIn = zipFile.getInputStream(zipEntry)) {
+      return resizeImage(ImageIO.read(zipIn), 270);
+    }
   }
 
   private String getRootPath(String opfPath) {
@@ -109,33 +90,17 @@ public class Reader {
     return coverPath.orElse(null);
   }
 
-  private Opf getPackage(InputStream ebook, String opfPath) throws IOException {
-    Opf pa = null;
-    try (var zipIn = new ZipInputStream(ebook)) {
-      ZipEntry zipEntry;
-      while ((zipEntry = zipIn.getNextEntry()) != null) {
-        if (opfPath.equals(zipEntry.getName())) {
-          pa = JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Opf.class);
-          break;
-        }
-      }
+  private Opf getPackage(ZipFile zipFile, String opfPath) throws IOException {
+    try (var zipIn = zipFile.getInputStream(zipFile.getEntry(opfPath))) {
+      return JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Opf.class);
     }
-    return pa;
   }
 
-  private String getOpfPath(InputStream ebook) throws IOException {
-    String opfPath = null;
-    try (var zipIn = new ZipInputStream(ebook)) {
-      ZipEntry zipEntry;
-      while ((zipEntry = zipIn.getNextEntry()) != null) {
-        if ("META-INF/container.xml".equals(zipEntry.getName())) {
-          var container = JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Container.class);
-          opfPath = container.getRootfiles().getRootfile()[0].getFullPath();
-          break;
-        }
-      }
+  private String getOpfPath(ZipFile zipFile) throws IOException {
+    try (var zipIn = zipFile.getInputStream(zipFile.getEntry("META-INF/container.xml"))) {
+      var container = JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Container.class);
+      return container.getRootfiles().getRootfile()[0].getFullPath();
     }
-    return opfPath;
   }
 
 }
