@@ -59,7 +59,6 @@ jobs:
         working-directory: ./src/frontend
         run: npm run build
       - name: Archive production artifacts
-        if: contains(github.ref, 'dev')
         uses: actions/upload-artifact@v3
         with:
           name: frontend
