@@ -26,11 +26,8 @@ public class IdentifierEntity {
   @JoinColumn(name = "BOOK_ID")
   BookEntity bookEntity;
 
-  @Column(name = "name", nullable = true, length = 4000)
-  String name;
-
-  @Column(name = "SCHEMA")
-  String schema;
+  @Column(name = "value", nullable = true, length = 4000)
+  String value;
 
   @Column(name = "IDENT_ID")
   String identId;
@@ -51,20 +48,12 @@ public class IdentifierEntity {
     this.bookEntity = bookEntity;
   }
 
-  public String getName() {
-    return name;
+  public String getValue() {
+    return value;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getSchema() {
-    return schema;
-  }
-
-  public void setSchema(String schema) {
-    this.schema = schema;
+  public void setValue(String name) {
+    this.value = name;
   }
 
   public String getIdentId() {
@@ -83,11 +72,11 @@ public class IdentifierEntity {
     if (!(o instanceof IdentifierEntity that)) {
       return false;
     }
-    return id == that.id && Objects.equals(bookEntity, that.bookEntity) && Objects.equals(name, that.name);
+    return id == that.id && Objects.equals(bookEntity, that.bookEntity) && Objects.equals(value, that.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, bookEntity, name);
+    return Objects.hash(id, bookEntity, value);
   }
 }

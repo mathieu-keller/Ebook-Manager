@@ -196,7 +196,7 @@ public class BookService {
     if (epub.getMetadata().getMeta() != null) {
       return epub.getMetadata().getMeta()
           .stream()
-          .map(Meta::getContent).
+          .map(Meta::toString).
           collect(Collectors.joining(", "));
     }
     return null;

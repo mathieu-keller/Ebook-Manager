@@ -18,8 +18,7 @@ public class IdentifierService {
           .map(identifier -> {
             var entity = new IdentifierEntity();
             entity.setIdentId(identifier.getId());
-            entity.setSchema(identifier.getScheme());
-            entity.setName(identifier.getValue());
+            entity.setValue(identifier.getValue());
             entity.setBook(book);
             return entity;
           })

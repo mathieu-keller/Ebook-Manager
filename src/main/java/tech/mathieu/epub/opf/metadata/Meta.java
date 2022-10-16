@@ -123,4 +123,19 @@ private String id;
   public void setValue(String value) {
     this.value = value;
   }
+
+  @Override
+  public String toString() {
+    return "{" +
+        "id='" + id + '\'' +
+        ", dir='" + dir + '\'' +
+        ", name='" + name + '\'' +
+        ", content='" + content + '\'' +
+        ", refines='" + refines + '\'' +
+        ", property='" + property + '\'' +
+        ", scheme='" + scheme + '\'' +
+        ", lang='" + lang + '\'' +
+        ", value='" + value + '\'' +
+        '}';
+  }
 }
