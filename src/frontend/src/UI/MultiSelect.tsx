@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, on, onMount, Show } from 'solid-js';
+import {createEffect, createSignal, For, on, onMount, Show} from 'solid-js';
 
 // eslint-disable-next-line no-unused-vars, no-use-before-define
 type MultiSelectProps<T extends { [A in R]: string }, R extends keyof T> = {

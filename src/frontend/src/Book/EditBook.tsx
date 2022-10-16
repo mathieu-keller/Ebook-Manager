@@ -1,13 +1,13 @@
 import Modal from '../UI/Modal';
-import { Component, createSignal, For, onMount, Show } from 'solid-js';
-import { BookType } from './Book.type';
+import {Component, createSignal, For, onMount, Show} from 'solid-js';
+import {BookType} from './Book.type';
 import Rest from '../Rest';
-import { BOOK_API } from '../Api/Api';
+import {BOOK_API} from '../Api/Api';
 import Badge from '../UI/Badge';
-import { Subject } from '../Subject/Subject.type';
+import {Subject} from '../Subject/Subject.type';
 import MultiSelect from '../UI/MultiSelect';
-import { Button, PrimaryButton } from '../UI/Button';
-import { AxiosResponse } from 'axios';
+import {Button, PrimaryButton} from '../UI/Button';
+import {AxiosResponse} from 'axios';
 
 type EditSubjectsProps = {
   readonly onClose: () => void;
@@ -42,7 +42,7 @@ const EditBook: Component<EditSubjectsProps> = (props) => {
             selected={book()!.subjects}
             showValue="name"
             onCreateNew={(name) => {
-              const newSubject = { name: name.charAt(0).toUpperCase() + name.slice(1) };
+              const newSubject = {name: name.charAt(0).toUpperCase() + name.slice(1)};
               setAllSubjects([...allSubjects(), newSubject]);
               setBook({
                 ...book()!,

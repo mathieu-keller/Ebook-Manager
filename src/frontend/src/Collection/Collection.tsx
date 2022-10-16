@@ -1,12 +1,12 @@
-import { Component, createSignal, onMount, Show } from 'solid-js';
+import {Component, createSignal, onMount, Show} from 'solid-js';
 import ItemGrid from '../UI/ItemGrid';
-import { CollectionType } from './Collection.type';
-import { COLLECTION_API } from '../Api/Api';
+import {CollectionType} from './Collection.type';
+import {COLLECTION_API} from '../Api/Api';
 import Rest from '../Rest';
-import { useParams } from 'solid-app-router';
-import { collectionStore, setCollectionStore } from '../Store/CollectionStore';
-import { Store } from 'solid-js/store/types/store';
-import { setHeaderTitle } from '../Store/HeaderStore';
+import {useParams} from 'solid-app-router';
+import {collectionStore, setCollectionStore} from '../Store/CollectionStore';
+import {Store} from 'solid-js/store/types/store';
+import {setHeaderTitle} from '../Store/HeaderStore';
 
 const Collection: Component = () => {
   const path = useParams<{ readonly collection: string }>();

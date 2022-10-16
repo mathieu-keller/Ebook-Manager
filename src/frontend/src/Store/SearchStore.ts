@@ -1,5 +1,5 @@
-import { createStore } from 'solid-js/store';
-import { BookType } from '../Book/Book.type';
+import {createStore} from 'solid-js/store';
+import {BookType} from '../Book/Book.type';
 
 type SearchStoreType = {
   readonly search: string;
@@ -15,7 +15,7 @@ const initValues: SearchStoreType = {
   allLoaded: false
 };
 
-export const [searchStore, setSearchStore] = createStore<SearchStoreType>({ ...initValues });
+export const [searchStore, setSearchStore] = createStore<SearchStoreType>({...initValues});
 
 export const setSearch = (search: string) => {
   setSearchStore({

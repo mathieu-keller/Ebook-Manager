@@ -1,11 +1,11 @@
-import { createSignal, onCleanup, onMount, Show } from 'solid-js';
-import { setHeaderTitle } from '../Store/HeaderStore';
+import {createSignal, onCleanup, onMount, Show} from 'solid-js';
+import {setHeaderTitle} from '../Store/HeaderStore';
 import Rest from '../Rest';
-import { SEARCH_API } from '../Api/Api';
+import {SEARCH_API} from '../Api/Api';
 import ItemGrid from '../UI/ItemGrid';
-import { searchStore, setSearch, setSearchStore } from '../Store/SearchStore';
-import { BookType } from '../Book/Book.type';
-import { useSearchParams } from 'solid-app-router';
+import {searchStore, setSearch, setSearchStore} from '../Store/SearchStore';
+import {BookType} from '../Book/Book.type';
+import {useSearchParams} from 'solid-app-router';
 
 const Search = () => {
   const [loading, setLoading] = createSignal<boolean>(false);
@@ -17,7 +17,7 @@ const Search = () => {
     setHeaderTitle(`Search: ${searchParam}`);
     if (getSearchParams.q !== searchStore.search) {
       if (getSearchParams.q === undefined) {
-        setSearchParams({ q: searchParam });
+        setSearchParams({q: searchParam});
       } else {
         setSearch(searchParam);
       }
@@ -39,7 +39,7 @@ const Search = () => {
           });
           window.setTimeout(() => shouldLoadNextPage(), 50);
         } else if (r.length === 0 || r.length > 32) {
-          setSearchStore({ allLoaded: true });
+          setSearchStore({allLoaded: true});
         }
         setLoading(false);
       });
@@ -73,7 +73,7 @@ const Search = () => {
     if (searchInputTimer() == null) {
       setSearchInputTimer(setTimeout(() => {
         setSearch(searchValue());
-        setSearchParams({ q: searchValue() });
+        setSearchParams({q: searchValue()});
         setSearchInputTimer(null);
         search();
       }, 1000));

@@ -1,5 +1,5 @@
-import type { Author } from '../Author/Author.type';
-import type { Subject } from '../Subject/Subject.type';
+import type {Author} from '../Author/Author.type';
+import type {Subject} from '../Subject/Subject.type';
 
 export type BookType = {
   readonly id: number;

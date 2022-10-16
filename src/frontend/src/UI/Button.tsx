@@ -1,5 +1,5 @@
-import { FlowComponent } from 'solid-js';
-import { Link } from 'solid-app-router';
+import {FlowComponent} from 'solid-js';
+import {Link} from 'solid-app-router';
 
 type ButtonProps = {
   readonly onClick?: () => void;

@@ -19,7 +19,7 @@ const Book = () => {
       const response = await Rest.get<BookType>(BOOK_API(bookId));
       return response.data;
     }
-    return Promise.reject(`book id ${path.bookId} is not a number!`)
+    return Promise.reject(new Error(`book id ${path.bookId} is not a number!`));
   };
 
   onMount(() => {

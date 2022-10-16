@@ -1,10 +1,10 @@
 import Modal from '../UI/Modal';
-import { Button, PrimaryButton } from '../UI/Button';
-import { Component, createSignal, Show } from 'solid-js';
+import {Button, PrimaryButton} from '../UI/Button';
+import {Component, createSignal, Show} from 'solid-js';
 import uploadIcon from '../assets/upload.svg';
-import { UPLOAD_API } from '../Api/Api';
+import {UPLOAD_API} from '../Api/Api';
 import Rest from '../Rest';
-import { AxiosProgressEvent } from 'axios';
+import {AxiosProgressEvent} from 'axios';
 
 type UploadProps = {
   readonly onClose: () => void;
