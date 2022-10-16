@@ -63,9 +63,12 @@ public class Reader {
       var rootFolder = getRootPath(opfPath);
       zipEntry = zipFile.getEntry(rootFolder + "/" + path);
     }
-    try (var zipIn = zipFile.getInputStream(zipEntry)) {
-      return resizeImage(ImageIO.read(zipIn), 270);
+    if (zipEntry != null) {
+      try (var zipIn = zipFile.getInputStream(zipEntry)) {
+        return resizeImage(ImageIO.read(zipIn), 270);
+      }
     }
+    return null;
   }
 
   private String getRootPath(String opfPath) {
@@ -75,7 +78,7 @@ public class Reader {
   }
 
   private String getCoverPath(Opf epub) {
-    if (epub.getMetadata().getMeta() == null) {
+    if (epub.getMetadata().getMeta() == null || epub.getManifest().getItems() == null) {
       return null;
     }
     var coverPath = epub.getMetadata().getMeta()

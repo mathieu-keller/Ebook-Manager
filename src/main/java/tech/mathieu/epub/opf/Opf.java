@@ -30,12 +30,18 @@ public class Opf {
       name = "version",
       required = true
   )
-  private BigDecimal version;
+  private String version;
   @XmlAttribute(
       name = "unique-identifier",
       required = true
   )
   private String uniqueIdentifier;
+
+  @XmlAttribute(name = "dir")
+  private String dir;
+
+  @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
+  private String lang;
 
   public Opf() {
   }
@@ -49,11 +55,11 @@ public class Opf {
   }
 
 
-  public BigDecimal getVersion() {
+  public String getVersion() {
     return this.version;
   }
 
-  public void setVersion(BigDecimal value) {
+  public void setVersion(String value) {
     this.version = value;
   }
 

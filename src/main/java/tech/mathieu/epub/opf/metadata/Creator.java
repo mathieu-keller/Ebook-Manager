@@ -25,6 +25,10 @@ public class Creator {
 
   @XmlValue
   private String value;
+
+  @XmlAttribute(name = "id")
+  private String id;
+
   @XmlAttribute(name = "role", namespace = "http://www.idpf.org/2007/opf")
   private String role;
   @XmlAttribute(name = "file-as", namespace = "http://www.idpf.org/2007/opf")
@@ -60,4 +64,11 @@ public class Creator {
     this.fileAs = value;
   }
 
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 }
