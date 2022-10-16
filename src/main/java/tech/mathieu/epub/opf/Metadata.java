@@ -3,6 +3,7 @@ package tech.mathieu.epub.opf;
 import tech.mathieu.epub.opf.metadata.Contributor;
 import tech.mathieu.epub.opf.metadata.Creator;
 import tech.mathieu.epub.opf.metadata.Date;
+import tech.mathieu.epub.opf.metadata.Description;
 import tech.mathieu.epub.opf.metadata.Identifier;
 import tech.mathieu.epub.opf.metadata.Language;
 import tech.mathieu.epub.opf.metadata.Meta;
@@ -28,7 +29,8 @@ import java.util.List;
     "subjects",
     "languages",
     "rights",
-    "meta"
+    "meta",
+    "descriptions"
 })
 public class Metadata {
 
@@ -60,8 +62,11 @@ public class Metadata {
   @XmlElement(name = "rights", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Rights> rights;
 
-  @XmlElement(name = "meta", namespace = "http://www.idpf.org/2007/opf")
+  @XmlElement(name = "meta", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Meta> meta;
+
+  @XmlElement(name = "description", namespace = "http://purl.org/dc/elements/1.1/")
+  private List<Description> descriptions;
 
   public List<Title> getTitles() {
     return titles;
@@ -141,5 +146,13 @@ public class Metadata {
 
   public void setMeta(List<Meta> meta) {
     this.meta = meta;
+  }
+
+  public List<Description> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(List<Description> descriptions) {
+    this.descriptions = descriptions;
   }
 }

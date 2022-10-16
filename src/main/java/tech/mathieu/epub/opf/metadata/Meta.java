@@ -9,16 +9,27 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
+    "id",
+    "dir",
     "name",
-    "content"
+    "content",
+    "refines",
+    "property",
+    "scheme",
+    "lang",
+    "value"
 })
 @XmlRootElement(name = "meta")
 public class Meta {
+@XmlAttribute(name = "id")
+private String id;
+  @XmlAttribute(name = "dir")
+  private String dir;
 
-  @XmlAttribute(name = "id")
-  private String id;
+  @Deprecated
   @XmlAttribute(name = "name")
   private String name;
+  @Deprecated
   @XmlAttribute(name = "content")
   private String content;
 
@@ -31,6 +42,9 @@ public class Meta {
   @XmlAttribute(name = "scheme")
   private String scheme;
 
+  @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
+  private String lang;
+
   @XmlValue
   private String value;
 
@@ -42,18 +56,30 @@ public class Meta {
     this.id = id;
   }
 
+  public String getDir() {
+    return dir;
+  }
+
+  public void setDir(String dir) {
+    this.dir = dir;
+  }
+
+  @Deprecated
   public String getName() {
     return name;
   }
 
+  @Deprecated
   public void setName(String name) {
     this.name = name;
   }
 
+  @Deprecated
   public String getContent() {
     return content;
   }
 
+  @Deprecated
   public void setContent(String content) {
     this.content = content;
   }
@@ -80,6 +106,14 @@ public class Meta {
 
   public void setScheme(String scheme) {
     this.scheme = scheme;
+  }
+
+  public String getLang() {
+    return lang;
+  }
+
+  public void setLang(String lang) {
+    this.lang = lang;
   }
 
   public String getValue() {

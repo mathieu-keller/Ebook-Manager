@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "id",
+    "dir",
     "lang",
     "value"
 })
@@ -18,6 +19,8 @@ public class Title {
 
   @XmlAttribute(name = "id")
   private String id;
+  @XmlAttribute(name = "dir")
+  private String dir;
   @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
   private String lang;
   @XmlValue
@@ -29,6 +32,14 @@ public class Title {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getDir() {
+    return dir;
+  }
+
+  public void setDir(String dir) {
+    this.dir = dir;
   }
 
   public String getLang() {

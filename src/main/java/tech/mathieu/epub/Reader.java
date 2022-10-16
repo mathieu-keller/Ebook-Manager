@@ -71,26 +71,35 @@ public class Reader {
     return null;
   }
 
+  private static String getCoverPath(Opf opf) {
+    //epub 3 way to get cover
+    var coverPath = opf.getManifest().getItems()
+        .stream()
+        .filter(item -> item.getProperties() != null)
+        .filter(item -> item.getProperties().contains("cover-image"))
+        .map(Item::getHref)
+        .findFirst()
+        .orElse(null);
+    if (coverPath == null) {
+      //epub 2 way but used sometimes used in epub 3 because this way is only deprecated and not removed
+      coverPath = opf.getMetadata().getMeta()
+          .stream()
+          .filter(meta -> "cover".equalsIgnoreCase(meta.getName()))
+          .map(Meta::getContent)
+          .map(id -> opf.getManifest().getItems().stream().filter(item -> id.equalsIgnoreCase(item.getId())).findFirst())
+          .filter(Optional::isPresent)
+          .map(Optional::get)
+          .map(Item::getHref)
+          .findFirst()
+          .orElse(null);
+    }
+    return coverPath;
+  }
+
   private String getRootPath(String opfPath) {
     return Arrays.stream(opfPath.split("/"))
         .filter(element -> !element.endsWith(".opf"))
         .collect(Collectors.joining("/"));
-  }
-
-  private String getCoverPath(Opf epub) {
-    if (epub.getMetadata().getMeta() == null || epub.getManifest().getItems() == null) {
-      return null;
-    }
-    var coverPath = epub.getMetadata().getMeta()
-        .stream()
-        .filter(meta -> "cover".equalsIgnoreCase(meta.getName()))
-        .map(Meta::getContent)
-        .map(id -> epub.getManifest().getItems().stream().filter(item -> id.equalsIgnoreCase(item.getId())).findFirst())
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .map(Item::getHref)
-        .findFirst();
-    return coverPath.orElse(null);
   }
 
   private Opf getPackage(ZipFile zipFile, String opfPath) throws IOException {

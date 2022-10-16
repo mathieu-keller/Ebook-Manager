@@ -9,7 +9,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "id",
     "href",
-    "mediaType"
+    "mediaType",
+    "properties"
 })
 public class Item {
   @XmlAttribute(name = "id")
@@ -18,6 +19,8 @@ public class Item {
   private String href;
   @XmlAttribute(name = "media-type")
   private String mediaType;
+  @XmlAttribute(name = "properties")
+  private String properties;
 
   public String getId() {
     return id;
@@ -41,5 +44,13 @@ public class Item {
 
   public void setMediaType(String mediaType) {
     this.mediaType = mediaType;
+  }
+
+  public String getProperties() {
+    return properties;
+  }
+
+  public void setProperties(String properties) {
+    this.properties = properties;
   }
 }
