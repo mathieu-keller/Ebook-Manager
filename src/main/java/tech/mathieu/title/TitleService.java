@@ -23,17 +23,12 @@ public class TitleService {
       var entity = new TitleEntity();
       entity.setBookEntity(book);
       entity.setTitle(title);
-      if (epubTitle.getId() == null) {
-        entity.setTitleType("main");
-      } else {
+      entity.setTitleType("main");
+      if (epubTitle.getId() != null) {
         var titleMeta = metaData.get("#" + epubTitle.getId());
-        if (titleMeta == null) {
-          entity.setTitleType("main");
-        } else {
+        if (titleMeta != null) {
           var titleType = titleMeta.get("title-type");
-          if (titleType == null) {
-            entity.setTitleType("main");
-          } else {
+          if (titleType != null) {
             entity.setTitleType(titleType.getValue());
           }
           var titleOrder = titleMeta.get("display-seq");
