@@ -1,5 +1,5 @@
-import { createStore } from 'solid-js/store';
-import { CollectionType } from '../Collection/Collection.type';
+import {createStore} from 'solid-js/store';
+import {CollectionType} from '../Collection/Collection.type';
 
 const initialState: CollectionType[] = [];
 

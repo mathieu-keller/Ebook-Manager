@@ -3,10 +3,12 @@ package tech.mathieu.epub.opf;
 import tech.mathieu.epub.opf.metadata.Contributor;
 import tech.mathieu.epub.opf.metadata.Creator;
 import tech.mathieu.epub.opf.metadata.Date;
+import tech.mathieu.epub.opf.metadata.Description;
 import tech.mathieu.epub.opf.metadata.Identifier;
 import tech.mathieu.epub.opf.metadata.Language;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.epub.opf.metadata.Publisher;
+import tech.mathieu.epub.opf.metadata.Rights;
 import tech.mathieu.epub.opf.metadata.Subject;
 import tech.mathieu.epub.opf.metadata.Title;
 
@@ -26,9 +28,10 @@ import java.util.List;
     "dates",
     "subjects",
     "languages",
-    "meta"
+    "rights",
+    "meta",
+    "descriptions"
 })
-
 public class Metadata {
 
 
@@ -53,11 +56,17 @@ public class Metadata {
   @XmlElement(name = "subject", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Subject> subjects;
 
-  @XmlElement(name = "tech/mathieu/language", namespace = "http://purl.org/dc/elements/1.1/")
+  @XmlElement(name = "language", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Language> languages;
+
+  @XmlElement(name = "rights", namespace = "http://purl.org/dc/elements/1.1/")
+  private List<Rights> rights;
 
   @XmlElement(name = "meta", namespace = "http://www.idpf.org/2007/opf")
   private List<Meta> meta;
+
+  @XmlElement(name = "description", namespace = "http://purl.org/dc/elements/1.1/")
+  private List<Description> descriptions;
 
   public List<Title> getTitles() {
     return titles;
@@ -123,11 +132,27 @@ public class Metadata {
     this.languages = languages;
   }
 
+  public List<Rights> getRights() {
+    return rights;
+  }
+
+  public void setRights(List<Rights> rights) {
+    this.rights = rights;
+  }
+
   public List<Meta> getMeta() {
     return meta;
   }
 
   public void setMeta(List<Meta> meta) {
     this.meta = meta;
+  }
+
+  public List<Description> getDescriptions() {
+    return descriptions;
+  }
+
+  public void setDescriptions(List<Description> descriptions) {
+    this.descriptions = descriptions;
   }
 }

@@ -1,8 +1,12 @@
 package tech.mathieu.epub;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.util.zip.ZipFile;
 
 
 @QuarkusTest
@@ -11,112 +15,73 @@ public class ReaderTest {
   @Inject
   Reader reader;
 
-  /*@Test
-  public void test() throws Exception {
-    try (var in = getClass().getResourceAsStream("/epub/TestBook.epub")) {
-      var book = reader.read(in).opf();
+  @Test
+  public void test2() throws Exception {
+    var testFile = new File(getClass().getResource("/epub/TestBook.epub").toURI());
+    var testZipFile = new ZipFile(testFile);
+    var book = reader.read(testZipFile).opf();
 
-      assertEquals(book.getVersion(), BigDecimal.valueOf(2.0));
-      assertTitles(book);
-      assertCreators(book);
-      assertContributors(book);
-      assertPublishers(book);
-      assertIdentifiers(book);
-      assertDates(book);
-      assertSubjects(book);
-      assertLanguages(book);
-      assertMeta(book);
-    }
+    SoftAssertions.assertSoftly(softly -> {
+      //version
+      softly.assertThat(book.getVersion()).isEqualTo("3.0");
+      //title
+      softly.assertThat(book.getMetadata().getTitles()).hasSize(3);
+      var bookTitle = book.getMetadata().getTitles().stream().filter(title -> title.getId().equals("t1")).findFirst();
+      var bookSubTitle = book.getMetadata().getTitles().stream().filter(title -> title.getId().equals("t2")).findFirst();
+      var bookCollectionTitle = book.getMetadata().getTitles().stream().filter(title -> title.getId().equals("t3")).findFirst();
+      softly.assertThat(bookTitle).isPresent();
+      softly.assertThat(bookSubTitle).isPresent();
+      softly.assertThat(bookCollectionTitle).isPresent();
+      softly.assertThat(bookTitle.get().getValue()).contains("Test Book 01");
+      softly.assertThat(bookTitle.get().getLang()).contains("de");
+      softly.assertThat(bookSubTitle.get().getValue()).contains("-");
+      softly.assertThat(bookSubTitle.get().getLang()).contains("de");
+      softly.assertThat(bookCollectionTitle.get().getValue()).contains("Test Books");
+      softly.assertThat(bookCollectionTitle.get().getLang()).contains("de");
+
+      //creators
+      softly.assertThat(book.getMetadata().getCreators()).hasSize(1);
+      softly.assertThat(book.getMetadata().getCreators().get(0).getValue()).isEqualTo("Last Name, First Name");
+      softly.assertThat(book.getMetadata().getCreators().get(0).getId()).isEqualTo("creator0");
+
+      //contributors
+      softly.assertThat(book.getMetadata().getContributors()).isNull();
+
+      //publishers
+      softly.assertThat(book.getMetadata().getPublishers()).hasSize(1);
+      softly.assertThat(book.getMetadata().getPublishers().get(0).getValue()).isEqualTo("Test Publisher");
+
+      //identifier
+      softly.assertThat(book.getMetadata().getIdentifiers()).hasSize(1);
+      softly.assertThat(book.getMetadata().getIdentifiers().get(0).getId()).isEqualTo("p1234");
+      softly.assertThat(book.getMetadata().getIdentifiers().get(0).getValue()).isEqualTo("urn:isbn:0001112223334");
+
+      //dates
+      softly.assertThat(book.getMetadata().getDates()).hasSize(1);
+      softly.assertThat(book.getMetadata().getDates().get(0).getValue()).isEqualTo("2020-03-04");
+
+      //subjects
+      softly.assertThat(book.getMetadata().getSubjects()).hasSize(6);
+      var subjects = book.getMetadata().getSubjects()
+          .stream()
+          .map(subject -> subject.getValue())
+          .toList();
+      softly.assertThat(subjects).contains("Action");
+      softly.assertThat(subjects).contains("Fantasy");
+      softly.assertThat(subjects).contains("Manga");
+      softly.assertThat(subjects).contains("Mythology");
+      softly.assertThat(subjects).contains("School");
+      softly.assertThat(subjects).contains("Shounen");
+
+      //languages
+      softly.assertThat(book.getMetadata().getLanguages()).hasSize(1);
+      softly.assertThat(book.getMetadata().getLanguages().get(0).getValue()).isEqualTo("de");
+
+      //meta
+      softly.assertThat(book.getMetadata().getMeta()).hasSize(8);
+    });
+
   }
 
-  private void assertMeta(Opf book) {
-    assertNotNull(book.getMetadata().getMeta());
-    assertEquals(book.getMetadata().getMeta().size(), 2);
-    var metaCover = book.getMetadata().getMeta()
-        .stream()
-        .filter(meta -> Objects.equals(meta.getName(), "cover"))
-        .findFirst();
-    var metaPrimaryWritingMode = book.getMetadata().getMeta()
-        .stream()
-        .filter(meta -> Objects.equals(meta.getName(), "primary-writing-mode"))
-        .findFirst();
-    assertTrue(metaCover.isPresent());
-    assertTrue(metaPrimaryWritingMode.isPresent());
-    assertEquals(metaCover.get().getContent(), "cover");
-    assertEquals(metaPrimaryWritingMode.get().getContent(), "horizontal-rl");
-  }
-
-  private void assertLanguages(Opf book) {
-    assertNotNull(book.getMetadata().getLanguages());
-    assertEquals(book.getMetadata().getLanguages().size(), 1);
-    assertEquals(book.getMetadata().getLanguages().get(0).getValue(), "de");
-  }
-
-  private void assertSubjects(Opf book) {
-    assertNotNull(book.getMetadata().getSubjects());
-    assertEquals(book.getMetadata().getSubjects().size(), 6);
-    var subjects = book.getMetadata().getSubjects()
-        .stream()
-        .map(subject -> subject.getValue())
-        .toList();
-    assertTrue(subjects.contains("Action"));
-    assertTrue(subjects.contains("Fantasy"));
-    assertTrue(subjects.contains("Manga"));
-    assertTrue(subjects.contains("Mythology"));
-    assertTrue(subjects.contains("School"));
-    assertTrue(subjects.contains("Shounen"));
-  }
-
-  private void assertDates(Opf book) {
-    assertNotNull(book.getMetadata().getDates());
-    assertEquals(book.getMetadata().getDates().size(), 1);
-    assertEquals(book.getMetadata().getDates().get(0).getValue(), "2015-03-09T23:00:00+00:00");
-  }
-
-  private void assertIdentifiers(Opf book) {
-    assertNotNull(book.getMetadata().getIdentifiers());
-    assertEquals(book.getMetadata().getIdentifiers().size(), 2);
-    var uuidIdentifier = book.getMetadata().getIdentifiers()
-        .stream()
-        .filter(identifier -> Objects.equals(identifier.getScheme(), "uuid"))
-        .findFirst();
-    var mobiAsinIdentifier = book.getMetadata().getIdentifiers()
-        .stream()
-        .filter(identifier -> Objects.equals(identifier.getScheme(), "MOBI-ASIN"))
-        .findFirst();
-    assertTrue(uuidIdentifier.isPresent());
-    assertTrue(mobiAsinIdentifier.isPresent());
-    assertEquals(uuidIdentifier.get().getId(), "uuid_id");
-    assertEquals(uuidIdentifier.get().getValue(), "TEST UUID");
-    assertNull(mobiAsinIdentifier.get().getId());
-    assertEquals(mobiAsinIdentifier.get().getValue(), "Test Ansin");
-  }
-
-  private void assertPublishers(Opf book) {
-    assertNotNull(book.getMetadata().getPublishers());
-    assertEquals(book.getMetadata().getPublishers().size(), 1);
-    assertEquals(book.getMetadata().getPublishers().get(0).getValue(), "Test publisher");
-  }
-
-  private void assertContributors(Opf book) {
-    assertNotNull(book.getMetadata().getContributors());
-    assertEquals(book.getMetadata().getContributors().size(), 1);
-    assertEquals(book.getMetadata().getContributors().get(0).getValue(), "Test contributor");
-    assertEquals(book.getMetadata().getContributors().get(0).getRole(), "bkp");
-  }
-
-  private void assertCreators(Opf book) {
-    assertNotNull(book.getMetadata().getCreators());
-    assertEquals(book.getMetadata().getCreators().size(), 1);
-    assertEquals(book.getMetadata().getCreators().get(0).getValue(), "Test Creator");
-    assertEquals(book.getMetadata().getCreators().get(0).getRole(), "aut");
-    assertEquals(book.getMetadata().getCreators().get(0).getFileAs(), "Test, Creator");
-  }
-
-  private void assertTitles(Opf book) {
-    assertNotNull(book.getMetadata().getTitles());
-    assertEquals(book.getMetadata().getTitles().size(), 1);
-    assertEquals(book.getMetadata().getTitles().get(0).getValue(), "Test Book");
-  }*/
 
 }

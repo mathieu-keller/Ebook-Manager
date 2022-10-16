@@ -1,6 +1,7 @@
 package tech.mathieu.book;
 
 import io.quarkus.vertx.http.Compressed;
+import tech.mathieu.title.TitleEntity;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Path("/api/book")
 public class BookResource {
@@ -20,12 +22,12 @@ public class BookResource {
   @Inject
   BookService bookService;
 
-  @Path("{book-title}")
+  @Path("{id}")
   @GET
   @Compressed
   @Produces(MediaType.APPLICATION_JSON)
-  public BookDto getBook(@PathParam("book-title") String bookTitle) {
-    return bookService.getBookDto(bookTitle);
+  public BookDto getBook(@PathParam("id") Long bookId) {
+    return bookService.getBookDto(bookId);
   }
 
   @Path("download/{id}")
@@ -34,7 +36,12 @@ public class BookResource {
   public Response downloadBook(@PathParam("id") Long id) throws UnsupportedEncodingException {
     var book = bookService.getBookById(id);
     var response = Response.ok(new File(book.getPath() + "/orginal.epub"));
-    var title = URLEncoder.encode(book.getTitle() + ".epub", StandardCharsets.UTF_8)
+    var title = URLEncoder.encode(
+            book.getTitleEntities()
+                .stream()
+                .map(TitleEntity::getTitle)
+                .collect(Collectors.joining(", ")) + ".epub",
+            StandardCharsets.UTF_8)
         .replace("+", "%20");
     response.header("Content-Disposition", "attachment; filename*=UTF-8''" + title);
     return response.build();

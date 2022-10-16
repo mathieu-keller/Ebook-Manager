@@ -1,5 +1,5 @@
-import { createStore } from 'solid-js/store';
-import { LibraryItemType } from '../Library/LibraryItem.type';
+import {createStore} from 'solid-js/store';
+import {LibraryItemType} from '../Library/LibraryItem.type';
 
 type LibraryStoreType = {
   readonly libraryItems: readonly LibraryItemType[];

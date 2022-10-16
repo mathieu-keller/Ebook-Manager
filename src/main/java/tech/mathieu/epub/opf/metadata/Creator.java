@@ -18,6 +18,9 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
+    "id",
+    "dir",
+    "lang",
     "value"
 })
 @XmlRootElement(name = "creator")
@@ -25,39 +28,43 @@ public class Creator {
 
   @XmlValue
   private String value;
-  @XmlAttribute(name = "role", namespace = "http://www.idpf.org/2007/opf")
-  private String role;
-  @XmlAttribute(name = "file-as", namespace = "http://www.idpf.org/2007/opf")
-  private String fileAs;
 
+  @XmlAttribute(name = "id")
+  private String id;
+  @XmlAttribute(name = "dir")
+  private String dir;
+  @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
+  private String lang;
 
   public String getValue() {
     return value;
   }
 
-
   public void setValue(String value) {
     this.value = value;
   }
 
-
-  public String getRole() {
-    return role;
+  public String getId() {
+    return id;
   }
 
-
-  public void setRole(String value) {
-    this.role = value;
+  public void setId(String id) {
+    this.id = id;
   }
 
-
-  public String getFileAs() {
-    return fileAs;
+  public String getDir() {
+    return dir;
   }
 
-
-  public void setFileAs(String value) {
-    this.fileAs = value;
+  public void setDir(String dir) {
+    this.dir = dir;
   }
 
+  public String getLang() {
+    return lang;
+  }
+
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
 }

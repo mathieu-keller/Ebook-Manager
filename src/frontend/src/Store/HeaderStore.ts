@@ -1,4 +1,4 @@
-import { createStore } from 'solid-js/store';
+import {createStore} from 'solid-js/store';
 
 type HeaderStoreType = {
   readonly title: string;
@@ -16,10 +16,10 @@ export const [headerStore, setHeaderStore] = createStore<HeaderStoreType>(initia
 
 export const setHeaderTitle = (title: string) => {
   document.title = title;
-  setHeaderStore({ title });
+  setHeaderStore({title});
 };
 
 export const resetHeaderTitle = () => {
   document.title = defaultTitleName;
-  setHeaderStore({ title: defaultTitleName });
+  setHeaderStore({title: defaultTitleName});
 };

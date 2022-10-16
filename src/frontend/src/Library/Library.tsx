@@ -1,10 +1,10 @@
-import { Component, createSignal, onCleanup, onMount, Show } from 'solid-js';
+import {Component, createSignal, onCleanup, onMount, Show} from 'solid-js';
 import ItemGrid from '../UI/ItemGrid';
-import { LibraryItemType } from './LibraryItem.type';
-import { LIBRARY_API } from '../Api/Api';
+import {LibraryItemType} from './LibraryItem.type';
+import {LIBRARY_API} from '../Api/Api';
 import Rest from '../Rest';
-import { libraryStore, setLibraryStore } from '../Store/LibraryStore';
-import { resetHeaderTitle } from '../Store/HeaderStore';
+import {libraryStore, setLibraryStore} from '../Store/LibraryStore';
+import {resetHeaderTitle} from '../Store/HeaderStore';
 
 const Library: Component = () => {
   const [loading, setLoading] = createSignal<boolean>(false);
@@ -27,7 +27,7 @@ const Library: Component = () => {
           });
           window.setTimeout(() => shouldLoadNextPage(), 50);
         } else if (r.length === 0 || r.length > 32) {
-          setLibraryStore({ allLoaded: true });
+          setLibraryStore({allLoaded: true});
         }
       });
     }

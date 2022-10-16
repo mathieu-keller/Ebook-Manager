@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
+    "id",
     "value"
 })
 @XmlRootElement(name = "identifier")
@@ -27,8 +28,6 @@ public class Identifier {
   private String value;
   @XmlAttribute(name = "id")
   private String id;
-  @XmlAttribute(name = "scheme", namespace = "http://www.idpf.org/2007/opf")
-  private String scheme;
 
 
   public String getValue() {
@@ -49,14 +48,5 @@ public class Identifier {
     this.id = value;
   }
 
-
-  public String getScheme() {
-    return scheme;
-  }
-
-
-  public void setScheme(String value) {
-    this.scheme = value;
-  }
 
 }

@@ -24,13 +24,10 @@ public class IdentifierEntity {
 
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "BOOK_ID")
-  BookEntity book;
+  BookEntity bookEntity;
 
-  @Column(name = "name", nullable = true, length = 4000)
-  String name;
-
-  @Column(name = "SCHEMA")
-  String schema;
+  @Column(name = "value", nullable = true, length = 4000)
+  String value;
 
   @Column(name = "IDENT_ID")
   String identId;
@@ -44,27 +41,19 @@ public class IdentifierEntity {
   }
 
   public BookEntity getBook() {
-    return book;
+    return bookEntity;
   }
 
-  public void setBook(BookEntity book) {
-    this.book = book;
+  public void setBook(BookEntity bookEntity) {
+    this.bookEntity = bookEntity;
   }
 
-  public String getName() {
-    return name;
+  public String getValue() {
+    return value;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getSchema() {
-    return schema;
-  }
-
-  public void setSchema(String schema) {
-    this.schema = schema;
+  public void setValue(String name) {
+    this.value = name;
   }
 
   public String getIdentId() {
@@ -83,11 +72,11 @@ public class IdentifierEntity {
     if (!(o instanceof IdentifierEntity that)) {
       return false;
     }
-    return id == that.id && Objects.equals(book, that.book) && Objects.equals(name, that.name);
+    return id == that.id && Objects.equals(bookEntity, that.bookEntity) && Objects.equals(value, that.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, book, name);
+    return Objects.hash(id, bookEntity, value);
   }
 }

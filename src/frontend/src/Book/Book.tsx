@@ -1,21 +1,25 @@
-import { BookType } from './Book.type';
-import { createSignal, For, onMount, Show } from 'solid-js';
+import {BookType} from './Book.type';
+import {createSignal, For, onMount, Show} from 'solid-js';
 import Rest from '../Rest';
-import { BOOK_API, DOWNLOAD_API, DOWNLOAD_ORIGINAL_API } from '../Api/Api';
+import {BOOK_API, DOWNLOAD_API, DOWNLOAD_ORIGINAL_API} from '../Api/Api';
 import defaultCover from '../assets/cover.jpg';
 import downloadIcon from '../assets/download.svg';
 import Badge from '../UI/Badge';
-import { LinkButton } from '../UI/Button';
-import { useNavigate, useParams } from 'solid-app-router';
-import { setHeaderTitle } from '../Store/HeaderStore';
-import { setSearch } from '../Store/SearchStore';
+import {LinkButton} from '../UI/Button';
+import {useNavigate, useParams} from 'solid-app-router';
+import {setHeaderTitle} from '../Store/HeaderStore';
+import {setSearch} from '../Store/SearchStore';
 
 const Book = () => {
   const [book, setBook] = createSignal<BookType | null>(null);
-  const path = useParams<{ readonly book: string }>();
+  const path = useParams<{ readonly book: string; readonly bookId: string }>();
   const getBook = async (): Promise<BookType> => {
-    const response = await Rest.get<BookType>(BOOK_API(encodeURIComponent(path.book)));
-    return response.data;
+    const bookId = Number(path.bookId);
+    if (!isNaN(bookId)) {
+      const response = await Rest.get<BookType>(BOOK_API(bookId));
+      return response.data;
+    }
+    return Promise.reject(new Error(`book id ${path.bookId} is not a number!`));
   };
 
   onMount(() => {

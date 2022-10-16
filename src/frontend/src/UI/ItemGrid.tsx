@@ -1,7 +1,7 @@
-import { Component, For } from 'solid-js';
+import {Component, For} from 'solid-js';
 import ItemCard from './ItemCard';
-import { LibraryItemType } from '../Library/LibraryItem.type';
-import { useNavigate } from 'solid-app-router';
+import {LibraryItemType} from '../Library/LibraryItem.type';
+import {useNavigate} from 'solid-app-router';
 
 type ItemGridProps = {
   readonly items: readonly LibraryItemType[];
@@ -13,7 +13,7 @@ const ItemGrid: Component<ItemGridProps> = (props) => {
     if (item.itemType === 'collection') {
       navigate('/collection/' + encodeURIComponent(item.title));
     } else {
-      navigate('/book/' + encodeURIComponent(item.title));
+      navigate('/book/' + item.id + '/' + encodeURIComponent(item.title));
     }
   };
 

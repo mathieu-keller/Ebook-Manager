@@ -1,8 +1,8 @@
-import type { Component } from 'solid-js';
+import type {Component} from 'solid-js';
+import {lazy} from 'solid-js';
 
-import { Route, Routes } from 'solid-app-router';
+import {Route, Routes} from 'solid-app-router';
 import Header from './Header/Header';
-import { lazy } from 'solid-js';
 
 const Book = lazy(() => import('./Book/Book'));
 const Collection = lazy(() => import('./Collection/Collection'));
@@ -16,7 +16,7 @@ const App: Component = () => {
       <Routes>
         <Route path="/" element={<Library/>}/>
         <Route path="/collection/:collection" element={<Collection/>}/>
-        <Route path="/book/:book" element={<Book/>}/>
+        <Route path="/book/:bookId/:book" element={<Book/>}/>
         <Route path="/search" element={<Search/>}/>
       </Routes>
     </>
