@@ -62,7 +62,7 @@ public class Metadata {
   @XmlElement(name = "rights", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Rights> rights;
 
-  @XmlElement(name = "meta", namespace = "http://purl.org/dc/elements/1.1/")
+  @XmlElement(name = "meta", namespace = "http://www.idpf.org/2007/opf")
   private List<Meta> meta;
 
   @XmlElement(name = "description", namespace = "http://purl.org/dc/elements/1.1/")
