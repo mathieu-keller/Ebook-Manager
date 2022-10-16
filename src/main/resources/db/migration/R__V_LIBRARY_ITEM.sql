@@ -1,7 +1,10 @@
 CREATE OR REPLACE VIEW V_LIBRARY_ITEM AS
 SELECT
     BOOK.ID
-  , BOOK.TITLE
+  , CONCAT(ARRAY_TO_STRING(ARRAY(SELECT T.TITLE
+                          FROM
+                              TITLE T
+                          WHERE T.BOOK_ID = BOOK.ID AND T.TITLE_TYPE = 'main'), ' ')) as title
   , BOOK.COVER
   , CONCAT(ARRAY_TO_STRING(ARRAY(SELECT S.NAME
                                  FROM
@@ -27,6 +30,9 @@ SELECT
                                         LEFT JOIN CONTRIBUTOR2BOOK C2B ON C2B.CONTRIBUTOR_ID = C.ID
                                 WHERE C2B.BOOK_ID = BOOK.ID), ' ')
         , ' '
-        , BOOK.TITLE) AS SEARCH_TERMS
+        , ARRAY_TO_STRING(ARRAY(SELECT T.TITLE
+                                FROM
+                                    TITLE T
+                                WHERE T.BOOK_ID = BOOK.ID), ' ')) AS SEARCH_TERMS
 FROM
     BOOK;

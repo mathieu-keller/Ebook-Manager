@@ -24,7 +24,7 @@ public class IdentifierEntity {
 
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "BOOK_ID")
-  BookEntity book;
+  BookEntity bookEntity;
 
   @Column(name = "name", nullable = true, length = 4000)
   String name;
@@ -44,11 +44,11 @@ public class IdentifierEntity {
   }
 
   public BookEntity getBook() {
-    return book;
+    return bookEntity;
   }
 
-  public void setBook(BookEntity book) {
-    this.book = book;
+  public void setBook(BookEntity bookEntity) {
+    this.bookEntity = bookEntity;
   }
 
   public String getName() {
@@ -83,11 +83,11 @@ public class IdentifierEntity {
     if (!(o instanceof IdentifierEntity that)) {
       return false;
     }
-    return id == that.id && Objects.equals(book, that.book) && Objects.equals(name, that.name);
+    return id == that.id && Objects.equals(bookEntity, that.bookEntity) && Objects.equals(name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, book, name);
+    return Objects.hash(id, bookEntity, name);
   }
 }

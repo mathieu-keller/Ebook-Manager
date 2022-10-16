@@ -8,7 +8,7 @@ export const SEARCH_API = (search: string, page: number) => {
   }
   return `${API_PREFIX}/library?${params.toString()}`;
 };
-export const BOOK_API = (title: string) => `${API_PREFIX}/book/${title}`;
+export const BOOK_API = (bookId: number) => `${API_PREFIX}/book/${bookId}`;
 export const LIBRARY_API = (page: number) => `${API_PREFIX}/library?page=${page}`;
 export const COLLECTION_API = (title: string) => `${API_PREFIX}/collection?title=${title}`;
 export const UPLOAD_API = `${API_PREFIX}/upload/multi`;

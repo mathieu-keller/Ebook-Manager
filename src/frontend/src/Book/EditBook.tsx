@@ -11,6 +11,7 @@ import { AxiosResponse } from 'axios';
 
 type EditSubjectsProps = {
   readonly onClose: () => void;
+  readonly bookId: number;
   readonly title: string;
 };
 
@@ -18,7 +19,7 @@ const EditBook: Component<EditSubjectsProps> = (props) => {
   const [book, setBook] = createSignal<BookType | null>(null);
   const [allSubjects, setAllSubjects] = createSignal<Subject[]>([]);
   onMount(() => {
-    Rest.get<BookType>(BOOK_API(props.title))
+    Rest.get<BookType>(BOOK_API(props.bookId))
       .then(r => setBook(r.data));
     Rest.get<Subject[]>('/api/subjects').then(r => setAllSubjects(r.data));
   });

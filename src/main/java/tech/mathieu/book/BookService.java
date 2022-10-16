@@ -1,6 +1,5 @@
 package tech.mathieu.book;
 
-import org.graalvm.collections.Pair;
 import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
@@ -8,7 +7,6 @@ import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Date;
 import tech.mathieu.epub.opf.metadata.Meta;
-import tech.mathieu.epub.opf.metadata.Title;
 import tech.mathieu.identifier.IdentifierService;
 import tech.mathieu.language.LanguageDto;
 import tech.mathieu.language.LanguageService;
@@ -16,6 +14,7 @@ import tech.mathieu.publisher.PublisherDto;
 import tech.mathieu.publisher.PublisherService;
 import tech.mathieu.subject.SubjectDto;
 import tech.mathieu.subject.SubjectService;
+import tech.mathieu.title.TitleEntity;
 import tech.mathieu.title.TitleService;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -23,7 +22,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,12 +67,10 @@ public class BookService {
     return entityManager.find(BookEntity.class, id);
   }
 
-  public BookDto getBookDto(String title) {
-    var entity = entityManager.createQuery("select t from BookEntity t where t.title = :title", BookEntity.class)
-        .setParameter("title", title)
-        .getSingleResult();
+  public BookDto getBookDto(Long bookId) {
+    var entity = entityManager.find(BookEntity.class, bookId);
     return new BookDto(entity.getId(),
-        entity.getTitle(),
+        entity.getTitleEntities().stream().map(TitleEntity::getTitle).collect(Collectors.joining(", ")),
         null,
         Optional.ofNullable(entity.getLanguageEntities())
             .map(languageEntities -> languageEntities
@@ -167,7 +163,7 @@ public class BookService {
             existingId.put(meta.getProperty(), meta);
           });
       book.setCover(epub.cover());
-      book.setTitle(titleService.getTitle(opf, metaData));
+      book.setTitleEntities(titleService.getTitle(opf, metaData, book));
       book.setMeta(getMeta(opf));
       book.setDate(getDates(opf));
       book.setCreatorEntities(creatorService.getCreators(opf));
@@ -176,7 +172,10 @@ public class BookService {
       book.setLanguageEntities(languageService.getLanguages(opf));
       book.setPublisherEntities(publisherService.getPublishers(opf));
       book.setSubjectEntities(subjectService.getSubjects(opf));
-      book.setPath("upload/ebooks/" + book.getTitle());
+      book.setPath("upload/ebooks/" + book.getTitleEntities()
+          .stream()
+          .map(TitleEntity::getTitle)
+          .collect(Collectors.joining(", ")));
       return entityManager.merge(book);
     } catch (IOException e) {
       throw new RuntimeException(e);

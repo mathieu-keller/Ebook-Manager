@@ -6,6 +6,7 @@ import tech.mathieu.identifier.IdentifierEntity;
 import tech.mathieu.language.LanguageEntity;
 import tech.mathieu.publisher.PublisherEntity;
 import tech.mathieu.subject.SubjectEntity;
+import tech.mathieu.title.TitleEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +21,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,9 +32,6 @@ public class BookEntity {
   @Id
   @Column(name = "id", nullable = false)
   Long id;
-
-  @Column(name = "title", nullable = true, length = 4000)
-  String title;
 
   @Column(name = "date", nullable = true, length = 4000)
   String date;
@@ -105,8 +104,11 @@ public class BookEntity {
   )
   List<SubjectEntity> subjectEntities;
 
-  @OneToMany(mappedBy = "book", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   private List<IdentifierEntity> identifierEntities;
+
+  @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  private List<TitleEntity> titleEntities;
 
   public Long getId() {
     return id;
@@ -114,14 +116,6 @@ public class BookEntity {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   public String getDate() {
@@ -140,6 +134,14 @@ public class BookEntity {
     this.meta = meta;
   }
 
+  public byte[] getCover() {
+    return cover;
+  }
+
+  public void setCover(byte[] cover) {
+    this.cover = cover;
+  }
+
   public String getPath() {
     return path;
   }
@@ -156,12 +158,12 @@ public class BookEntity {
     this.creatorEntities = creatorEntities;
   }
 
-  public List<IdentifierEntity> getIdentifierEntities() {
-    return identifierEntities;
+  public List<ContributorEntity> getContributorEntities() {
+    return contributorEntities;
   }
 
-  public void setIdentifierEntities(List<IdentifierEntity> identifierEntities) {
-    this.identifierEntities = identifierEntities;
+  public void setContributorEntities(List<ContributorEntity> contributorEntities) {
+    this.contributorEntities = contributorEntities;
   }
 
   public List<LanguageEntity> getLanguageEntities() {
@@ -170,14 +172,6 @@ public class BookEntity {
 
   public void setLanguageEntities(List<LanguageEntity> languageEntities) {
     this.languageEntities = languageEntities;
-  }
-
-  public List<ContributorEntity> getContributorEntities() {
-    return contributorEntities;
-  }
-
-  public void setContributorEntities(List<ContributorEntity> contributorEntities) {
-    this.contributorEntities = contributorEntities;
   }
 
   public List<PublisherEntity> getPublisherEntities() {
@@ -196,14 +190,21 @@ public class BookEntity {
     this.subjectEntities = subjectEntities;
   }
 
-  public byte[] getCover() {
-    return cover;
+  public List<IdentifierEntity> getIdentifierEntities() {
+    return identifierEntities;
   }
 
-  public void setCover(byte[] cover) {
-    this.cover = cover;
+  public void setIdentifierEntities(List<IdentifierEntity> identifierEntities) {
+    this.identifierEntities = identifierEntities;
   }
 
+  public List<TitleEntity> getTitleEntities() {
+    return titleEntities;
+  }
+
+  public void setTitleEntities(List<TitleEntity> titleEntities) {
+    this.titleEntities = titleEntities;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -213,12 +214,14 @@ public class BookEntity {
     if (!(o instanceof BookEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Objects.equals(cover, that.cover) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities);
+    return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Arrays.equals(cover, that.cover) && Objects.equals(path, that.path) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities) && Objects.equals(titleEntities, that.titleEntities);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, date, meta, cover, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities,
-        identifierEntities);
+    int result = Objects.hash(id, date, meta, path, creatorEntities, contributorEntities, languageEntities, publisherEntities,
+        subjectEntities, identifierEntities, titleEntities);
+    result = 31 * result + Arrays.hashCode(cover);
+    return result;
   }
 }
