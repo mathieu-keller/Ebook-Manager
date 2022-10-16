@@ -16,6 +16,7 @@ import tech.mathieu.publisher.PublisherDto;
 import tech.mathieu.publisher.PublisherService;
 import tech.mathieu.subject.SubjectDto;
 import tech.mathieu.subject.SubjectService;
+import tech.mathieu.title.TitleService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,6 +27,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,6 +58,9 @@ public class BookService {
 
   @Inject
   IdentifierService identifierService;
+
+  @Inject
+  TitleService titleService;
 
   @Inject
   Reader reader;
@@ -147,8 +153,21 @@ public class BookService {
       var epub = reader.read(zipFile);
       var opf = epub.opf();
       var book = new BookEntity();
+      var metaData = new HashMap<String, Map<String, Meta>>();
+      epub.opf().getMetadata().getMeta()
+          .stream()
+          .filter(meta -> meta.getRefines() != null)
+          .filter(meta -> meta.getProperty() != null)
+          .forEach(meta -> {
+            var existingId = metaData.get(meta.getRefines());
+            if (existingId == null) {
+              metaData.put(meta.getRefines(), new HashMap<>());
+              existingId = metaData.get(meta.getRefines());
+            }
+            existingId.put(meta.getProperty(), meta);
+          });
       book.setCover(epub.cover());
-      book.setTitle(getTitle(opf));
+      book.setTitle(titleService.getTitle(opf, metaData));
       book.setMeta(getMeta(opf));
       book.setDate(getDates(opf));
       book.setCreatorEntities(creatorService.getCreators(opf));
@@ -183,16 +202,5 @@ public class BookService {
     }
     return null;
   }
-
-  private String getTitle(Opf epub) {
-    if (epub.getMetadata().getTitles() != null) {
-      return epub.getMetadata().getTitles()
-          .stream()
-          .map(Title::getValue).
-          collect(Collectors.joining(", "));
-    }
-    return null;
-  }
-
 
 }
