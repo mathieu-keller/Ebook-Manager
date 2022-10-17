@@ -27,30 +27,43 @@ public class LibraryService {
     if (page != null) {
       p = page;
     }
-    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-    CriteriaQuery<LibraryItemEntity> cr = cb.createQuery(LibraryItemEntity.class);
-    Root<LibraryItemEntity> root = cr.from(LibraryItemEntity.class);
-    cr.select(root);
     if (search != null) {
+      CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+      CriteriaQuery<LibrarySearchEntity> cr = cb.createQuery(LibrarySearchEntity.class);
+      Root<LibrarySearchEntity> root = cr.from(LibrarySearchEntity.class);
+      cr.select(root);
       var where = Arrays.stream(search.split(" "))
           .filter(param -> !param.strip().equals(""))
           .map(param -> "%" + param + "%")
           .map(param -> cb.like(root.get("searchTerms"), param))
           .toList();
       cr.where(cb.and(where.toArray(new Predicate[0])));
+      return entityManager.createQuery(cr)
+          .setFirstResult((p - 1) * PAGE_SIZE)
+          .setMaxResults(PAGE_SIZE)
+          .getResultList()
+          .stream()
+          .map(bookEntity -> new LibraryDto(bookEntity.getId(),
+              Optional.ofNullable(bookEntity.getCover())
+                  .map(cover -> "data:image/jpg;base64," + new String(cover))
+                  .orElse(null),
+              bookEntity.getTitle(),
+              "book",
+              1L))
+          .toList();
     }
-    return entityManager.createQuery(cr)
+    return entityManager.createQuery("select t from LibraryEntity t", LibraryEntity.class)
         .setFirstResult((p - 1) * PAGE_SIZE)
         .setMaxResults(PAGE_SIZE)
         .getResultList()
         .stream()
-        .map(bookEntity -> new LibraryDto(bookEntity.getId(),
-            Optional.ofNullable(bookEntity.getCover())
+        .map(libraryItem -> new LibraryDto(libraryItem.getId(),
+            Optional.ofNullable(libraryItem.getCover())
                 .map(cover -> "data:image/jpg;base64," + new String(cover))
                 .orElse(null),
-            bookEntity.getTitle(),
-            "book",
-            1L))
+            libraryItem.getTitle(),
+            libraryItem.getItemType(),
+            libraryItem.getBookCount()))
         .toList();
   }
 

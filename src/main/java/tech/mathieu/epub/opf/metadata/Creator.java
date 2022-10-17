@@ -26,15 +26,14 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "creator")
 public class Creator {
 
-  @XmlValue
-  private String value;
-
   @XmlAttribute(name = "id")
   private String id;
   @XmlAttribute(name = "dir")
   private String dir;
   @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
   private String lang;
+  @XmlValue
+  private String value;
 
   public String getValue() {
     return value;

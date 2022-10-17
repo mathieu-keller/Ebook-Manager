@@ -15,7 +15,7 @@ const App: Component = () => {
       <Header/>
       <Routes>
         <Route path="/" element={<Library/>}/>
-        <Route path="/collection/:collection" element={<Collection/>}/>
+        <Route path="/collection/:collectionId/:collection" element={<Collection/>}/>
         <Route path="/book/:bookId/:book" element={<Book/>}/>
         <Route path="/search" element={<Search/>}/>
       </Routes>

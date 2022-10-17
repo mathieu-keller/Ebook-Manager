@@ -11,9 +11,9 @@ const ItemGrid: Component<ItemGridProps> = (props) => {
   const navigate = useNavigate();
   const openItem = (item: LibraryItemType) => {
     if (item.itemType === 'collection') {
-      navigate('/collection/' + encodeURIComponent(item.title));
+      navigate(`/collection/${item.id}/${encodeURIComponent(item.title)}`);
     } else {
-      navigate('/book/' + item.id + '/' + encodeURIComponent(item.title));
+      navigate(`/book/${item.id}/${encodeURIComponent(item.title)}`);
     }
   };
 
