@@ -28,9 +28,8 @@ public class CollectionEntity {
   @Column(name = "name", nullable = false)
   String name;
 
-  @Lob
-  @Column(name = "cover", nullable = false)
-  byte[] cover;
+  @Column(name = "cover_path", nullable = false)
+  String coverPath;
 
   @Column(name = "type", nullable = true)
   String type;
@@ -55,12 +54,12 @@ public class CollectionEntity {
     this.name = name;
   }
 
-  public byte[] getCover() {
-    return cover;
+  public String getCoverPath() {
+    return coverPath;
   }
 
-  public void setCover(byte[] cover) {
-    this.cover = cover;
+  public void setCoverPath(String coverPath) {
+    this.coverPath = coverPath;
   }
 
   public String getType() {
@@ -87,13 +86,12 @@ public class CollectionEntity {
     if (!(o instanceof CollectionEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Arrays.equals(cover, that.cover) && Objects.equals(type, that.type) && Objects.equals(bookEntities, that.bookEntities);
+    return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(coverPath, that.coverPath) && Objects.equals(type,
+        that.type) && Objects.equals(bookEntities, that.bookEntities);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, name, type, bookEntities);
-    result = 31 * result + Arrays.hashCode(cover);
-    return result;
+    return Objects.hash(id, name, coverPath, type, bookEntities);
   }
 }

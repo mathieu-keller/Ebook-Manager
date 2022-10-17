@@ -18,12 +18,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,9 +38,6 @@ public class BookEntity {
 
   @Column(name = "meta", nullable = true, length = 4000)
   String meta;
-  @Lob
-  @Column(name = "cover", nullable = true)
-  byte[] cover;
   @Column(name = "path")
   String path;
 
@@ -143,13 +138,6 @@ public class BookEntity {
     this.meta = meta;
   }
 
-  public byte[] getCover() {
-    return cover;
-  }
-
-  public void setCover(byte[] cover) {
-    this.cover = cover;
-  }
 
   public String getPath() {
     return path;
@@ -231,6 +219,7 @@ public class BookEntity {
     this.groupPosition = groupPosition;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -239,14 +228,12 @@ public class BookEntity {
     if (!(o instanceof BookEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Arrays.equals(cover, that.cover) && Objects.equals(path, that.path) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities) && Objects.equals(titleEntities, that.titleEntities) && Objects.equals(collectionEntity, that.collectionEntity) && Objects.equals(groupPosition, that.groupPosition);
+    return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Objects.equals(path, that.path) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities) && Objects.equals(titleEntities, that.titleEntities) && Objects.equals(collectionEntity, that.collectionEntity) && Objects.equals(groupPosition, that.groupPosition);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, date, meta, path, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities,
+    return Objects.hash(id, date, meta, path, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities,
         identifierEntities, titleEntities, collectionEntity, groupPosition);
-    result = 31 * result + Arrays.hashCode(cover);
-    return result;
   }
 }

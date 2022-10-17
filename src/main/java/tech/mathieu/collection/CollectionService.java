@@ -2,7 +2,7 @@ package tech.mathieu.collection;
 
 import org.graalvm.collections.Pair;
 import tech.mathieu.book.BookService;
-import tech.mathieu.epub.Epub;
+import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,14 +22,28 @@ public class CollectionService {
   @Inject
   BookService bookService;
 
+  public String getCollectionCover(Long id) {
+    var collection = entityManager.find(CollectionEntity.class, id);
+    return collection.getBookEntities()
+        .stream()
+        .min((a, b) -> {
+          if (a.getGroupPosition() == null || b.getGroupPosition() == null) {
+            return 0;
+          }
+          return (int) (a.getGroupPosition() - b.getGroupPosition());
+        })
+        .get()
+        .getPath();
+  }
+
   public CollectionDto getDtos(Long id) {
     var collection = entityManager.find(CollectionEntity.class, id);
-    var books = collection.getBookEntities().stream().map(book ->  bookService.getBookDto(book)).toList();
+    var books = collection.getBookEntities().stream().map(book -> bookService.getBookDto(book)).toList();
     return new CollectionDto(collection.getId(), collection.getName(), books);
   }
 
-  public Pair<CollectionEntity, Long> getCollection(Epub epub, Map<String, Map<String, Meta>> metaIdMap) {
-    var collections = epub.opf().getMetadata().getMeta()
+  public Pair<CollectionEntity, Long> getCollection(Opf opf, String path, Map<String, Map<String, Meta>> metaIdMap) {
+    var collections = opf.getMetadata().getMeta()
         .stream()
         .filter(meta -> Objects.equals(meta.getProperty(), "belongs-to-collection"))
         .toList();
@@ -46,8 +60,8 @@ public class CollectionService {
           .findFirst()
           .orElseGet(() -> {
             var newEntity = new CollectionEntity();
-            newEntity.setCover(epub.cover());
             newEntity.setName(collectionName);
+            newEntity.setCoverPath(path + "/cover.jpeg");
             return newEntity;
           });
       var id = collection.getId();

@@ -1,6 +1,5 @@
 package tech.mathieu.book;
 
-import io.quarkus.vertx.http.Compressed;
 import io.smallrye.common.annotation.Blocking;
 import org.jboss.resteasy.reactive.MultipartForm;
 import tech.mathieu.MultipartBody;
@@ -32,7 +31,6 @@ public class BookResource {
 
   @Path("{id}")
   @GET
-  @Compressed
   @Produces(MediaType.APPLICATION_JSON)
   public BookDto getBook(@PathParam("id") Long bookId) {
     return bookService.getBookDto(bookId);
@@ -68,6 +66,13 @@ public class BookResource {
         throw new RuntimeException(e);
       }
     });
+  }
+
+  @GET
+  @Path("{id}/cover")
+  public File getCover(@PathParam("id") Long id) {
+    var coverPath = bookService.getBookById(id).getPath() + "/cover.jpeg";
+    return new File(coverPath);
   }
 
 }

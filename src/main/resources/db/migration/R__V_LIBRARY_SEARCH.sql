@@ -5,8 +5,6 @@ SELECT
                                  FROM
                                      TITLE T
                                  WHERE T.BOOK_ID = B.ID AND T.TITLE_TYPE = 'main'), ' ')) AS TITLE
-  , B.COVER
-  , C.NAME AS COLLECTION_NAME
   , CONCAT(ARRAY_TO_STRING(ARRAY(SELECT S.NAME
                                  FROM
                                      SUBJECT S
@@ -34,7 +32,9 @@ SELECT
         , ARRAY_TO_STRING(ARRAY(SELECT T.TITLE
                                 FROM
                                     TITLE T
-                                WHERE T.BOOK_ID = B.ID), ' ')) AS SEARCH_TERMS
+                                WHERE T.BOOK_ID = B.ID), ' ')
+               , ' '
+               , C.NAME) AS SEARCH_TERMS
 FROM
     BOOK B
         LEFT JOIN COLLECTION C ON C.ID = B.COLLECTION_ID;

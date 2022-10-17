@@ -95,9 +95,6 @@ public class BookService {
                 .stream()
                 .map(publisherEntity -> new PublisherDto(publisherEntity.getId(), publisherEntity.getName()))
                 .toList()).orElse(null),
-        Optional.ofNullable(entity.getCover())
-            .map(cover -> "data:image/jpg;base64," + new String(cover))
-            .orElse(null),
         Optional.ofNullable(entity.getCreatorEntities())
             .map(creatorEntities -> creatorEntities
                 .stream()
@@ -125,7 +122,8 @@ public class BookService {
   private void processInbox(String inboxPath) {
     try {
       var zipFile = new ZipFile(inboxPath);
-      var book = saveBook(zipFile);
+      var opf = reader.read(zipFile);
+      var book = saveBook(opf);
       var destPath = new File(book.getPath());
       destPath.mkdirs();
       var dest = new File(destPath + "/orginal.epub");
@@ -133,6 +131,7 @@ public class BookService {
       if (!result) {
         throw new IOException("can't rename file " + zipFile.getName() + " to " + dest.getName());
       }
+      reader.saveCover(opf, zipFile, book.getPath());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -152,47 +151,39 @@ public class BookService {
     }
   }
 
-  private BookEntity saveBook(ZipFile zipFile) {
-    try {
-      var epub = reader.read(zipFile);
-      var opf = epub.opf();
-      var book = new BookEntity();
-      var metaData = new HashMap<String, Map<String, Meta>>();
-      epub.opf().getMetadata().getMeta()
-          .stream()
-          .filter(meta -> meta.getRefines() != null)
-          .filter(meta -> meta.getProperty() != null)
-          .forEach(meta -> {
-            var existingId = metaData.get(meta.getRefines());
-            if (existingId == null) {
-              metaData.put(meta.getRefines(), new HashMap<>());
-              existingId = metaData.get(meta.getRefines());
-            }
-            existingId.put(meta.getProperty(), meta);
-          });
-      book.setCover(epub.cover());
-      book.setTitleEntities(titleService.getTitle(opf, metaData, book));
-      book.setMeta(getMeta(opf));
-      book.setDate(getDates(opf));
-      book.setCreatorEntities(creatorService.getCreators(opf));
-      book.setIdentifierEntities(identifierService.getIdentifiers(opf, book));
-      book.setContributorEntities(contributorService.getContributors(opf));
-      book.setLanguageEntities(languageService.getLanguages(opf));
-      book.setPublisherEntities(publisherService.getPublishers(opf));
-      book.setSubjectEntities(subjectService.getSubjects(opf));
-      book.setPath("upload/ebooks/" + book.getTitleEntities()
-          .stream()
-          .map(TitleEntity::getTitle)
-          .collect(Collectors.joining(", ")));
-      var collection = collectionService.getCollection(epub, metaData);
-      book.setCollectionEntity(collection.getLeft());
-      book.setGroupPosition(collection.getRight());
-
-
-      return entityManager.merge(book);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  private BookEntity saveBook(Opf opf) {
+    var book = new BookEntity();
+    var metaData = new HashMap<String, Map<String, Meta>>();
+    opf.getMetadata().getMeta()
+        .stream()
+        .filter(meta -> meta.getRefines() != null)
+        .filter(meta -> meta.getProperty() != null)
+        .forEach(meta -> {
+          var existingId = metaData.get(meta.getRefines());
+          if (existingId == null) {
+            metaData.put(meta.getRefines(), new HashMap<>());
+            existingId = metaData.get(meta.getRefines());
+          }
+          existingId.put(meta.getProperty(), meta);
+        });
+    book.setTitleEntities(titleService.getTitle(opf, metaData, book));
+    book.setMeta(getMeta(opf));
+    book.setDate(getDates(opf));
+    book.setCreatorEntities(creatorService.getCreators(opf));
+    book.setIdentifierEntities(identifierService.getIdentifiers(opf, book));
+    book.setContributorEntities(contributorService.getContributors(opf));
+    book.setLanguageEntities(languageService.getLanguages(opf));
+    book.setPublisherEntities(publisherService.getPublishers(opf));
+    book.setSubjectEntities(subjectService.getSubjects(opf));
+    var bookFolder = "upload/ebooks/" + book.getTitleEntities()
+        .stream()
+        .map(TitleEntity::getTitle)
+        .collect(Collectors.joining(", "));
+    book.setPath(bookFolder);
+    var collection = collectionService.getCollection(opf, bookFolder, metaData);
+    book.setCollectionEntity(collection.getLeft());
+    book.setGroupPosition(collection.getRight());
+    return entityManager.merge(book);
   }
 
   private String getDates(Opf epub) {

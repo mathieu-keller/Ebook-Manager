@@ -14,7 +14,6 @@ public record BookDto(
     List<LanguageDto> language,
     List<SubjectDto> subjects,
     List<PublisherDto> publisher,
-    String cover,
     List<CreatorDto> authors,
     Long collectionId,
     Long collectionIndex

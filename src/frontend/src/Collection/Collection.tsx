@@ -45,7 +45,6 @@ const Collection: Component = () => {
       <ItemGrid
         items={collection()!.books.map((book) => ({
           id: book.id,
-          cover: book.cover,
           title: book.title,
           itemType: 'book',
           bookCount: 1

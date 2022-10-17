@@ -44,9 +44,6 @@ public class LibraryService {
           .getResultList()
           .stream()
           .map(bookEntity -> new LibraryDto(bookEntity.getId(),
-              Optional.ofNullable(bookEntity.getCover())
-                  .map(cover -> "data:image/jpg;base64," + new String(cover))
-                  .orElse(null),
               bookEntity.getTitle(),
               "book",
               1L))
@@ -58,9 +55,6 @@ public class LibraryService {
         .getResultList()
         .stream()
         .map(libraryItem -> new LibraryDto(libraryItem.getId(),
-            Optional.ofNullable(libraryItem.getCover())
-                .map(cover -> "data:image/jpg;base64," + new String(cover))
-                .orElse(null),
             libraryItem.getTitle(),
             libraryItem.getItemType(),
             libraryItem.getBookCount()))

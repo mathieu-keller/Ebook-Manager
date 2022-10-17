@@ -2,7 +2,6 @@ import {BookType} from './Book.type';
 import {createSignal, For, onMount, Show} from 'solid-js';
 import Rest from '../Rest';
 import {BOOK_API, DOWNLOAD_API} from '../Api/Api';
-import defaultCover from '../assets/cover.jpg';
 import downloadIcon from '../assets/download.svg';
 import Badge from '../UI/Badge';
 import {LinkButton} from '../UI/Button';
@@ -41,7 +40,7 @@ const Book = () => {
         <div class="grid max-w-[100%] sm:max-w-[90%] md:max-w-[70%] xl:max-w-[50%]">
           <img
             alt={`cover picture of ${book()!.title}`}
-            src={book()!.cover !== undefined ? book()!.cover : defaultCover}
+            src={`/api/book/${book()!.id}/cover`}
             width="270"
             height="470"
           />

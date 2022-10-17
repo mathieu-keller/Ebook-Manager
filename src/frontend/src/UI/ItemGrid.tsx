@@ -23,7 +23,6 @@ const ItemGrid: Component<ItemGridProps> = (props) => {
         {(item) => (
           <ItemCard
             name={item.title}
-            cover={item.cover}
             itemCount={item.itemType === 'collection' ? item.bookCount : undefined}
             id={item.id}
             itemType={item.itemType}
