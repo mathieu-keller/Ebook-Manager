@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("/api/book")
@@ -39,6 +40,7 @@ public class BookResource {
     var title = URLEncoder.encode(
             book.getTitleEntities()
                 .stream()
+                .filter(titleEntity -> Objects.equals(titleEntity.getTitleType(), "main"))
                 .map(TitleEntity::getTitle)
                 .collect(Collectors.joining(", ")) + ".epub",
             StandardCharsets.UTF_8)

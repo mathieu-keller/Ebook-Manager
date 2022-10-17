@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import tech.mathieu.collection.CollectionEntity;
 import tech.mathieu.contributor.ContributorEntity;
 import tech.mathieu.creator.CreatorEntity;
 import tech.mathieu.identifier.IdentifierEntity;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Arrays;
@@ -105,10 +107,17 @@ public class BookEntity {
   List<SubjectEntity> subjectEntities;
 
   @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-  private List<IdentifierEntity> identifierEntities;
+  List<IdentifierEntity> identifierEntities;
 
   @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-  private List<TitleEntity> titleEntities;
+  List<TitleEntity> titleEntities;
+
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @JoinColumn(name = "COLLECTION_ID")
+  CollectionEntity collectionEntity;
+
+  @Column(name = "GROUP_POSITION")
+  Long groupPosition;
 
   public Long getId() {
     return id;
@@ -206,6 +215,22 @@ public class BookEntity {
     this.titleEntities = titleEntities;
   }
 
+  public CollectionEntity getCollectionEntity() {
+    return collectionEntity;
+  }
+
+  public void setCollectionEntity(CollectionEntity collectionEntity) {
+    this.collectionEntity = collectionEntity;
+  }
+
+  public Long getGroupPosition() {
+    return groupPosition;
+  }
+
+  public void setGroupPosition(Long groupPosition) {
+    this.groupPosition = groupPosition;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -214,13 +239,13 @@ public class BookEntity {
     if (!(o instanceof BookEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Arrays.equals(cover, that.cover) && Objects.equals(path, that.path) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities) && Objects.equals(titleEntities, that.titleEntities);
+    return Objects.equals(id, that.id) && Objects.equals(date, that.date) && Objects.equals(meta, that.meta) && Arrays.equals(cover, that.cover) && Objects.equals(path, that.path) && Objects.equals(creatorEntities, that.creatorEntities) && Objects.equals(contributorEntities, that.contributorEntities) && Objects.equals(languageEntities, that.languageEntities) && Objects.equals(publisherEntities, that.publisherEntities) && Objects.equals(subjectEntities, that.subjectEntities) && Objects.equals(identifierEntities, that.identifierEntities) && Objects.equals(titleEntities, that.titleEntities) && Objects.equals(collectionEntity, that.collectionEntity) && Objects.equals(groupPosition, that.groupPosition);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, date, meta, path, creatorEntities, contributorEntities, languageEntities, publisherEntities,
-        subjectEntities, identifierEntities, titleEntities);
+    int result = Objects.hash(id, date, meta, path, creatorEntities, contributorEntities, languageEntities, publisherEntities, subjectEntities,
+        identifierEntities, titleEntities, collectionEntity, groupPosition);
     result = 31 * result + Arrays.hashCode(cover);
     return result;
   }

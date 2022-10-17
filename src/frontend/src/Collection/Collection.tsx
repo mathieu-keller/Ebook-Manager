@@ -9,10 +9,15 @@ import {Store} from 'solid-js/store/types/store';
 import {setHeaderTitle} from '../Store/HeaderStore';
 
 const Collection: Component = () => {
-  const path = useParams<{ readonly collection: string }>();
+  const path = useParams<{ readonly collectionId: string; readonly collection: string }>();
   const getCollection = async (): Promise<CollectionType> => {
-    const response = await Rest.get<CollectionType>(COLLECTION_API(path.collection));
-    return response.data;
+    const collectionId = Number(path.collectionId);
+    if (!isNaN(collectionId)) {
+      const response = await Rest.get<CollectionType>(COLLECTION_API(collectionId));
+      return response.data;
+    }
+    return Promise.reject(new Error(`book id ${path.collectionId} is not a number!`));
+
   };
 
   const [collection, setCollection] = createSignal<Store<CollectionType> | null>(null);

@@ -14,8 +14,8 @@ import java.util.Objects;
 
 @Entity
 @Immutable
-@Table(name = "V_LIBRARY_ITEM")
-public class LibraryItemEntity {
+@Table(name = "V_LIBRARY")
+public class LibraryEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,8 +26,11 @@ public class LibraryItemEntity {
   byte[] cover;
   @Column(name = "TITLE", updatable = false, insertable = false, nullable = false)
   String title;
-  @Column(name = "SEARCH_TERMS", updatable = false, insertable = false, nullable = false)
-  String searchTerms;
+  @Column(name = "ITEM_TYPE", updatable = false, insertable = false, nullable = false)
+  String itemType;
+
+  @Column(name = "BOOK_COUNT", updatable = false, insertable = false, nullable = false)
+  Long bookCount;
 
   public Long getId() {
     return id;
@@ -53,29 +56,38 @@ public class LibraryItemEntity {
     this.title = title;
   }
 
-  public String getSearchTerms() {
-    return searchTerms;
+  public String getItemType() {
+    return itemType;
   }
 
-  public void setSearchTerms(String searchTerms) {
-    this.searchTerms = searchTerms;
+  public void setItemType(String itemType) {
+    this.itemType = itemType;
   }
+
+  public Long getBookCount() {
+    return bookCount;
+  }
+
+  public void setBookCount(Long bookCount) {
+    this.bookCount = bookCount;
+  }
+
 
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof LibraryItemEntity that)) {
+    if (!(o instanceof LibraryEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Arrays.equals(cover, that.cover) && Objects.equals(title, that.title) && Objects.equals(searchTerms,
-        that.searchTerms);
+    return Objects.equals(id, that.id) && Arrays.equals(cover, that.cover) && Objects.equals(title, that.title) && Objects.equals(itemType,
+        that.itemType) && Objects.equals(bookCount, that.bookCount);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, title, searchTerms);
+    int result = Objects.hash(id, title, itemType, bookCount);
     result = 31 * result + Arrays.hashCode(cover);
     return result;
   }

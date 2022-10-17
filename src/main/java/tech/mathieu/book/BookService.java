@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import tech.mathieu.collection.CollectionService;
 import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
@@ -61,6 +62,9 @@ public class BookService {
   TitleService titleService;
 
   @Inject
+  CollectionService collectionService;
+
+  @Inject
   Reader reader;
 
   public BookEntity getBookById(Long id) {
@@ -69,6 +73,10 @@ public class BookService {
 
   public BookDto getBookDto(Long bookId) {
     var entity = entityManager.find(BookEntity.class, bookId);
+    return getBookDto(entity);
+  }
+
+  public BookDto getBookDto(BookEntity entity) {
     return new BookDto(entity.getId(),
         entity.getTitleEntities().stream().map(TitleEntity::getTitle).collect(Collectors.joining(", ")),
         null,
@@ -95,8 +103,8 @@ public class BookService {
                 .stream()
                 .map(creatorEntity -> new CreatorDto(creatorEntity.getId(), creatorEntity.getName()))
                 .toList()).orElse(null),
-        null,
-        null
+        entity.collectionEntity.getId(),
+        entity.groupPosition
     );
   }
 
@@ -176,6 +184,11 @@ public class BookService {
           .stream()
           .map(TitleEntity::getTitle)
           .collect(Collectors.joining(", ")));
+      var collection = collectionService.getCollection(epub, metaData);
+      book.setCollectionEntity(collection.getLeft());
+      book.setGroupPosition(collection.getRight());
+
+
       return entityManager.merge(book);
     } catch (IOException e) {
       throw new RuntimeException(e);
