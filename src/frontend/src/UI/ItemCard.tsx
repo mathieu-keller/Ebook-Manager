@@ -1,6 +1,6 @@
 import {Component, createSignal, Show} from 'solid-js';
 import {Button, LinkButton} from './Button';
-import {DOWNLOAD_API, DOWNLOAD_ORIGINAL_API} from '../Api/Api';
+import {DOWNLOAD_API} from '../Api/Api';
 import defaultCover from '../assets/cover.jpg';
 import menuIcon from '../assets/menu.svg';
 import EditBook from '../Book/EditBook';
@@ -66,13 +66,6 @@ const ItemCard: Component<ItemCardProps> = (props) => {
                     className="p-2 w-[100%]"
                   >
                     Download Book
-                  </LinkButton>
-                  <LinkButton
-                    download={true}
-                    href={DOWNLOAD_ORIGINAL_API(props.id)}
-                    className="p-2 w-[100%]"
-                  >
-                    Download Original Book
                   </LinkButton>
                   <Button className="p-2 w-[100%]" onClick={() => setShowEditSubjects(true)}>
                     Edit
