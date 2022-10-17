@@ -21,7 +21,7 @@ const Upload: Component<UploadProps> = (props) => {
         setCurrent(e.loaded);
       }
     });
-    if (response.status === 200) {
+    if (response.status === 204) {
       location.reload();
     }
   };
