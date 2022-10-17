@@ -109,7 +109,7 @@ public class BookEntity {
   @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   List<IdentifierEntity> identifierEntities;
 
-  @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "bookEntity", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
   List<TitleEntity> titleEntities;
 
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

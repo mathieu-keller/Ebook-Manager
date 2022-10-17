@@ -1,7 +1,7 @@
 import {BookType} from './Book.type';
 import {createSignal, For, onMount, Show} from 'solid-js';
 import Rest from '../Rest';
-import {BOOK_API, DOWNLOAD_API, DOWNLOAD_ORIGINAL_API} from '../Api/Api';
+import {BOOK_API, DOWNLOAD_API} from '../Api/Api';
 import defaultCover from '../assets/cover.jpg';
 import downloadIcon from '../assets/download.svg';
 import Badge from '../UI/Badge';
@@ -67,30 +67,17 @@ const Book = () => {
               </For>
             </div>
           </div>
-          <div class="col-start-1 col-end-3 mt-5 flex justify-self-stretch">
-            <LinkButton
-              href={DOWNLOAD_API(book()!.id)}
-              download={true}
-              className="w-6/12"
-            >
-              <img
-                class="dark:invert invert-0 h-8 mr-1"
-                src={downloadIcon}
-                alt="download"
-              /> Download
-            </LinkButton>
-            <LinkButton
-              href={DOWNLOAD_ORIGINAL_API(book()!.id)}
-              download={true}
-              className="w-6/12"
-            >
-              <img
-                class="dark:invert invert-0 h-8 mr-1"
-                src={downloadIcon}
-                alt="download"
-              /> Download Original
-            </LinkButton>
-          </div>
+          <LinkButton
+            href={DOWNLOAD_API(book()!.id)}
+            download={true}
+            className="col-start-1 col-end-3 mt-5 flex justify-self-stretch"
+          >
+            <img
+              class="dark:invert invert-0 h-8 mr-1"
+              src={downloadIcon}
+              alt="download"
+            /> Download
+          </LinkButton>
         </div>
       </div>
     </Show>

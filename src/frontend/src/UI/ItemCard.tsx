@@ -1,9 +1,8 @@
 import {Component, createSignal, Show} from 'solid-js';
 import {Button, LinkButton} from './Button';
-import {DOWNLOAD_API, DOWNLOAD_ORIGINAL_API} from '../Api/Api';
+import {DOWNLOAD_API} from '../Api/Api';
 import defaultCover from '../assets/cover.jpg';
 import menuIcon from '../assets/menu.svg';
-import EditBook from '../Book/EditBook';
 
 type ItemCardProps = {
   readonly id: number;
@@ -16,13 +15,9 @@ type ItemCardProps = {
 
 const ItemCard: Component<ItemCardProps> = (props) => {
   const [showOptions, setShowOptions] = createSignal<boolean>(false);
-  const [showEditSubjects, setShowEditSubjects] = createSignal<boolean>(false);
 
   return (
     <>
-      <Show when={showEditSubjects()}>
-        <EditBook onClose={() => setShowEditSubjects(false)} bookId={props.id} title={props.name}/>
-      </Show>
       <div class="m-3 p-2 flex h-max w-80 flex-col" onMouseLeave={() => setShowOptions(false)}>
         <div onClick={props.onClick} class="flex justify-center hover:pb-3 cursor-pointer hover:mt-0 hover:mb-3 p-0 my-3 relative">
           <Show when={props.itemCount !== undefined}>
@@ -67,16 +62,6 @@ const ItemCard: Component<ItemCardProps> = (props) => {
                   >
                     Download Book
                   </LinkButton>
-                  <LinkButton
-                    download={true}
-                    href={DOWNLOAD_ORIGINAL_API(props.id)}
-                    className="p-2 w-[100%]"
-                  >
-                    Download Original Book
-                  </LinkButton>
-                  <Button className="p-2 w-[100%]" onClick={() => setShowEditSubjects(true)}>
-                    Edit
-                  </Button>
                 </div>
               </Show>
             </div>

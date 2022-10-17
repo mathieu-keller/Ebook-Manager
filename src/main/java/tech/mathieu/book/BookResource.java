@@ -1,16 +1,23 @@
 package tech.mathieu.book;
 
 import io.quarkus.vertx.http.Compressed;
+import io.smallrye.common.annotation.Blocking;
+import org.jboss.resteasy.reactive.MultipartForm;
+import tech.mathieu.MultipartBody;
 import tech.mathieu.title.TitleEntity;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -47,6 +54,20 @@ public class BookResource {
         .replace("+", "%20");
     response.header("Content-Disposition", "attachment; filename*=UTF-8''" + title);
     return response.build();
+  }
+
+  @Path("upload")
+  @POST
+  @Blocking
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  public void upload(@MultipartForm MultipartBody form) {
+    form.file.forEach(file -> {
+      try (var in = new FileInputStream(file)) {
+        bookService.uploadBook(in);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    });
   }
 
 }

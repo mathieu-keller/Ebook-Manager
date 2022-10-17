@@ -17,7 +17,6 @@ const Collection: Component = () => {
       return response.data;
     }
     return Promise.reject(new Error(`book id ${path.collectionId} is not a number!`));
-
   };
 
   const [collection, setCollection] = createSignal<Store<CollectionType> | null>(null);
