@@ -100,7 +100,7 @@ public class BookService {
                 .stream()
                 .map(creatorEntity -> new CreatorDto(creatorEntity.getId(), creatorEntity.getName()))
                 .toList()).orElse(null),
-        entity.collectionEntity.getId(),
+        entity.collectionEntity != null ? entity.collectionEntity.getId() : null,
         entity.groupPosition
     );
   }
