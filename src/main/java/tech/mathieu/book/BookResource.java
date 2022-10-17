@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import io.quarkus.security.Authenticated;
 import io.smallrye.common.annotation.Blocking;
 import org.jboss.resteasy.reactive.MultipartForm;
 import tech.mathieu.MultipartBody;
@@ -24,6 +25,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Path("/api/book")
+@Authenticated
 public class BookResource {
 
   @Inject

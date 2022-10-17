@@ -1,5 +1,7 @@
 package tech.mathieu.library;
 
+import io.quarkus.security.Authenticated;
+
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/api/library")
+@Authenticated
 public class LibraryResource {
 
   @Inject
