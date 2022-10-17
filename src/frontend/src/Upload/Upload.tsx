@@ -17,12 +17,12 @@ const Upload: Component<UploadProps> = (props) => {
   const [currentFile, setCurrentFile] = createSignal<number | null>(null);
   const [errors, setErrors] = createSignal<string[]>([]);
   const uploadBooks = async (data: FormData): Promise<void> => {
-    const allFiles = data.getAll("myFiles");
+    const allFiles = data.getAll('myFiles');
     setAllFilesCount(allFiles.length);
     setCurrentFile(0);
     for (const file of allFiles) {
       await Rest.post(UPLOAD_API, file, {
-        headers: {"Content-Type": "application/octet-stream"},
+        headers: {'Content-Type': 'application/octet-stream'},
         onUploadProgress: (e: AxiosProgressEvent): void => {
           setMaxSize(e.total || null);
           setCurrent(e.loaded);
@@ -35,10 +35,9 @@ const Upload: Component<UploadProps> = (props) => {
     if (errors().length === 0) {
       location.reload();
     } else {
-      window.alert(errors().join("\n"));
+      window.alert(errors().join('\n'));
     }
   };
-
 
   const onSubmit = (e: any): void => {
     e.preventDefault();
