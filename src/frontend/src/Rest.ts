@@ -1,15 +1,10 @@
 import axios from 'axios';
 
-const axiosRest = axios.create({
-
-  validateStatus: function (status) {
-    return status < 500; // Resolve only if the status code is less than 500
-  }
-});
+const axiosRest = axios.create();
 
 axiosRest.interceptors.response.use(
   response => {
-    if (response.status >= 400) {
+    if (response.status >= 400 || response.status === undefined) {
       window.alert(response.data);
     }
     return response;

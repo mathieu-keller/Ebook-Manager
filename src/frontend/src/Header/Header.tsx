@@ -2,7 +2,7 @@ import {Component, createSignal, onMount, Show} from 'solid-js';
 import Upload from '../Upload/Upload';
 import {Button, NavLinkButton, PrimaryButton} from '../UI/Button';
 import uploadIcon from '../assets/upload.svg';
-import {useNavigate, useSearchParams} from 'solid-app-router';
+import {useNavigate, useSearchParams} from '@solidjs/router';
 import {headerStore} from '../Store/HeaderStore';
 import menuIcon from '../assets/menu.svg';
 

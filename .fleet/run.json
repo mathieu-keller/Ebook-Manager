@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "type": "maven",
+      "name": "build",
+      "tasks": [
+        "clean install -DskipTests"
+      ]
+    },
+    {
+      "type": "maven",
+      "name": "Run:Dev",
+      "dependsOn": ["build"],
+      "tasks": [
+        "quarkus:dev"
+      ]
+    },
+    {
+      "type": "command",
+      "name": "yarn",
+      "program": "yarn",
+      "workingDir": "src/frontend/"
+    },
+    {
+      "type": "command",
+      "name": "start",
+      "args": [
+        "run",
+        "start"
+      ],
+      "workingDir": "src/frontend/",
+      "program": "npm"
+    }
+  ]
+}

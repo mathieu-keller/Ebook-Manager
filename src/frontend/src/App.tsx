@@ -1,7 +1,7 @@
 import type {Component} from 'solid-js';
 import {lazy} from 'solid-js';
 
-import {Route, Routes} from 'solid-app-router';
+import {Route, Routes} from '@solidjs/router';
 import Header from './Header/Header';
 
 const Book = lazy(() => import('./Book/Book'));

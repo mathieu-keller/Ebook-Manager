@@ -11,67 +11,49 @@ import javax.imageio.ImageIO;
 import javax.xml.bind.JAXB;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
 @ApplicationScoped
 public class Reader {
 
-  public Epub read(ZipFile zipFile) throws IOException {
+  public Opf read(ZipFile zipFile) throws IOException {
     var opfPath = getOpfPath(zipFile);
     if (opfPath == null) {
       return null;
     }
-    var opf = getPackage(zipFile, opfPath);
-    if (opf == null) {
-      return null;
-    }
-    var cover = getCover(opf, opfPath, zipFile);
-    return new Epub(opf, cover);
+    return getPackage(zipFile, opfPath);
   }
 
   private double determineImageScale(int sourceWidth, int targetWidth) {
     return (double) targetWidth / sourceWidth;
   }
 
-  byte[] resizeImage(BufferedImage originalImage, int targetWidth) throws IOException {
-    var scale = determineImageScale(originalImage.getWidth(), targetWidth);
+  void resizeImage(BufferedImage originalImage, String savePath) throws IOException {
+    var scale = determineImageScale(originalImage.getWidth(), 300);
     var calculatedWidth = (int) (originalImage.getWidth() * scale);
     var calculatedHeight = (int) (originalImage.getHeight() * scale);
-    try (var baos = new ByteArrayOutputStream()) {
-      Thumbnails.of(originalImage)
-          .size(calculatedWidth, calculatedHeight)
-          .outputFormat("JPEG")
-          .outputQuality(0.5f)
-          .toOutputStream(baos);
-      return Base64.getEncoder().encode(baos.toByteArray());
-    }
+    Thumbnails.of(originalImage)
+        .size(calculatedWidth, calculatedHeight)
+        .outputQuality(0.7f)
+        .outputFormat("JPEG")
+        .toFile(savePath + "/cover.jpeg");
   }
 
-  private byte[] getCover(Opf opf, String opfPath, ZipFile zipFile) throws IOException {
+  public void saveCover(Opf opf, ZipFile zipFile, String savePath) throws IOException {
     var path = getCoverPath(opf);
-    if (path == null) {
-      return null;
-    }
-    var zipEntry = zipFile.getEntry(path);
-    if (zipEntry == null) {
-      var rootFolder = getRootPath(opfPath);
-      zipEntry = zipFile.getEntry(rootFolder + "/" + path);
-    }
-    if (zipEntry != null) {
-      try (var zipIn = zipFile.getInputStream(zipEntry)) {
-        return resizeImage(ImageIO.read(zipIn), 270);
+    if (path != null) {
+      var zipEntry = zipFile.getEntry(path);
+      if (zipEntry != null) {
+        try (var zipIn = zipFile.getInputStream(zipEntry)) {
+          resizeImage(ImageIO.read(zipIn), savePath);
+        }
       }
     }
-    return null;
   }
 
-  private static String getCoverPath(Opf opf) {
+  private String getCoverPath(Opf opf) {
     //epub 3 way to get cover
     var coverPath = opf.getManifest().getItems()
         .stream()
@@ -94,12 +76,6 @@ public class Reader {
           .orElse(null);
     }
     return coverPath;
-  }
-
-  private String getRootPath(String opfPath) {
-    return Arrays.stream(opfPath.split("/"))
-        .filter(element -> !element.endsWith(".opf"))
-        .collect(Collectors.joining("/"));
   }
 
   private Opf getPackage(ZipFile zipFile, String opfPath) throws IOException {

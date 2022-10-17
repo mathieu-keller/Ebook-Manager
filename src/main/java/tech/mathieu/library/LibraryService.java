@@ -10,13 +10,13 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 
 @ApplicationScoped
 @Transactional
 public class LibraryService {
 
-  private static final int PAGE_SIZE = 32;
+  private static final int PAGE_SIZE = 16;
 
   @Inject
   EntityManager entityManager;
@@ -34,8 +34,8 @@ public class LibraryService {
       cr.select(root);
       var where = Arrays.stream(search.split(" "))
           .filter(param -> !param.strip().equals(""))
-          .map(param -> "%" + param + "%")
-          .map(param -> cb.like(root.get("searchTerms"), param))
+          .map(param -> "%" + param.toUpperCase(Locale.US) + "%")
+          .map(param -> cb.like(cb.upper(root.get("searchTerms")), param))
           .toList();
       cr.where(cb.and(where.toArray(new Predicate[0])));
       return entityManager.createQuery(cr)
@@ -44,9 +44,6 @@ public class LibraryService {
           .getResultList()
           .stream()
           .map(bookEntity -> new LibraryDto(bookEntity.getId(),
-              Optional.ofNullable(bookEntity.getCover())
-                  .map(cover -> "data:image/jpg;base64," + new String(cover))
-                  .orElse(null),
               bookEntity.getTitle(),
               "book",
               1L))
@@ -58,9 +55,6 @@ public class LibraryService {
         .getResultList()
         .stream()
         .map(libraryItem -> new LibraryDto(libraryItem.getId(),
-            Optional.ofNullable(libraryItem.getCover())
-                .map(cover -> "data:image/jpg;base64," + new String(cover))
-                .orElse(null),
             libraryItem.getTitle(),
             libraryItem.getItemType(),
             libraryItem.getBookCount()))

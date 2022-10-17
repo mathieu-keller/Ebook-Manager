@@ -5,7 +5,7 @@ import {SEARCH_API} from '../Api/Api';
 import ItemGrid from '../UI/ItemGrid';
 import {searchStore, setSearch, setSearchStore} from '../Store/SearchStore';
 import {BookType} from '../Book/Book.type';
-import {useSearchParams} from 'solid-app-router';
+import {useSearchParams} from '@solidjs/router';
 
 const Search = () => {
   const [loading, setLoading] = createSignal<boolean>(false);
@@ -104,7 +104,6 @@ const Search = () => {
         items={searchStore.books.map(book => ({
           id: book.id,
           title: book.title,
-          cover: book.cover,
           itemType: 'book',
           bookCount: 1
         }))}

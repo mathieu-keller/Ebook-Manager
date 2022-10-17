@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import tech.mathieu.collection.CollectionDto;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.language.LanguageDto;
 import tech.mathieu.publisher.PublisherDto;
@@ -14,9 +15,8 @@ public record BookDto(
     List<LanguageDto> language,
     List<SubjectDto> subjects,
     List<PublisherDto> publisher,
-    String cover,
     List<CreatorDto> authors,
-    Long collectionId,
+    CollectionDto collection,
     Long collectionIndex
 ) {
 }

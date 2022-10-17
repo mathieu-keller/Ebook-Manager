@@ -1,30 +1,25 @@
 package tech.mathieu.book;
 
-import io.quarkus.vertx.http.Compressed;
-import io.smallrye.common.annotation.Blocking;
 import org.jboss.resteasy.reactive.MultipartForm;
-import tech.mathieu.MultipartBody;
 import tech.mathieu.title.TitleEntity;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Path("/api/book")
+@DenyAll
 public class BookResource {
 
   @Inject
@@ -32,8 +27,8 @@ public class BookResource {
 
   @Path("{id}")
   @GET
-  @Compressed
   @Produces(MediaType.APPLICATION_JSON)
+  @RolesAllowed("USER")
   public BookDto getBook(@PathParam("id") Long bookId) {
     return bookService.getBookDto(bookId);
   }
@@ -41,6 +36,7 @@ public class BookResource {
   @Path("download/{id}")
   @GET
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  @RolesAllowed("USER")
   public Response downloadBook(@PathParam("id") Long id) throws UnsupportedEncodingException {
     var book = bookService.getBookById(id);
     var response = Response.ok(new File(book.getPath() + "/orginal.epub"));
@@ -58,16 +54,31 @@ public class BookResource {
 
   @Path("upload")
   @POST
-  @Blocking
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public void upload(@MultipartForm MultipartBody form) {
-    form.file.forEach(file -> {
-      try (var in = new FileInputStream(file)) {
-        bookService.uploadBook(in);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    });
+  @RolesAllowed("USER")
+  public void upload(@MultipartForm BookUpload input) {
+    var uuid = String.valueOf(UUID.randomUUID());
+    var inboxPath = "upload/inbox";
+    new File(inboxPath).mkdirs();
+    var inboxBookPath = inboxPath + "/" + uuid + ".epub";
+    try (var in = input.getFile()) {
+      bookService.saveBookToInbox(in, inboxBookPath);
+      bookService.processInbox(inboxBookPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @GET
+  @Path("{id}/cover")
+  @RolesAllowed("USER")
+  public File getCover(@PathParam("id") Long id) {
+    var coverPath = bookService.getBookById(id).getPath() + "/cover.jpeg";
+    var cover = new File(coverPath);
+    if (cover.exists()) {
+      return cover;
+    }
+    return null;
   }
 
 }

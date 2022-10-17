@@ -3,7 +3,7 @@ import ItemGrid from '../UI/ItemGrid';
 import {CollectionType} from './Collection.type';
 import {COLLECTION_API} from '../Api/Api';
 import Rest from '../Rest';
-import {useParams} from 'solid-app-router';
+import {useParams} from '@solidjs/router';
 import {collectionStore, setCollectionStore} from '../Store/CollectionStore';
 import {Store} from 'solid-js/store/types/store';
 import {setHeaderTitle} from '../Store/HeaderStore';
@@ -45,7 +45,6 @@ const Collection: Component = () => {
       <ItemGrid
         items={collection()!.books.map((book) => ({
           id: book.id,
-          cover: book.cover,
           title: book.title,
           itemType: 'book',
           bookCount: 1

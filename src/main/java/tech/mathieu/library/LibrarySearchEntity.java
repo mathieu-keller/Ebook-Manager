@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -21,9 +19,6 @@ public class LibrarySearchEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "ID", updatable = false, insertable = false, nullable = false)
   Long id;
-  @Lob
-  @Column(name = "COVER", updatable = false, insertable = false)
-  byte[] cover;
   @Column(name = "TITLE", updatable = false, insertable = false, nullable = false)
   String title;
   @Column(name = "SEARCH_TERMS", updatable = false, insertable = false, nullable = false)
@@ -35,14 +30,6 @@ public class LibrarySearchEntity {
 
   public void setId(Long id) {
     this.id = id;
-  }
-
-  public byte[] getCover() {
-    return cover;
-  }
-
-  public void setCover(byte[] cover) {
-    this.cover = cover;
   }
 
   public String getTitle() {
@@ -61,6 +48,7 @@ public class LibrarySearchEntity {
     this.searchTerms = searchTerms;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -69,13 +57,11 @@ public class LibrarySearchEntity {
     if (!(o instanceof LibrarySearchEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Arrays.equals(cover, that.cover) && Objects.equals(title, that.title) && Objects.equals(searchTerms, that.searchTerms);
+    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(searchTerms, that.searchTerms);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hash(id, title, searchTerms);
-    result = 31 * result + Arrays.hashCode(cover);
-    return result;
+    return Objects.hash(id, title, searchTerms);
   }
 }

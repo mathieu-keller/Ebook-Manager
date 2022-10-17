@@ -2,11 +2,10 @@ import {BookType} from './Book.type';
 import {createSignal, For, onMount, Show} from 'solid-js';
 import Rest from '../Rest';
 import {BOOK_API, DOWNLOAD_API} from '../Api/Api';
-import defaultCover from '../assets/cover.jpg';
 import downloadIcon from '../assets/download.svg';
 import Badge from '../UI/Badge';
 import {LinkButton} from '../UI/Button';
-import {useNavigate, useParams} from 'solid-app-router';
+import {useNavigate, useParams} from '@solidjs/router';
 import {setHeaderTitle} from '../Store/HeaderStore';
 import {setSearch} from '../Store/SearchStore';
 
@@ -36,16 +35,25 @@ const Book = () => {
   };
 
   return (
-    <Show when={book() !== null} fallback={<h1>Loading...</h1>}>
+    <Show when={book() !== null && book() !== undefined} fallback={<h1>Loading...</h1>}>
       <div class="mt-10 flex justify-center">
         <div class="grid max-w-[100%] sm:max-w-[90%] md:max-w-[70%] xl:max-w-[50%]">
           <img
             alt={`cover picture of ${book()!.title}`}
-            src={book()!.cover !== undefined ? book()!.cover : defaultCover}
+            src={`/api/book/${book()!.id}/cover`}
             width="270"
             height="470"
           />
           <div class="grid-cols-1 grid h-max">
+            <Show when={book()!.collection !== null && book()!.collection !== undefined}>
+              <div class="m-5">
+                <h1>Collection:</h1>
+                <Badge
+                  onClick={() => navigator(`/collection/${book()!.collection.id}/${encodeURIComponent(book()!.collection.title)}`)}
+                  text={book()!.collection.title}
+                />
+              </div>
+            </Show>
             <div class="m-5">
               <h1>Authors:</h1>
               <For each={book()!.authors}>

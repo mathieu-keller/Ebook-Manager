@@ -1,0 +1,31 @@
+services:
+  server:
+    image: {{username}}/ebook-manager:{{version}}
+    restart: on-failure
+    ports:
+      - "1243:8080"
+      - "1253:8443"
+    environment:
+      db-user: "{{db_username}}"
+      db-password: "{{db_password}}"
+      db-address: db
+      db-schema: "{{db_username}}"
+      login-salt: "{{login_salt}}"
+      admin-username: "{{admin_username}}"
+      admin-password: "{{admin_password}}"
+    volumes:
+      - '/volume1/docker/ebook/data/:/home/jboss/upload'
+    depends_on:
+      - "db"
+  db:
+    image: postgres:15
+    restart: on-failure
+    environment:
+      POSTGRES_PASSWORD: "{{db_password}}"
+      POSTGRES_USER: "{{db_username}}"
+      POSTGRES_DB: "{{db_username}}"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - '/volume1/docker/ebook/db/:/var/lib/postgresql/data'
+    ports:
+      - "5422:5432"

@@ -19,7 +19,7 @@ public class ReaderTest {
   public void test2() throws Exception {
     var testFile = new File(getClass().getResource("/epub/TestBook.epub").toURI());
     var testZipFile = new ZipFile(testFile);
-    var book = reader.read(testZipFile).opf();
+    var book = reader.read(testZipFile);
 
     SoftAssertions.assertSoftly(softly -> {
       //version

@@ -1,14 +1,12 @@
 import {Component, createSignal, Show} from 'solid-js';
 import {Button, LinkButton} from './Button';
 import {DOWNLOAD_API} from '../Api/Api';
-import defaultCover from '../assets/cover.jpg';
 import menuIcon from '../assets/menu.svg';
 
 type ItemCardProps = {
   readonly id: number;
   readonly onClick: () => void;
   readonly name: string;
-  readonly cover?: string;
   readonly itemType: 'book' | 'collection';
   readonly itemCount?: number;
 }
@@ -27,7 +25,7 @@ const ItemCard: Component<ItemCardProps> = (props) => {
           </Show>
 
           <img
-            src={props.cover === undefined ? defaultCover : props.cover}
+            src={props.itemType === 'book' ? `/api/book/${props.id}/cover/` : `/api/collection/${props.id}/cover/`}
             alt={`cover picture of ${props.name}`}
             width="270"
             height="470"

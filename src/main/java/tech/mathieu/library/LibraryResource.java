@@ -1,7 +1,7 @@
 package tech.mathieu.library;
 
-import io.quarkus.vertx.http.Compressed;
-
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/api/library")
+@DenyAll
 public class LibraryResource {
 
   @Inject
@@ -18,7 +19,7 @@ public class LibraryResource {
 
   @GET
   @Path(("/"))
-  @Compressed
+  @RolesAllowed("USER")
   @Produces(MediaType.APPLICATION_JSON)
   public List<LibraryDto> getLibraryItems(@QueryParam("page") Integer page, @QueryParam("q") String search) {
     return libraryService.getDtos(page, search);

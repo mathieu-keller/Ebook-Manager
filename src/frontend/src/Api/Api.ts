@@ -2,9 +2,7 @@ const API_PREFIX = '/api';
 export const DOWNLOAD_API = (id: number) => `${API_PREFIX}/book/download/${id}`;
 export const SEARCH_API = (search: string, page: number) => {
   const params = new URLSearchParams({page: page.toString()});
-  if (search.trim() !== '') {
-    params.append('q', search);
-  }
+  params.append('q', search);
   return `${API_PREFIX}/library?${params.toString()}`;
 };
 export const BOOK_API = (bookId: number) => `${API_PREFIX}/book/${bookId}`;

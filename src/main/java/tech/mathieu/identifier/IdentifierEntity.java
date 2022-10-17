@@ -20,7 +20,7 @@ public class IdentifierEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Id
   @Column(name = "id", nullable = false)
-  int id;
+  Long id;
 
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
   @JoinColumn(name = "BOOK_ID")
@@ -32,11 +32,11 @@ public class IdentifierEntity {
   @Column(name = "IDENT_ID")
   String identId;
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

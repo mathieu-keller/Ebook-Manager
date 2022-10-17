@@ -1,7 +1,7 @@
 import {Component, For} from 'solid-js';
 import ItemCard from './ItemCard';
 import {LibraryItemType} from '../Library/LibraryItem.type';
-import {useNavigate} from 'solid-app-router';
+import {useNavigate} from '@solidjs/router';
 
 type ItemGridProps = {
   readonly items: readonly LibraryItemType[];
@@ -23,7 +23,6 @@ const ItemGrid: Component<ItemGridProps> = (props) => {
         {(item) => (
           <ItemCard
             name={item.title}
-            cover={item.cover}
             itemCount={item.itemType === 'collection' ? item.bookCount : undefined}
             id={item.id}
             itemType={item.itemType}

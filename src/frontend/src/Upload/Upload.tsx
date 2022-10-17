@@ -13,16 +13,33 @@ type UploadProps = {
 const Upload: Component<UploadProps> = (props) => {
   const [maxSize, setMaxSize] = createSignal<number | null>(null);
   const [current, setCurrent] = createSignal<number | null>(null);
-
+  const [allFilesCount, setAllFilesCount] = createSignal<number | null>(null);
+  const [currentFile, setCurrentFile] = createSignal<number | null>(null);
+  const [errors, setErrors] = createSignal<string[]>([]);
   const uploadBooks = async (data: FormData): Promise<void> => {
-    const response = await Rest.post(UPLOAD_API, data, {
-      onUploadProgress: (e: AxiosProgressEvent): void => {
-        setMaxSize(e.total || null);
-        setCurrent(e.loaded);
-      }
-    });
-    if (response.status === 200) {
-      location.reload();
+    const allFiles = data.getAll('myFiles');
+    setAllFilesCount(allFiles.length);
+    setCurrentFile(0);
+    for (const file of allFiles) {
+      const form = new FormData();
+      form.set('file', file);
+      await Rest.post(UPLOAD_API, form, {
+        onUploadProgress: (e: AxiosProgressEvent): void => {
+          setMaxSize(e.total || null);
+          setCurrent(e.loaded);
+        }
+      }).catch(e => setErrors([...errors(), e]))
+        .finally(() => {
+          setCurrentFile(allFiles.indexOf(file) + 1);
+          setMaxSize(null);
+          setCurrent(null);
+        });
+    }
+    setAllFilesCount(null);
+    setCurrentFile(null);
+    if (errors().length !== 0) {
+      // eslint-disable-next-line no-console
+      console.error(errors().join('\n'));
     }
   };
 
@@ -45,7 +62,14 @@ const Upload: Component<UploadProps> = (props) => {
         >
           <input type="file" accept="application/epub+zip" name="myFiles" multiple/>
         </form>
+        <Show when={allFilesCount() !== null} keyed>
+          <h1>Files: </h1>
+          <progress value={currentFile()!} max={allFilesCount()!}/>
+          {(Math.round((currentFile()! / allFilesCount()!) * 10000)) / 100}% <br/>
+          ({currentFile()!} / {allFilesCount()!})
+        </Show>
         <Show when={current() !== null && maxSize() !== null} keyed>
+          <h1>Upload: </h1>
           <progress value={current()!} max={maxSize()!}/>
           {(Math.round((current()! / maxSize()!) * 10000)) / 100}% <br/>
           ({current()!} / {maxSize()!})
