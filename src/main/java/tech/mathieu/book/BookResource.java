@@ -1,9 +1,6 @@
 package tech.mathieu.book;
 
 import io.quarkus.security.Authenticated;
-import io.smallrye.common.annotation.Blocking;
-import org.jboss.resteasy.reactive.MultipartForm;
-import tech.mathieu.MultipartBody;
 import tech.mathieu.title.TitleEntity;
 
 import javax.inject.Inject;
@@ -16,8 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -58,16 +55,11 @@ public class BookResource {
 
   @Path("upload")
   @POST
-  @Blocking
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public void upload(@MultipartForm MultipartBody form) {
-    form.file.forEach(file -> {
-      try (var in = new FileInputStream(file)) {
-        bookService.uploadBook(in);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    });
+  @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+  public void upload(InputStream file) throws IOException {
+    try (file) {
+      bookService.uploadBook(file);
+    }
   }
 
   @GET
