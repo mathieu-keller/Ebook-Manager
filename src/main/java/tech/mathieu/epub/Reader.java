@@ -31,11 +31,12 @@ public class Reader {
   }
 
   void resizeImage(BufferedImage originalImage, String savePath) throws IOException {
-    var scale = determineImageScale(originalImage.getWidth(), 350);
+    var scale = determineImageScale(originalImage.getWidth(), 300);
     var calculatedWidth = (int) (originalImage.getWidth() * scale);
     var calculatedHeight = (int) (originalImage.getHeight() * scale);
     Thumbnails.of(originalImage)
         .size(calculatedWidth, calculatedHeight)
+        .outputQuality(0.7f)
         .outputFormat("JPEG")
         .toFile(savePath + "/cover.jpeg");
   }

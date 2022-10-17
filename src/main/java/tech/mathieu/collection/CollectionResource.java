@@ -26,6 +26,10 @@ public class CollectionResource {
   @Path("{id}/cover")
   public File getCover(@PathParam("id") Long id) {
     var coverPath = collectionService.getCollectionCover(id) + "/cover.jpeg";
-    return new File(coverPath);
+    var cover = new File(coverPath);
+    if (cover.exists()) {
+      return cover;
+    }
+    return null;
   }
 }

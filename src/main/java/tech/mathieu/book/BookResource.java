@@ -74,7 +74,11 @@ public class BookResource {
   @Path("{id}/cover")
   public File getCover(@PathParam("id") Long id) {
     var coverPath = bookService.getBookById(id).getPath() + "/cover.jpeg";
-    return new File(coverPath);
+    var cover = new File(coverPath);
+    if (cover.exists()) {
+      return cover;
+    }
+    return null;
   }
 
 }
