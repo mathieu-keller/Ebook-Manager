@@ -16,7 +16,7 @@ import java.util.Locale;
 @Transactional
 public class LibraryService {
 
-  private static final int PAGE_SIZE = 32;
+  private static final int PAGE_SIZE = 16;
 
   @Inject
   EntityManager entityManager;
