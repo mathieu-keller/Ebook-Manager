@@ -36,10 +36,9 @@ const Upload: Component<UploadProps> = (props) => {
     }
     setAllFilesCount(null);
     setCurrentFile(null);
-    if (errors().length === 0) {
-      location.reload();
-    } else {
-      window.alert(errors().join('\n'));
+    if (errors().length !== 0) {
+      // eslint-disable-next-line no-console
+      console.error(errors().join('\n'));
     }
   };
 
