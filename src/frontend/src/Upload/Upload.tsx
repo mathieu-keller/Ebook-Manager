@@ -65,6 +65,7 @@ const Upload: Component<UploadProps> = (props) => {
         <Show when={allFilesCount() !== null} keyed>
           <h1>Files: </h1>
           <progress value={currentFile()!} max={allFilesCount()!}/>
+          {(Math.round((currentFile()! / allFilesCount()!) * 10000)) / 100}% <br/>
           ({currentFile()!} / {allFilesCount()!})
         </Show>
         <Show when={current() !== null && maxSize() !== null} keyed>

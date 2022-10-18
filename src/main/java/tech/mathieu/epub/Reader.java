@@ -53,7 +53,7 @@ public class Reader {
     }
   }
 
-  private static String getCoverPath(Opf opf) {
+  private String getCoverPath(Opf opf) {
     //epub 3 way to get cover
     var coverPath = opf.getManifest().getItems()
         .stream()

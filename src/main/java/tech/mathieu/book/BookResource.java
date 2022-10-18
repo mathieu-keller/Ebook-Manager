@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Path("/api/book")
@@ -57,8 +58,13 @@ public class BookResource {
   @POST
   @Consumes(MediaType.APPLICATION_OCTET_STREAM)
   public void upload(InputStream file) throws IOException {
+    var uuid = String.valueOf(UUID.randomUUID());
+    var inboxPath = "upload/inbox";
+    new File(inboxPath).mkdirs();
+    var inboxBookPath = inboxPath + "/" + uuid + ".epub";
     try (file) {
-      bookService.uploadBook(file);
+      bookService.saveBookToInbox(file, inboxBookPath);
+      bookService.processInbox(inboxBookPath);
     }
   }
 

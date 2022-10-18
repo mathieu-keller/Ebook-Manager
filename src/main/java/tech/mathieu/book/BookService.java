@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
@@ -105,21 +104,7 @@ public class BookService {
     );
   }
 
-  public void uploadBook(InputStream in) {
-    var uuid = String.valueOf(UUID.randomUUID());
-    var inboxPath = "upload/inbox";
-    new File(inboxPath).mkdirs();
-    var inboxBookPath = inboxPath + "/" + uuid + ".epub";
-    try {
-      saveBookToInbox(in, inboxBookPath);
-      processInbox(inboxBookPath);
-    } catch (RuntimeException e) {
-      new File(inboxBookPath).delete();
-      throw e;
-    }
-  }
-
-  private void processInbox(String inboxPath) {
+  public void processInbox(String inboxPath) {
     try {
       var zipFile = new ZipFile(inboxPath);
       var opf = reader.read(zipFile);
@@ -133,11 +118,13 @@ public class BookService {
       }
       reader.saveCover(opf, zipFile, book.getPath());
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      new File(inboxPath).delete();
+      throw new RuntimeException(e.getMessage(), e);
     }
   }
 
-  private static void saveBookToInbox(InputStream in, String inboxPath) {
+  @Transactional(Transactional.TxType.NEVER)
+  public void saveBookToInbox(InputStream in, String inboxPath) {
     var file = new File(inboxPath);
     try (var fos = new FileOutputStream(file)) {
       int read;
