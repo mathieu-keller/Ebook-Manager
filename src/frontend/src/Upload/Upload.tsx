@@ -28,7 +28,11 @@ const Upload: Component<UploadProps> = (props) => {
           setCurrent(e.loaded);
         }
       }).catch(e => setErrors([...errors(), e]))
-        .finally(() => setCurrentFile(allFiles.indexOf(file) + 1));
+        .finally(() => {
+          setCurrentFile(allFiles.indexOf(file) + 1);
+          setMaxSize(null);
+          setCurrent(null);
+        });
     }
     setAllFilesCount(null);
     setCurrentFile(null);
