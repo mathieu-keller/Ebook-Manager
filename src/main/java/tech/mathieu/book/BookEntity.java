@@ -36,7 +36,7 @@ public class BookEntity {
   @Column(name = "date", nullable = true, length = 4000)
   String date;
 
-  @Column(name = "meta", nullable = true, length = 4000)
+  @Column(name = "meta", nullable = true, length = 16000)
   String meta;
   @Column(name = "path")
   String path;
