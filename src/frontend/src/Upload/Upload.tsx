@@ -22,7 +22,7 @@ const Upload: Component<UploadProps> = (props) => {
     setCurrentFile(0);
     for (const file of allFiles) {
       const form = new FormData();
-      form.set("file", file);
+      form.set('file', file);
       await Rest.post(UPLOAD_API, form, {
         onUploadProgress: (e: AxiosProgressEvent): void => {
           setMaxSize(e.total || null);
