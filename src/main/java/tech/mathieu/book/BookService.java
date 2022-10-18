@@ -1,5 +1,6 @@
 package tech.mathieu.book;
 
+import tech.mathieu.collection.CollectionDto;
 import tech.mathieu.collection.CollectionService;
 import tech.mathieu.contributor.ContributorService;
 import tech.mathieu.creator.CreatorDto;
@@ -99,7 +100,7 @@ public class BookService {
                 .stream()
                 .map(creatorEntity -> new CreatorDto(creatorEntity.getId(), creatorEntity.getName()))
                 .toList()).orElse(null),
-        entity.collectionEntity != null ? entity.collectionEntity.getId() : null,
+        entity.collectionEntity != null ? new CollectionDto(entity.collectionEntity.getId(), entity.collectionEntity.getName(), null) : null,
         entity.groupPosition
     );
   }

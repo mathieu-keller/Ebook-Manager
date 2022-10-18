@@ -35,7 +35,7 @@ const Book = () => {
   };
 
   return (
-    <Show when={book() !== null} fallback={<h1>Loading...</h1>}>
+    <Show when={book() !== null && book() !== undefined} fallback={<h1>Loading...</h1>}>
       <div class="mt-10 flex justify-center">
         <div class="grid max-w-[100%] sm:max-w-[90%] md:max-w-[70%] xl:max-w-[50%]">
           <img
@@ -45,6 +45,15 @@ const Book = () => {
             height="470"
           />
           <div class="grid-cols-1 grid h-max">
+            <Show when={book()!.collection !== null && book()!.collection !== undefined}>
+              <div class="m-5">
+                <h1>Collection:</h1>
+                <Badge
+                  onClick={() => navigator(`/collection/${book()!.collection.id}/${encodeURIComponent(book()!.collection.title)}`)}
+                  text={book()!.collection.title}
+                />
+              </div>
+            </Show>
             <div class="m-5">
               <h1>Authors:</h1>
               <For each={book()!.authors}>

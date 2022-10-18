@@ -9,6 +9,9 @@ export type BookType = {
   readonly subjects: Subject[];
   readonly publisher: string;
   readonly authors: Author[];
-  readonly collectionId: number;
+  readonly collection: {
+    readonly id: number;
+    readonly title: string;
+  };
   readonly collectionIndex: number;
 }
