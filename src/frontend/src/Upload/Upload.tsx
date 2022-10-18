@@ -21,8 +21,9 @@ const Upload: Component<UploadProps> = (props) => {
     setAllFilesCount(allFiles.length);
     setCurrentFile(0);
     for (const file of allFiles) {
-      await Rest.post(UPLOAD_API, file, {
-        headers: {'Content-Type': 'application/octet-stream'},
+      const form = new FormData();
+      form.set("file", file);
+      await Rest.post(UPLOAD_API, form, {
         onUploadProgress: (e: AxiosProgressEvent): void => {
           setMaxSize(e.total || null);
           setCurrent(e.loaded);

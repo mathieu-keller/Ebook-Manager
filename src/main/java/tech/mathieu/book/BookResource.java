@@ -1,6 +1,7 @@
 package tech.mathieu.book;
 
 import io.quarkus.security.Authenticated;
+import org.jboss.resteasy.reactive.MultipartForm;
 import tech.mathieu.title.TitleEntity;
 
 import javax.inject.Inject;
@@ -56,15 +57,17 @@ public class BookResource {
 
   @Path("upload")
   @POST
-  @Consumes(MediaType.APPLICATION_OCTET_STREAM)
-  public void upload(InputStream file) throws IOException {
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  public void upload(@MultipartForm BookUpload input) {
     var uuid = String.valueOf(UUID.randomUUID());
     var inboxPath = "upload/inbox";
     new File(inboxPath).mkdirs();
     var inboxBookPath = inboxPath + "/" + uuid + ".epub";
-    try (file) {
-      bookService.saveBookToInbox(file, inboxBookPath);
+    try (var in = input.getFile()) {
+      bookService.saveBookToInbox(in, inboxBookPath);
       bookService.processInbox(inboxBookPath);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
