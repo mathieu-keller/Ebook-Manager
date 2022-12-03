@@ -101,5 +101,5 @@ jobs:
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'ebooks'
           stack-definition: 'stack-definition.yml'
-          template-variables: '{"username": "${{ secrets.DOCKER_USER }}"}'
+          template-variables: '{"username": "${{ secrets.DOCKER_USER }}", "db_username": "${{ secrets.DB_USER }}", "db_password": "${{ secrets.DB_PASSWORD }}"}'
           image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
