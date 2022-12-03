@@ -63,7 +63,7 @@ jobs:
         with:
           name: frontend
           path: src/frontend/dist
-  quarkus-build:
+  backend-build:
     name: build backend
     runs-on: ubuntu-latest
     needs: [frontend-build]
@@ -86,3 +86,20 @@ jobs:
     - uses: geekyeggo/delete-artifact@v1
       with:
         name: frontend
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    needs: [ backend-build ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy stack to Portainer
+        uses: carlrygart/portainer-stack-deploy@v1
+        with:
+          portainer-host: ${{ secrets.PORTAINER_HOST }}
+          username: ${{ secrets.PORTAINER_USERNAME }}
+          password: ${{ secrets.PORTAINER_PASSWORD }}
+          stack-name: 'ebooks'
+          stack-definition: 'stack-definition.yml'
+          template-variables: '{"username": "${{ secrets.DOCKER_USER }}"}'
+          image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
