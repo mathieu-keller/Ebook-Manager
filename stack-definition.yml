@@ -10,6 +10,11 @@ services:
       db-password: {{db_password}}
       db-address: db
       db-schema: {{db_username}}
+      auth-service: {{keycloak_address}}
+      auth-client-id: {{keycloak_client_id}}
+      oidc-secret: {{keycloak_secret}}
+    volumes:
+      - '/volume1/docker/ebook/:/home/jboss/upload'
     depends_on:
       - "db"
   db:
@@ -19,5 +24,8 @@ services:
       POSTGRES_PASSWORD: {{db_password}}
       POSTGRES_USER: {{db_username}}
       POSTGRES_DB: {{db_username}}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - '/volume1/docker/databases/ebook/:/var/lib/postgresql/data'
     ports:
       - "5422:5432"

@@ -101,5 +101,13 @@ jobs:
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'ebooks'
           stack-definition: 'stack-definition.yml'
-          template-variables: '{"username": "${{ secrets.DOCKER_USER }}", "db_username": "${{ secrets.DB_USER }}", "db_password": "${{ secrets.DB_PASSWORD }}"}'
+          template-variables: >
+            {
+              "username": "${{ secrets.DOCKER_USER }}", 
+              "db_username": "${{ secrets.DB_USER }}", 
+              "db_password": "${{ secrets.DB_PASSWORD }}"
+              "keycloak_address": "${{ secrets.KEYCLOAK_ADDRESS }}", 
+              "keycloak_client_id": "${{ secrets.KEYCLOAK_CLIENT_ID }}", 
+              "keycloak_secret": "${{ secrets.KEYCLOAK_SECRET }}"
+            }
           image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
