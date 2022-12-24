@@ -1,7 +1,6 @@
 package tech.mathieu.title;
 
-import tech.mathieu.book.BookEntity;
-
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Objects;
+import tech.mathieu.book.BookEntity;
 
 @Entity
 @Table(name = "title")
@@ -83,7 +82,11 @@ public class TitleEntity {
     if (!(o instanceof TitleEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(titleType, that.titleType) && Objects.equals(titleOrder, that.titleOrder) && Objects.equals(bookEntity, that.bookEntity);
+    return Objects.equals(id, that.id)
+        && Objects.equals(title, that.title)
+        && Objects.equals(titleType, that.titleType)
+        && Objects.equals(titleOrder, that.titleOrder)
+        && Objects.equals(bookEntity, that.bookEntity);
   }
 
   @Override

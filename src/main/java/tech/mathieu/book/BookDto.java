@@ -1,12 +1,11 @@
 package tech.mathieu.book;
 
+import java.util.List;
 import tech.mathieu.collection.CollectionDto;
 import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.language.LanguageDto;
 import tech.mathieu.publisher.PublisherDto;
 import tech.mathieu.subject.SubjectDto;
-
-import java.util.List;
 
 public record BookDto(
     Long id,
@@ -17,6 +16,4 @@ public record BookDto(
     List<PublisherDto> publisher,
     List<CreatorDto> authors,
     CollectionDto collection,
-    Long collectionIndex
-) {
-}
+    Long collectionIndex) {}

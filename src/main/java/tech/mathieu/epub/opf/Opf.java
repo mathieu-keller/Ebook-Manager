@@ -8,32 +8,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "metadata",
-    "manifest"
-})
+@XmlType(
+    name = "",
+    propOrder = {"metadata", "manifest"})
 @XmlRootElement(name = "package")
 public class Opf {
 
-  @XmlElement(
-      required = true
-  )
+  @XmlElement(required = true)
   private Metadata metadata;
 
-  @XmlElement(
-      required = true
-  )
+  @XmlElement(required = true)
   private Manifest manifest;
 
-  @XmlAttribute(
-      name = "version",
-      required = true
-  )
+  @XmlAttribute(name = "version", required = true)
   private String version;
-  @XmlAttribute(
-      name = "unique-identifier",
-      required = true
-  )
+
+  @XmlAttribute(name = "unique-identifier", required = true)
   private String uniqueIdentifier;
 
   @XmlAttribute(name = "dir")
@@ -49,7 +39,6 @@ public class Opf {
   public void setMetadata(Metadata value) {
     this.metadata = value;
   }
-
 
   public String getVersion() {
     return this.version;

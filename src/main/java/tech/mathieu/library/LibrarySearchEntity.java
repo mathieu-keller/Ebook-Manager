@@ -1,14 +1,13 @@
 package tech.mathieu.library;
 
-import org.hibernate.annotations.Immutable;
-
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Objects;
+import org.hibernate.annotations.Immutable;
 
 @Entity
 @Immutable
@@ -19,8 +18,10 @@ public class LibrarySearchEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "ID", updatable = false, insertable = false, nullable = false)
   Long id;
+
   @Column(name = "TITLE", updatable = false, insertable = false, nullable = false)
   String title;
+
   @Column(name = "SEARCH_TERMS", updatable = false, insertable = false, nullable = false)
   String searchTerms;
 
@@ -48,7 +49,6 @@ public class LibrarySearchEntity {
     this.searchTerms = searchTerms;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -57,7 +57,9 @@ public class LibrarySearchEntity {
     if (!(o instanceof LibrarySearchEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(searchTerms, that.searchTerms);
+    return Objects.equals(id, that.id)
+        && Objects.equals(title, that.title)
+        && Objects.equals(searchTerms, that.searchTerms);
   }
 
   @Override

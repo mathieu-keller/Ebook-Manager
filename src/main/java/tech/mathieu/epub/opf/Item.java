@@ -6,19 +6,19 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "href",
-    "mediaType",
-    "properties"
-})
+@XmlType(
+    name = "",
+    propOrder = {"id", "href", "mediaType", "properties"})
 public class Item {
   @XmlAttribute(name = "id")
   private String id;
+
   @XmlAttribute(name = "href")
   private String href;
+
   @XmlAttribute(name = "media-type")
   private String mediaType;
+
   @XmlAttribute(name = "properties")
   private String properties;
 

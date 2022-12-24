@@ -6,9 +6,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "rootfile"
-})
+@XmlType(
+    name = "",
+    propOrder = {"rootfile"})
 public class Rootfiles {
   @XmlElement(required = true)
   private Rootfile[] rootfile;

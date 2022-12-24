@@ -8,27 +8,21 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "dir",
-    "name",
-    "content",
-    "refines",
-    "property",
-    "scheme",
-    "lang",
-    "value"
-})
+@XmlType(
+    name = "",
+    propOrder = {"id", "dir", "name", "content", "refines", "property", "scheme", "lang", "value"})
 @XmlRootElement(name = "meta")
 public class Meta {
-@XmlAttribute(name = "id")
-private String id;
+  @XmlAttribute(name = "id")
+  private String id;
+
   @XmlAttribute(name = "dir")
   private String dir;
 
   @Deprecated
   @XmlAttribute(name = "name")
   private String name;
+
   @Deprecated
   @XmlAttribute(name = "content")
   private String content;
@@ -45,8 +39,7 @@ private String id;
   @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
   private String lang;
 
-  @XmlValue
-  private String value;
+  @XmlValue private String value;
 
   public String getId() {
     return id;
@@ -126,16 +119,34 @@ private String id;
 
   @Override
   public String toString() {
-    return "{" +
-        "id='" + id + '\'' +
-        ", dir='" + dir + '\'' +
-        ", name='" + name + '\'' +
-        ", content='" + content + '\'' +
-        ", refines='" + refines + '\'' +
-        ", property='" + property + '\'' +
-        ", scheme='" + scheme + '\'' +
-        ", lang='" + lang + '\'' +
-        ", value='" + value + '\'' +
-        '}';
+    return "{"
+        + "id='"
+        + id
+        + '\''
+        + ", dir='"
+        + dir
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", content='"
+        + content
+        + '\''
+        + ", refines='"
+        + refines
+        + '\''
+        + ", property='"
+        + property
+        + '\''
+        + ", scheme='"
+        + scheme
+        + '\''
+        + ", lang='"
+        + lang
+        + '\''
+        + ", value='"
+        + value
+        + '\''
+        + '}';
   }
 }

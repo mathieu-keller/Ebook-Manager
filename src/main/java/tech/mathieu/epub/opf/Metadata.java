@@ -1,5 +1,10 @@
 package tech.mathieu.epub.opf;
 
+import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import tech.mathieu.epub.opf.metadata.Contributor;
 import tech.mathieu.epub.opf.metadata.Creator;
 import tech.mathieu.epub.opf.metadata.Date;
@@ -12,28 +17,23 @@ import tech.mathieu.epub.opf.metadata.Rights;
 import tech.mathieu.epub.opf.metadata.Subject;
 import tech.mathieu.epub.opf.metadata.Title;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.util.List;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "titles",
-    "creators",
-    "contributors",
-    "publishers",
-    "identifiers",
-    "dates",
-    "subjects",
-    "languages",
-    "rights",
-    "meta",
-    "descriptions"
-})
+@XmlType(
+    name = "",
+    propOrder = {
+      "titles",
+      "creators",
+      "contributors",
+      "publishers",
+      "identifiers",
+      "dates",
+      "subjects",
+      "languages",
+      "rights",
+      "meta",
+      "descriptions"
+    })
 public class Metadata {
-
 
   @XmlElement(name = "title", namespace = "http://purl.org/dc/elements/1.1/")
   private List<Title> titles;
