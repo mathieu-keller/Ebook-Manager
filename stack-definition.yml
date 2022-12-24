@@ -4,7 +4,6 @@ services:
     restart: on-failure
     ports:
       - "1243:8080"
-      - "1253:8443"
     environment:
       db-user: "{{db_username}}"
       db-password: "{{db_password}}"
@@ -28,4 +27,4 @@ services:
     volumes:
       - '/volume1/docker/ebook/db/:/var/lib/postgresql/data'
     ports:
-      - "5422:5432"
+      - "5432:5432"
