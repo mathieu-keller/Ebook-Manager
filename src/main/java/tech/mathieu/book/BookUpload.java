@@ -1,10 +1,9 @@
 package tech.mathieu.book;
 
-import org.jboss.resteasy.reactive.PartType;
-
+import java.io.InputStream;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
-import java.io.InputStream;
+import org.jboss.resteasy.reactive.PartType;
 
 public class BookUpload {
   @FormParam("file")

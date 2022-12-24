@@ -1,14 +1,13 @@
 package tech.mathieu.library;
 
-import org.hibernate.annotations.Immutable;
-
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Objects;
+import org.hibernate.annotations.Immutable;
 
 @Entity
 @Immutable
@@ -19,8 +18,10 @@ public class LibraryEntity {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   @Column(name = "ID", updatable = false, insertable = false, nullable = false)
   Long id;
+
   @Column(name = "TITLE", updatable = false, insertable = false, nullable = false)
   String title;
+
   @Column(name = "ITEM_TYPE", updatable = false, insertable = false, nullable = false)
   String itemType;
 
@@ -67,8 +68,10 @@ public class LibraryEntity {
     if (!(o instanceof LibraryEntity that)) {
       return false;
     }
-    return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(itemType,
-        that.itemType) && Objects.equals(bookCount, that.bookCount);
+    return Objects.equals(id, that.id)
+        && Objects.equals(title, that.title)
+        && Objects.equals(itemType, that.itemType)
+        && Objects.equals(bookCount, that.bookCount);
   }
 
   @Override

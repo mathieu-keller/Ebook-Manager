@@ -8,16 +8,15 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "value"
-})
+@XmlType(
+    name = "",
+    propOrder = {"id", "value"})
 @XmlRootElement(name = "date")
 public class Date {
   @XmlAttribute(name = "id")
   private String id;
-  @XmlValue
-  private String value;
+
+  @XmlValue private String value;
 
   public String getId() {
     return id;

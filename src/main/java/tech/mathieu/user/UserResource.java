@@ -6,20 +6,17 @@ import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-
 @Path("/api/user")
 @DenyAll
 public class UserResource {
-    @Inject
-    UserService userService;
+  @Inject UserService userService;
 
-    @POST
-    @Path("/register")
-    @RolesAllowed("ADMIN")
-    public void register(UserDto userDto) {
-        userService.createUser(userDto.username(), userDto.password());
-    }
+  @POST
+  @Path("/register")
+  @RolesAllowed("ADMIN")
+  public void register(UserDto userDto) {
+    userService.createUser(userDto.username(), userDto.password());
+  }
 
-    public record UserDto(String username, String password) {
-    }
+  public record UserDto(String username, String password) {}
 }

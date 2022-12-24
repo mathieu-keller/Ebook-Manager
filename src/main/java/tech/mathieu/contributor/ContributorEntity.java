@@ -1,7 +1,7 @@
 package tech.mathieu.contributor;
 
-import tech.mathieu.book.BookEntity;
-
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
-import java.util.Objects;
+import tech.mathieu.book.BookEntity;
 
 @Entity
 @Table(name = "contributor")
@@ -27,16 +26,11 @@ public class ContributorEntity {
   @Column(name = "name", nullable = true, length = 4000)
   String name;
 
-  @ManyToMany(
-      targetEntity = BookEntity.class,
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.MERGE
-  )
+  @ManyToMany(targetEntity = BookEntity.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
   @JoinTable(
       name = "contributor2book",
       joinColumns = @JoinColumn(name = "contributor_id"),
-      inverseJoinColumns = @JoinColumn(name = "BOOK_ID")
-  )
+      inverseJoinColumns = @JoinColumn(name = "BOOK_ID"))
   List<BookEntity> bookEntities;
 
   public Long getId() {
@@ -63,7 +57,6 @@ public class ContributorEntity {
     this.bookEntities = bookEntities;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -72,7 +65,9 @@ public class ContributorEntity {
     if (!(o instanceof ContributorEntity that)) {
       return false;
     }
-    return id == that.id && Objects.equals(name, that.name) && Objects.equals(bookEntities, that.bookEntities);
+    return id == that.id
+        && Objects.equals(name, that.name)
+        && Objects.equals(bookEntities, that.bookEntities);
   }
 
   @Override

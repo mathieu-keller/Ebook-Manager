@@ -7,22 +7,21 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id",
-    "dir",
-    "lang",
-    "value"
-})
+@XmlType(
+    name = "",
+    propOrder = {"id", "dir", "lang", "value"})
 public class Rights {
 
   @XmlAttribute(name = "id")
   private String id;
+
   @XmlAttribute(name = "dir")
   private String dir;
+
   @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
   private String lang;
-  @XmlValue
-  private String value;
+
+  @XmlValue private String value;
 
   public String getId() {
     return id;

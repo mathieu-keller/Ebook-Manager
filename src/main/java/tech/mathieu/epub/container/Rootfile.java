@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 public class Rootfile {
   @XmlAttribute(name = "full-path", required = true)
   private String fullPath;
+
   @XmlAttribute(name = "media-type", required = true)
   private String mediaType;
 
