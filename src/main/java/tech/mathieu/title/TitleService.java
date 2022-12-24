@@ -15,7 +15,7 @@ public class TitleService {
   public List<TitleEntity> getTitle(Opf opf, Map<String, Map<String, Meta>> metaData, BookEntity book) {
     var epubTitles = opf.getMetadata().getTitles();
     if (epubTitles == null) {
-      return null;
+      return List.of();
     }
     var mainTitles = new ArrayList<TitleEntity>();
     epubTitles.forEach(epubTitle -> {

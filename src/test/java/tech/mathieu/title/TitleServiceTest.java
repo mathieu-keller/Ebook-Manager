@@ -16,13 +16,13 @@ import java.util.Map;
 import java.util.Objects;
 
 @QuarkusTest
-public class TitleServiceTest {
+class TitleServiceTest {
 
   @Inject
   TitleService titleService;
 
   @Test
-  public void test_get_title_with_id_and_without_metadata() {
+  void test_get_title_with_id_and_without_metadata() {
     var opf = new Opf();
     var metaData = new Metadata();
     var mainTitle1 = new Title();
@@ -51,7 +51,7 @@ public class TitleServiceTest {
   }
 
   @Test
-  public void test_get_title_with_id_and_one_title_with_metadata_and_one_without_metadata() {
+  void test_get_title_with_id_and_one_title_with_metadata_and_one_without_metadata() {
     var opf = new Opf();
     var metaData = new Metadata();
     var mainTitle1 = new Title();
@@ -86,7 +86,7 @@ public class TitleServiceTest {
   }
 
   @Test
-  public void test_get_title_without_id() {
+  void test_get_title_without_id() {
     var opf = new Opf();
     var metaData = new Metadata();
     var mainTitle1 = new Title();
@@ -114,7 +114,7 @@ public class TitleServiceTest {
   }
 
   @Test
-  public void test_get_title_with_id_and_with_metadata() {
+  void test_get_title_with_id_and_with_metadata() {
     var opf = new Opf();
     var metaData = new Metadata();
     var mainTitle1 = new Title();

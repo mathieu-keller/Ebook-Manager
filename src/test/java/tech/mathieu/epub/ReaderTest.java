@@ -10,13 +10,13 @@ import java.util.zip.ZipFile;
 
 
 @QuarkusTest
-public class ReaderTest {
+class ReaderTest {
 
   @Inject
   Reader reader;
 
   @Test
-  public void test2() throws Exception {
+  void test_parse_ebook() throws Exception {
     var testFile = new File(getClass().getResource("/epub/TestBook.epub").toURI());
     var testZipFile = new ZipFile(testFile);
     var book = reader.read(testZipFile);

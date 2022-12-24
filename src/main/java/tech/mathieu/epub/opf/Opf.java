@@ -42,9 +42,6 @@ public class Opf {
   @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
   private String lang;
 
-  public Opf() {
-  }
-
   public Metadata getMetadata() {
     return this.metadata;
   }

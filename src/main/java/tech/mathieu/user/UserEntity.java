@@ -6,8 +6,6 @@ import io.quarkus.security.jpa.UserDefinition;
 import io.quarkus.security.jpa.Username;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.List;
 
 @Entity
 @Table(name = "EBOOK_USER")
@@ -67,7 +65,6 @@ public class UserEntity {
         return "UserEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", password='<secret>'" +
                 '}';
     }
 }
