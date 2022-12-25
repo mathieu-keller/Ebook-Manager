@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.jboss.resteasy.reactive.MultipartForm;
 import tech.mathieu.title.TitleEntity;
 
 @Path("/api/book")
@@ -55,7 +54,7 @@ public class BookResource {
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @RolesAllowed("USER")
-  public void upload(@MultipartForm BookUpload input) {
+  public void upload(BookUpload input) {
     var uuid = String.valueOf(UUID.randomUUID());
     var inboxPath = Paths.get("upload", "inbox");
     new File(inboxPath.toUri()).mkdirs();

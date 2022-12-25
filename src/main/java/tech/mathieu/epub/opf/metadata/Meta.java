@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
     name = "",
-    propOrder = {"id", "dir", "name", "content", "refines", "property", "scheme", "lang", "value"})
+    propOrder = {"id", "dir", "refines", "property", "scheme", "lang", "value"})
 @XmlRootElement(name = "meta")
 public class Meta {
   @XmlAttribute(name = "id")
@@ -18,14 +18,6 @@ public class Meta {
 
   @XmlAttribute(name = "dir")
   private String dir;
-
-  @Deprecated
-  @XmlAttribute(name = "name")
-  private String name;
-
-  @Deprecated
-  @XmlAttribute(name = "content")
-  private String content;
 
   @XmlAttribute(name = "refines")
   private String refines;
@@ -55,26 +47,6 @@ public class Meta {
 
   public void setDir(String dir) {
     this.dir = dir;
-  }
-
-  @Deprecated
-  public String getName() {
-    return name;
-  }
-
-  @Deprecated
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Deprecated
-  public String getContent() {
-    return content;
-  }
-
-  @Deprecated
-  public void setContent(String content) {
-    this.content = content;
   }
 
   public String getRefines() {
@@ -125,12 +97,6 @@ public class Meta {
         + '\''
         + ", dir='"
         + dir
-        + '\''
-        + ", name='"
-        + name
-        + '\''
-        + ", content='"
-        + content
         + '\''
         + ", refines='"
         + refines
