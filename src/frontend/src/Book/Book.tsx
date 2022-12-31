@@ -15,7 +15,7 @@ const Book = () => {
   const getBook = async (): Promise<BookType> => {
     const bookId = Number(path.bookId);
     if (!isNaN(bookId)) {
-      const response = await Rest.get<BookType>(BOOK_API(bookId));
+      const response = await Rest({showErrors: true}).get<BookType>(BOOK_API(bookId));
       return response.data;
     }
     return Promise.reject(new Error(`book id ${path.bookId} is not a number!`));

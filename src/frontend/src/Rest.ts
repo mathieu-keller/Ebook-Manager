@@ -1,15 +1,23 @@
 import axios from 'axios';
 
-const axiosRest = axios.create();
+type AxiosOptions = {
+    showErrors?: boolean;
+}
 
-axiosRest.interceptors.response.use(
-  response => {
-    if (response.status >= 400 || response.status === undefined) {
-      window.alert(response.data);
-    }
-    return response;
-  },
-  error => {
-    return error;
-  });
+const axiosRest = (options: AxiosOptions) => {
+  const axiosClient = axios.create();
+
+  axiosClient.interceptors.response.use(
+    onFulfilled => {
+      return onFulfilled;
+    },
+    onRejected => {
+      const errorText = onRejected.response.statusText + ': ' + onRejected.response.data;
+      if (options.showErrors) {
+        window.alert(errorText);
+      }
+      return errorText;
+    });
+  return axiosClient;
+};
 export default axiosRest;

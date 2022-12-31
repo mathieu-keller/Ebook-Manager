@@ -1,4 +1,5 @@
-[![Build Service](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_service.yml/badge.svg)](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_service.yml)
+[![Build Prod Service](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_prod_service.yml/badge.svg)](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_prod_service.yml)
+[![Build dev Service](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_dev_service.yml/badge.svg)](https://github.com/mathieu-keller/Ebook-Manager/actions/workflows/build_dev_service.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Ebook-Manager&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Ebook-Manager)
 
 # EBook Manager

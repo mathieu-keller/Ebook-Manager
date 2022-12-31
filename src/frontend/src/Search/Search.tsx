@@ -54,7 +54,7 @@ const Search = () => {
   };
 
   const getBooks = async (page: number): Promise<BookType[]> => {
-    const response = await Rest.get<BookType[]>(SEARCH_API(searchStore.search, page));
+    const response = await Rest({showErrors: true}).get<BookType[]>(SEARCH_API(searchStore.search, page));
     return response.data;
   };
 

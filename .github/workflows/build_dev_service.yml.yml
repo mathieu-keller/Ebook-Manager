@@ -3,7 +3,6 @@ name: Build-Dev Service
 on:
   push:
     branches: [ "*","**", "!main" ]
-  pull_request:
 
 jobs:
   yarn:
