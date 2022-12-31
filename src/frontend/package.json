@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts ./src",
+    "lint:fix": "eslint --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts ./src --fix",
     "yarn": "yarn"
   },
   "devDependencies": {

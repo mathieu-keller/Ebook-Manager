@@ -13,7 +13,7 @@ const Collection: Component = () => {
   const getCollection = async (): Promise<CollectionType> => {
     const collectionId = Number(path.collectionId);
     if (!isNaN(collectionId)) {
-      const response = await Rest.get<CollectionType>(COLLECTION_API(collectionId));
+      const response = await Rest({showErrors: true}).get<CollectionType>(COLLECTION_API(collectionId));
       return response.data;
     }
     return Promise.reject(new Error(`book id ${path.collectionId} is not a number!`));

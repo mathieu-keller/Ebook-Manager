@@ -23,24 +23,32 @@ const Upload: Component<UploadProps> = (props) => {
     for (const file of allFiles) {
       const form = new FormData();
       form.set('file', file);
-      await Rest.post(UPLOAD_API, form, {
+      await Rest({showErrors: false}).post(UPLOAD_API, form, {
         onUploadProgress: (e: AxiosProgressEvent): void => {
-          setMaxSize(e.total || null);
+          setMaxSize(e.total || 0);
           setCurrent(e.loaded);
         }
-      }).catch(e => setErrors([...errors(), e]))
+      })
+        .then(r => {
+          if (typeof r === 'string') {
+            setErrors([...errors(), r]);
+          }
+        })
+        .catch(e => setErrors([...errors(), e]))
         .finally(() => {
           setCurrentFile(allFiles.indexOf(file) + 1);
-          setMaxSize(null);
-          setCurrent(null);
+          setMaxSize(0);
+          setCurrent(0);
         });
     }
+    setMaxSize(null);
+    setCurrent(null);
     setAllFilesCount(null);
     setCurrentFile(null);
     if (errors().length !== 0) {
-      // eslint-disable-next-line no-console
-      console.error(errors().join('\n'));
+      return Promise.reject(errors().join('\n'));
     }
+    window.location.reload();
   };
 
   const onSubmit = (e: any): void => {
@@ -71,7 +79,7 @@ const Upload: Component<UploadProps> = (props) => {
         <Show when={current() !== null && maxSize() !== null} keyed>
           <h1>Upload: </h1>
           <progress value={current()!} max={maxSize()!}/>
-          {(Math.round((current()! / maxSize()!) * 10000)) / 100}% <br/>
+          {current() !== 0 && maxSize() !== 0 ? (Math.round((current()! / maxSize()!) * 10000)) / 100 : 0}% <br/>
           ({current()!} / {maxSize()!})
         </Show>
       </div>

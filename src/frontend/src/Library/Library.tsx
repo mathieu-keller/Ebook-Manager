@@ -34,7 +34,7 @@ const Library: Component = () => {
   };
 
   const getLibraryItems = async (page: number): Promise<LibraryItemType[]> => {
-    const response = await Rest.get<LibraryItemType[]>(LIBRARY_API(page));
+    const response = await Rest({showErrors: true}).get<LibraryItemType[]>(LIBRARY_API(page));
     return response.data;
   };
 
