@@ -12,7 +12,7 @@ const axiosRest = (options: AxiosOptions) => {
       return onFulfilled;
     },
     onRejected => {
-      const errorText = onRejected.response.statusText + ': ' + onRejected.response.data;
+      const errorText = onRejected.response.data;
       if (options.showErrors) {
         window.alert(errorText);
       }

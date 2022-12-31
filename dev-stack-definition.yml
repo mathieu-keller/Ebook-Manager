@@ -26,5 +26,3 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - '/volume1/docker/dev-ebook/db/:/var/lib/postgresql/data'
-    ports:
-      - "5412:5432"

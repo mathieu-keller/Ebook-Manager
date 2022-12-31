@@ -15,9 +15,9 @@ const Upload: Component<UploadProps> = (props) => {
   const [current, setCurrent] = createSignal<number | null>(null);
   const [allFilesCount, setAllFilesCount] = createSignal<number | null>(null);
   const [currentFile, setCurrentFile] = createSignal<number | null>(null);
-  const [errors, setErrors] = createSignal<string[]>([]);
   const uploadBooks = async (data: FormData): Promise<void> => {
-    const allFiles = data.getAll('myFiles');
+    const allFiles: File[] = data.getAll('myFiles') as File[];
+    const errors: string[] = [];
     setAllFilesCount(allFiles.length);
     setCurrentFile(0);
     for (const file of allFiles) {
@@ -31,10 +31,10 @@ const Upload: Component<UploadProps> = (props) => {
       })
         .then(r => {
           if (typeof r === 'string') {
-            setErrors([...errors(), r]);
+            errors.push(file.name + ': ' + r);
           }
         })
-        .catch(e => setErrors([...errors(), e]))
+        .catch(e => errors.push(file.name + ': ' + e))
         .finally(() => {
           setCurrentFile(allFiles.indexOf(file) + 1);
           setMaxSize(0);
@@ -45,8 +45,8 @@ const Upload: Component<UploadProps> = (props) => {
     setCurrent(null);
     setAllFilesCount(null);
     setCurrentFile(null);
-    if (errors().length !== 0) {
-      return Promise.reject(errors().join('\n'));
+    if (errors.length !== 0) {
+      return Promise.reject(errors.join('\n'));
     }
     window.location.reload();
   };

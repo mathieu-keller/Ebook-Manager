@@ -6,19 +6,21 @@
   <artifactId>ebook-manager</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>2.15.1.Final</quarkus.platform.version>
-    <assertj.version>3.23.1</assertj.version>
-    <spotless.version>2.28.0</spotless.version>
     <skipITs>true</skipITs>
-    <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
     <sonar.organization>afrima</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <quarkus.platform.version>2.15.1.Final</quarkus.platform.version>
+    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <assertj.version>3.23.1</assertj.version>
+    <spotless.version>2.28.0</spotless.version>
+    <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+    <thumbnailator.version>0.4.18</thumbnailator.version>
+    <testcontainers.version>1.17.6</testcontainers.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -40,7 +42,7 @@
     <dependency>
       <groupId>net.coobird</groupId>
       <artifactId>thumbnailator</artifactId>
-      <version>0.4.18</version>
+      <version>${thumbnailator.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -96,7 +98,8 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>postgresql</artifactId>
-      <version>1.17.6</version>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
