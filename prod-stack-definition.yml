@@ -27,4 +27,4 @@ services:
     volumes:
       - '/volume1/docker/ebook/db/:/var/lib/postgresql/data'
     ports:
-      - "5432:5432"
+      - "5422:5432"
