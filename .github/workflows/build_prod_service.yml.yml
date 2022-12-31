@@ -107,7 +107,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Ebook-Manager -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml -Dquarkus.container-image.tag=${{ steps.semantic.outputs.release-version  }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
+      run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Ebook-Manager -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml -Dquarkus.container-image.tag=${{ steps.semantic.outputs.release-version  }} -Dquarkus.container-image.additional-tags=latest -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
     - name: Semantic Release Action
       uses: codfish/semantic-release-action@v2
       with:
@@ -136,7 +136,7 @@ jobs:
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'ebooks'
-          stack-definition: 'stack-definition.yml'
+          stack-definition: 'prod-stack-definition.yml'
           template-variables: >
             {
               "version": "${{ needs.backend_build.outputs.version }}", 
