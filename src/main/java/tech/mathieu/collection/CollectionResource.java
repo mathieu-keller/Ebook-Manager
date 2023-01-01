@@ -25,7 +25,7 @@ public class CollectionResource {
   @Path("{id}/cover")
   @RolesAllowed("USER")
   public File getCover(@PathParam("id") Long id) {
-    var coverPath = collectionService.getFirstBookFolderFromCollection(id) + "/cover.jpeg";
+    var coverPath = collectionService.getFirstBookCoverPath(id);
     var cover = new File(coverPath);
     if (cover.exists()) {
       return cover;

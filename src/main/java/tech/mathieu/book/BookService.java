@@ -3,6 +3,7 @@ package tech.mathieu.book;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -121,14 +122,14 @@ public class BookService {
       var opfWithPath = reader.read(zipFile);
       var opf = opfWithPath.right();
       var book = saveBook(opf);
-      var destPath = new File(book.getPath());
+      var destPath = new File(Paths.get(book.getBookPath()).getParent().toString());
       destPath.mkdirs();
-      var dest = new File(destPath + "/orginal.epub");
+      var dest = new File(destPath + "/original.epub");
       var result = new File(zipFile.getName()).renameTo(dest);
       if (!result) {
         throw new IOException("can't rename file " + zipFile.getName() + " to " + dest.getName());
       }
-      reader.saveCover(opfWithPath, zipFile, book.getPath());
+      reader.saveCover(opfWithPath, zipFile, destPath.toString());
     } catch (IOException e) {
       Files.deleteIfExists(inboxPath);
       throw e;
@@ -194,7 +195,8 @@ public class BookService {
             + book.getTitleEntities().stream()
                 .map(TitleEntity::getTitle)
                 .collect(Collectors.joining(", "));
-    book.setPath(bookFolder);
+    book.setBookPath(bookFolder + "/original.epub");
+    book.setCoverPath(bookFolder + "/cover.jpeg");
     var collection = collectionService.getCollection(opf, bookFolder, metaData);
     book.setCollectionEntity(collection.getLeft());
     book.setGroupPosition(collection.getRight());
