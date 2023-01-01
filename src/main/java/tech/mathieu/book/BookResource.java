@@ -1,6 +1,7 @@
 package tech.mathieu.book;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -14,6 +15,8 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.jboss.resteasy.reactive.RestForm;
+import org.jboss.resteasy.reactive.multipart.FileUpload;
 import tech.mathieu.title.TitleEntity;
 
 @Path("/api/book")
@@ -36,7 +39,7 @@ public class BookResource {
   @RolesAllowed("USER")
   public Response downloadBook(@PathParam("id") Long id) {
     var book = bookService.getBookById(id);
-    var response = Response.ok(new File(book.getPath() + "/orginal.epub"));
+    var response = Response.ok(new File(book.getBookPath()));
     var title =
         URLEncoder.encode(
                 book.getTitleEntities().stream()
@@ -46,20 +49,21 @@ public class BookResource {
                     + ".epub",
                 StandardCharsets.UTF_8)
             .replace("+", "%20");
-    response.header("Content-Disposition", "attachment; filename*=UTF-8''" + title);
+    response.header(
+        "Content-Disposition",
+        "attachment; filename*=UTF-8''" + title + ";filename=\"" + title + "\"");
     return response.build();
   }
 
   @Path("upload")
   @POST
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
   @RolesAllowed("USER")
-  public void upload(BookUpload input) {
+  public void upload(@RestForm FileUpload file) {
     var uuid = String.valueOf(UUID.randomUUID());
     var inboxPath = Paths.get("upload", "inbox");
     new File(inboxPath.toUri()).mkdirs();
     var inboxBookPath = Paths.get(inboxPath.toString(), uuid + ".epub");
-    try (var in = input.getFile()) {
+    try (var in = new FileInputStream(file.uploadedFile().toFile())) {
       bookService.saveBookToInbox(in, inboxBookPath);
       bookService.processInbox(inboxBookPath);
     } catch (IOException e) {
@@ -71,7 +75,7 @@ public class BookResource {
   @Path("{id}/cover")
   @RolesAllowed("USER")
   public File getCover(@PathParam("id") Long id) {
-    var coverPath = bookService.getBookById(id).getPath() + "/cover.jpeg";
+    var coverPath = bookService.getBookById(id).getCoverPath();
     var cover = new File(coverPath);
     if (cover.exists()) {
       return cover;

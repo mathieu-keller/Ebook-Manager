@@ -101,7 +101,7 @@ class ReaderTest {
             softly.assertThat(book.getMetadata().getLanguages().get(0).getValue()).isEqualTo("de");
 
             // meta
-            softly.assertThat(book.getMetadata().getMeta()).hasSize(8);
+            softly.assertThat(book.getMetadata().getMeta()).hasSize(11);
           });
     }
   }

@@ -38,8 +38,11 @@ public class BookEntity {
   @Column(name = "meta", nullable = true, length = 16000)
   String meta;
 
-  @Column(name = "path")
-  String path;
+  @Column(name = "book_path")
+  String bookPath;
+
+  @Column(name = "cover_path")
+  String coverPath;
 
   @ManyToMany(
       targetEntity = CreatorEntity.class,
@@ -128,12 +131,20 @@ public class BookEntity {
     this.meta = meta;
   }
 
-  public String getPath() {
-    return path;
+  public String getBookPath() {
+    return bookPath;
   }
 
-  public void setPath(String path) {
-    this.path = path;
+  public void setBookPath(String bookPath) {
+    this.bookPath = bookPath;
+  }
+
+  public String getCoverPath() {
+    return coverPath;
+  }
+
+  public void setCoverPath(String coverPath) {
+    this.coverPath = coverPath;
   }
 
   public List<CreatorEntity> getCreatorEntities() {
@@ -210,16 +221,14 @@ public class BookEntity {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof BookEntity that)) {
-      return false;
-    }
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    BookEntity that = (BookEntity) o;
     return Objects.equals(id, that.id)
         && Objects.equals(date, that.date)
         && Objects.equals(meta, that.meta)
-        && Objects.equals(path, that.path)
+        && Objects.equals(bookPath, that.bookPath)
+        && Objects.equals(coverPath, that.coverPath)
         && Objects.equals(creatorEntities, that.creatorEntities)
         && Objects.equals(contributorEntities, that.contributorEntities)
         && Objects.equals(languageEntities, that.languageEntities)
@@ -237,7 +246,8 @@ public class BookEntity {
         id,
         date,
         meta,
-        path,
+        bookPath,
+        coverPath,
         creatorEntities,
         contributorEntities,
         languageEntities,

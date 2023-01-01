@@ -19,7 +19,7 @@ public class CollectionService {
 
   @Inject BookService bookService;
 
-  public String getFirstBookFolderFromCollection(Long id) {
+  public String getFirstBookCoverPath(Long id) {
     var collection = entityManager.find(CollectionEntity.class, id);
     var bookFolder =
         collection.getBookEntities().stream()
@@ -31,7 +31,7 @@ public class CollectionService {
                   return (int) (a.getGroupPosition() - b.getGroupPosition());
                 });
     if (bookFolder.isPresent()) {
-      return bookFolder.get().getPath();
+      return bookFolder.get().getCoverPath();
     }
     throw new IllegalStateException("no book folder, in collection " + id + " , found!");
   }
