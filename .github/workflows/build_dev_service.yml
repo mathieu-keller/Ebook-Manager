@@ -62,8 +62,6 @@ jobs:
     name: build backend
     runs-on: ubuntu-latest
     needs: [ frontend_build ]
-    outputs:
-      version: ${{ steps.semantic.outputs.release-version }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -80,12 +78,6 @@ jobs:
         with:
           name: frontend
           path: ./src/main/resources/META-INF/resources
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
@@ -93,10 +85,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build dev with Maven
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Ebook-Manager -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml -Dquarkus.container-image.tag=${{ github.sha }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
+        run: mvn -B verify -Dquarkus.container-image.tag=${{ github.sha }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v1
         with:
           name: frontend

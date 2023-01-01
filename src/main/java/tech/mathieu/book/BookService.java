@@ -1,9 +1,6 @@
 package tech.mathieu.book;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -121,7 +118,8 @@ public class BookService {
   public void processInbox(Path inboxPath) throws IOException {
     try {
       var zipFile = new ZipFile(inboxPath.toFile());
-      var opf = reader.read(zipFile);
+      var opfWithPath = reader.read(zipFile);
+      var opf = opfWithPath.right();
       var book = saveBook(opf);
       var destPath = new File(book.getPath());
       destPath.mkdirs();
@@ -130,7 +128,7 @@ public class BookService {
       if (!result) {
         throw new IOException("can't rename file " + zipFile.getName() + " to " + dest.getName());
       }
-      reader.saveCover(opf, zipFile, book.getPath());
+      reader.saveCover(opfWithPath, zipFile, book.getPath());
     } catch (IOException e) {
       Files.deleteIfExists(inboxPath);
       throw e;
@@ -146,10 +144,25 @@ public class BookService {
         fos.write(bytes, 0, read);
       }
       fos.flush();
+      if (!isArchive(inboxPath)) {
+        Files.deleteIfExists(inboxPath);
+        throw new IllegalArgumentException("is not an epub file!");
+      }
     } catch (IOException e) {
       Files.deleteIfExists(inboxPath);
       throw e;
     }
+  }
+
+  // visible for test
+  boolean isArchive(Path path) throws IOException {
+    var fileSignature = 0;
+    try (var raf = new RandomAccessFile(path.toFile(), "r")) {
+      fileSignature = raf.readInt();
+    }
+    return fileSignature == 0x504B0304
+        || fileSignature == 0x504B0506
+        || fileSignature == 0x504B0708;
   }
 
   private BookEntity saveBook(Opf opf) {

@@ -3,6 +3,7 @@ package tech.mathieu.epub;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.zip.ZipFile;
 import javax.enterprise.context.ApplicationScoped;
@@ -13,11 +14,12 @@ import tech.mathieu.epub.container.Container;
 import tech.mathieu.epub.opf.Item;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
+import tech.mathieu.util.Pair;
 
 @ApplicationScoped
 public class Reader {
 
-  public Opf read(ZipFile zipFile) throws IOException {
+  public Pair<String, Opf> read(ZipFile zipFile) throws IOException {
     var opfPath = getOpfPath(zipFile);
     if (opfPath == null) {
       return null;
@@ -29,7 +31,7 @@ public class Reader {
     return (double) targetWidth / sourceWidth;
   }
 
-  void resizeImage(BufferedImage originalImage, String savePath) throws IOException {
+  private void resizeImage(BufferedImage originalImage, String savePath) throws IOException {
     var scale = determineImageScale(originalImage.getWidth(), 300);
     var calculatedWidth = (int) (originalImage.getWidth() * scale);
     var calculatedHeight = (int) (originalImage.getHeight() * scale);
@@ -40,10 +42,15 @@ public class Reader {
         .toFile(savePath + "/cover.jpeg");
   }
 
-  public void saveCover(Opf opf, ZipFile zipFile, String savePath) throws IOException {
-    var path = getCoverPath(opf);
+  public void saveCover(Pair<String, Opf> opfWithPath, ZipFile zipFile, String savePath)
+      throws IOException {
+    var path = getCoverPath(opfWithPath.right());
     if (path != null) {
       var zipEntry = zipFile.getEntry(path);
+      if (zipEntry == null) {
+        var opfFolder = Paths.get(opfWithPath.left()).getParent().toString();
+        zipEntry = zipFile.getEntry(opfFolder + "/" + path);
+      }
       if (zipEntry != null) {
         try (var zipIn = zipFile.getInputStream(zipEntry)) {
           resizeImage(ImageIO.read(zipIn), savePath);
@@ -52,7 +59,8 @@ public class Reader {
     }
   }
 
-  private String getCoverPath(Opf opf) {
+  // visible for testing
+  String getCoverPath(Opf opf) {
     // epub 3 way to get cover
     var coverPath =
         opf.getManifest().getItems().stream()
@@ -82,9 +90,13 @@ public class Reader {
     return coverPath;
   }
 
-  private Opf getPackage(ZipFile zipFile, String opfPath) throws IOException {
+  private Pair<String, Opf> getPackage(ZipFile zipFile, String opfPath) throws IOException {
     try (var zipIn = zipFile.getInputStream(zipFile.getEntry(opfPath))) {
-      return JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Opf.class);
+      var opf = JAXB.unmarshal(new ByteArrayInputStream(zipIn.readAllBytes()), Opf.class);
+      if (opf.getVersion().equals("3.0")) {
+        return Pair.of(opfPath, opf);
+      }
+      throw new IllegalArgumentException("Epub version " + opf.getVersion() + " is not supported!");
     }
   }
 

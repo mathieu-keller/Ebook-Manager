@@ -19,11 +19,21 @@ public class Meta {
   @XmlAttribute(name = "dir")
   private String dir;
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   */
+  @Deprecated(since = "version 3.0")
   @XmlAttribute(name = "name")
   private String name;
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   */
+  @Deprecated(since = "version 3.0")
   @XmlAttribute(name = "content")
   private String content;
 
@@ -57,22 +67,46 @@ public class Meta {
     this.dir = dir;
   }
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   * @return name field
+   */
+  @Deprecated(since = "version 3.0")
   public String getName() {
     return name;
   }
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   * @param name name
+   */
+  @Deprecated(since = "version 3.0")
   public void setName(String name) {
     this.name = name;
   }
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   * @return name content
+   */
+  @Deprecated(since = "version 3.0")
   public String getContent() {
     return content;
   }
 
-  @Deprecated
+  /**
+   * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
+   *     href="https://www.w3.org/publishing/epub3/epub-packages.html#sec-opf2-meta">epub 3 legacy
+   *     meta</a>
+   * @param content content
+   */
+  @Deprecated(since = "version 3.0")
   public void setContent(String content) {
     this.content = content;
   }
