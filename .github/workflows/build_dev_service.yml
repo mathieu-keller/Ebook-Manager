@@ -89,7 +89,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build dev with Maven
         run: mvn -B verify -Dquarkus.container-image.tag=${{ github.sha }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.build=true -Dquarkus.container-image.push=true
-      - uses: geekyeggo/delete-artifact@v1
+      - uses: geekyeggo/delete-artifact@v2
         with:
           name: frontend
   deploy:
