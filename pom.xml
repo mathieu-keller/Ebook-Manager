@@ -14,7 +14,7 @@
     <skipITs>true</skipITs>
     <sonar.organization>afrima</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <quarkus.platform.version>2.15.1.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.15.2.Final</quarkus.platform.version>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
     <assertj.version>3.23.1</assertj.version>
     <spotless.version>2.29.0</spotless.version>
