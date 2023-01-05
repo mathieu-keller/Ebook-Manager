@@ -1,0 +1,8 @@
+quarkus:
+  datasource:
+    devservices:
+      enabled: true
+      image-name: postgres:15.1
+    jdbc:
+      driver: org.testcontainers.jdbc.ContainerDatabaseDriver
+      url: jdbc:tc:postgresql:latest:///test
