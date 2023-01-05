@@ -139,7 +139,7 @@ jobs:
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'ebooks'
-          stack-definition: 'prod-stack-definition.yml'
+          stack-definition: 'compose-prod-stack-definition.yaml'
           template-variables: >
             {
               "version": "${{ needs.backend_build.outputs.version }}", 
