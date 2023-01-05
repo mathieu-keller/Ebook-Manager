@@ -1,0 +1,32 @@
+quarkus:
+  datasource:
+    db-kind: postgresql
+    username: ${db-user}
+    password: ${db-password}
+    jdbc:
+      url: jdbc:postgresql://${db-address}/${db-schema}
+  http:
+    auth:
+      basic: true
+    limits:
+      max-form-attribute-size: 200M
+      max-body-size: 200M
+      read-timeout: 15M
+  flyway:
+    default-schema: public
+    clean-at-start: false
+    table: SCHEMA_VERSION
+    validate-on-migrate: true
+    out-of-order: false
+    migrate-at-start: true
+  container-image:
+    builder: jib
+  jib:
+    base-jvm-image: eclipse-temurin:17.0.5_8-jre-alpine
+
+login:
+  salt: ${login-salt}
+  iteration: ${login-iteration:4}
+  admin:
+    username: ${admin-username}
+    password: ${admin-password}

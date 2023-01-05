@@ -107,7 +107,7 @@ jobs:
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'dev-ebooks'
-          stack-definition: 'dev-stack-definition.yml'
+          stack-definition: 'compose-dev-stack-definition.yml'
           template-variables: >
             {
               "version": "${{ github.sha }}", 
