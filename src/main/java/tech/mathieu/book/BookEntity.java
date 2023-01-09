@@ -1,7 +1,6 @@
 package tech.mathieu.book;
 
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -217,45 +216,5 @@ public class BookEntity {
 
   public void setGroupPosition(Long groupPosition) {
     this.groupPosition = groupPosition;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    BookEntity that = (BookEntity) o;
-    return Objects.equals(id, that.id)
-        && Objects.equals(date, that.date)
-        && Objects.equals(meta, that.meta)
-        && Objects.equals(bookPath, that.bookPath)
-        && Objects.equals(coverPath, that.coverPath)
-        && Objects.equals(creatorEntities, that.creatorEntities)
-        && Objects.equals(contributorEntities, that.contributorEntities)
-        && Objects.equals(languageEntities, that.languageEntities)
-        && Objects.equals(publisherEntities, that.publisherEntities)
-        && Objects.equals(subjectEntities, that.subjectEntities)
-        && Objects.equals(identifierEntities, that.identifierEntities)
-        && Objects.equals(titleEntities, that.titleEntities)
-        && Objects.equals(collectionEntity, that.collectionEntity)
-        && Objects.equals(groupPosition, that.groupPosition);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        id,
-        date,
-        meta,
-        bookPath,
-        coverPath,
-        creatorEntities,
-        contributorEntities,
-        languageEntities,
-        publisherEntities,
-        subjectEntities,
-        identifierEntities,
-        titleEntities,
-        collectionEntity,
-        groupPosition);
   }
 }

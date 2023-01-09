@@ -8,6 +8,16 @@
     ":semanticCommits",
     ":semanticCommitTypeAll(fix)"
   ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^application.yaml$"],
+      "matchStringsStrategy": "any",
+      "matchStrings": [
+        "base-jvm-image:\\s*\"(?<depName>\\S*):(?<currentValue>\\S*)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "rebase",

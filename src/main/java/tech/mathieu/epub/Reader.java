@@ -14,6 +14,7 @@ import tech.mathieu.epub.container.Container;
 import tech.mathieu.epub.opf.Item;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
+import tech.mathieu.exceptions.IllegalArgumentApplicationException;
 import tech.mathieu.util.Pair;
 
 @ApplicationScoped
@@ -96,7 +97,8 @@ public class Reader {
       if (opf.getVersion().equals("3.0")) {
         return Pair.of(opfPath, opf);
       }
-      throw new IllegalArgumentException("Epub version " + opf.getVersion() + " is not supported!");
+      throw new IllegalArgumentApplicationException(
+          "Epub version " + opf.getVersion() + " is not supported!");
     }
   }
 

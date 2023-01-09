@@ -1,7 +1,6 @@
 package tech.mathieu.contributor;
 
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,23 +54,5 @@ public class ContributorEntity {
 
   public void setBookEntities(List<BookEntity> bookEntities) {
     this.bookEntities = bookEntities;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof ContributorEntity that)) {
-      return false;
-    }
-    return id == that.id
-        && Objects.equals(name, that.name)
-        && Objects.equals(bookEntities, that.bookEntities);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, bookEntities);
   }
 }

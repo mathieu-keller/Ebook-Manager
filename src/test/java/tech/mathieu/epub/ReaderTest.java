@@ -16,6 +16,7 @@ import tech.mathieu.epub.opf.Metadata;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.epub.opf.metadata.Subject;
+import tech.mathieu.exceptions.IllegalArgumentApplicationException;
 
 @QuarkusTest
 class ReaderTest {
@@ -110,7 +111,7 @@ class ReaderTest {
   void test_parse_ebook_2_0_expect_to_get_an_illegal_argument_exception() throws Exception {
     var testFile = new File(getClass().getResource("/epub/2.0/TestBook.epub").toURI());
     try (var testZipFile = new ZipFile(testFile)) {
-      assertThrows(IllegalArgumentException.class, () -> reader.read(testZipFile));
+      assertThrows(IllegalArgumentApplicationException.class, () -> reader.read(testZipFile));
     }
   }
 

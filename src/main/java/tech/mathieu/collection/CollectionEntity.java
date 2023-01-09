@@ -1,7 +1,6 @@
 package tech.mathieu.collection;
 
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,8 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import tech.mathieu.book.BookEntity;
 
-@Table
-@Entity(name = "collection")
+@Table(name = "collection")
+@Entity
 public class CollectionEntity {
 
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -72,25 +71,5 @@ public class CollectionEntity {
 
   public void setBookEntities(List<BookEntity> bookEntities) {
     this.bookEntities = bookEntities;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof CollectionEntity that)) {
-      return false;
-    }
-    return Objects.equals(id, that.id)
-        && Objects.equals(name, that.name)
-        && Objects.equals(coverPath, that.coverPath)
-        && Objects.equals(type, that.type)
-        && Objects.equals(bookEntities, that.bookEntities);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, coverPath, type, bookEntities);
   }
 }

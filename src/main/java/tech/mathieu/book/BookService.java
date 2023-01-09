@@ -22,6 +22,8 @@ import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Date;
 import tech.mathieu.epub.opf.metadata.Meta;
+import tech.mathieu.exceptions.IllegalArgumentApplicationException;
+import tech.mathieu.exceptions.NotFoundApplicationException;
 import tech.mathieu.identifier.IdentifierService;
 import tech.mathieu.language.LanguageDto;
 import tech.mathieu.language.LanguageService;
@@ -57,12 +59,13 @@ public class BookService {
   @Inject Reader reader;
 
   public BookEntity getBookById(Long id) {
-    return entityManager.find(BookEntity.class, id);
+    return Optional.ofNullable(entityManager.find(BookEntity.class, id))
+        .orElseThrow(
+            () -> new NotFoundApplicationException("entity with id " + id + " not found!"));
   }
 
   public BookDto getBookDto(Long bookId) {
-    var entity = entityManager.find(BookEntity.class, bookId);
-    return getBookDto(entity);
+    return getBookDto(getBookById(bookId));
   }
 
   public BookDto getBookDto(BookEntity entity) {
@@ -147,7 +150,7 @@ public class BookService {
       fos.flush();
       if (!isArchive(inboxPath)) {
         Files.deleteIfExists(inboxPath);
-        throw new IllegalArgumentException("is not an epub file!");
+        throw new IllegalArgumentApplicationException("is not an epub file!");
       }
     } catch (IOException e) {
       Files.deleteIfExists(inboxPath);
