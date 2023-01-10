@@ -28,7 +28,7 @@ services:
     depends_on:
       - "db"
   db:
-    image: postgres:15.0
+    image: postgres:15.1
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "changeme"
