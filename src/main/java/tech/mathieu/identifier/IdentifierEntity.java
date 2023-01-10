@@ -1,6 +1,5 @@
 package tech.mathieu.identifier;
 
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,23 +60,5 @@ public class IdentifierEntity {
 
   public void setIdentId(String identId) {
     this.identId = identId;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof IdentifierEntity that)) {
-      return false;
-    }
-    return id == that.id
-        && Objects.equals(bookEntity, that.bookEntity)
-        && Objects.equals(value, that.value);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, bookEntity, value);
   }
 }

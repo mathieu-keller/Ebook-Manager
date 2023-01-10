@@ -139,7 +139,7 @@ jobs:
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
           stack-name: 'ebooks'
-          stack-definition: 'compose-prod-stack-definition.yaml'
+          stack-definition: 'stack-definition.yaml'
           template-variables: >
             {
               "version": "${{ needs.backend_build.outputs.version }}", 
@@ -148,6 +148,7 @@ jobs:
               "db_password": "${{ secrets.DB_PASSWORD }}",
               "login_salt": "${{ secrets.LOGIN_SALT }}", 
               "admin_username": "${{ secrets.ADMIN_USERNAME }}", 
-              "admin_password": "${{ secrets.ADMIN_PASSWORD }}"
+              "admin_password": "${{ secrets.ADMIN_PASSWORD }}",
+              "mount_folder": "/volume1/docker/ebook"
             }
           image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}

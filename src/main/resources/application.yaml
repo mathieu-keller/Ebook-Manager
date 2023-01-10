@@ -11,7 +11,6 @@ quarkus:
     limits:
       max-form-attribute-size: 200M
       max-body-size: 200M
-      read-timeout: 15M
   flyway:
     default-schema: public
     clean-at-start: false
@@ -22,7 +21,7 @@ quarkus:
   container-image:
     builder: jib
   jib:
-    base-jvm-image: eclipse-temurin:17.0.5_8-jre-alpine
+    base-jvm-image: eclipse-temurin:17.0.4_8-jre-alpine@a65667aa49d8e8b9094677f5f9c8dca13cef176ac5069dfb31b0e5fe92d08a5d
 
 login:
   salt: ${login-salt}

@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
+import tech.mathieu.exceptions.NotFoundApplicationException;
 import tech.mathieu.title.TitleEntity;
 
 @Path("/api/book")
@@ -39,7 +40,10 @@ public class BookResource {
   @RolesAllowed("USER")
   public Response downloadBook(@PathParam("id") Long id) {
     var book = bookService.getBookById(id);
-    var response = Response.ok(new File(book.getBookPath()));
+    var file = new File(book.getBookPath());
+    if (!file.exists()) {
+      throw new NotFoundApplicationException("file not found!");
+    }
     var title =
         URLEncoder.encode(
                 book.getTitleEntities().stream()
@@ -49,10 +53,11 @@ public class BookResource {
                     + ".epub",
                 StandardCharsets.UTF_8)
             .replace("+", "%20");
-    response.header(
-        "Content-Disposition",
-        "attachment; filename*=UTF-8''" + title + ";filename=\"" + title + "\"");
-    return response.build();
+    return Response.ok(file)
+        .header(
+            "Content-Disposition",
+            "attachment; filename*=UTF-8''" + title + ";filename=\"" + title + "\"")
+        .build();
   }
 
   @Path("upload")
@@ -75,11 +80,15 @@ public class BookResource {
   @Path("{id}/cover")
   @RolesAllowed("USER")
   public File getCover(@PathParam("id") Long id) {
-    var coverPath = bookService.getBookById(id).getCoverPath();
+    var entity = bookService.getBookById(id);
+    if (entity.getCoverPath() == null) {
+      throw new NotFoundApplicationException("cover path is null!");
+    }
+    var coverPath = entity.getCoverPath();
     var cover = new File(coverPath);
     if (cover.exists()) {
       return cover;
     }
-    return null;
+    throw new NotFoundApplicationException("cover not found!");
   }
 }

@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:15.1
+    image: postgres:15.1@e6a3a637b159ed477c09dd5415119178496b53f0599c0aa483fb876cd432f9f8
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "{{db_password}}"
@@ -8,12 +8,12 @@ services:
       POSTGRES_DB: "{{db_username}}"
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - '/volume1/docker/ebook/db/:/var/lib/postgresql/data'
+      - '{{mount_folder}}/db/:/var/lib/postgresql/data'
   server:
     image: {{username}}/ebook-manager:{{version}}
     restart: on-failure
     ports:
-      - "1243:8080"
+      - "1242:8080"
     environment:
       db-user: "{{db_username}}"
       db-password: "{{db_password}}"
@@ -23,6 +23,6 @@ services:
       admin-username: "{{admin_username}}"
       admin-password: "{{admin_password}}"
     volumes:
-      - '/volume1/docker/ebook/data/:/home/jboss/upload'
+      - '{{mount_folder}}/data/:/home/jboss/upload'
     depends_on:
       - "db"

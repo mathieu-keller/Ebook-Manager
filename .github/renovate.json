@@ -8,6 +8,26 @@
     ":semanticCommits",
     ":semanticCommitTypeAll(fix)"
   ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "(^|/)application\\.[^/]*$"
+      ],
+      "matchStrings": [
+        "base-jvm-image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "(^|/)stack-definition\\.[^/]*$"
+      ],
+      "matchStrings": [
+        "image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
   "automerge": true,
   "automergeType": "pr",
   "automergeStrategy": "rebase",

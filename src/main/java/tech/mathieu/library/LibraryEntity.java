@@ -1,6 +1,5 @@
 package tech.mathieu.library;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,24 +57,5 @@ public class LibraryEntity {
 
   public void setBookCount(Long bookCount) {
     this.bookCount = bookCount;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof LibraryEntity that)) {
-      return false;
-    }
-    return Objects.equals(id, that.id)
-        && Objects.equals(title, that.title)
-        && Objects.equals(itemType, that.itemType)
-        && Objects.equals(bookCount, that.bookCount);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, title, itemType, bookCount);
   }
 }

@@ -1,6 +1,5 @@
 package tech.mathieu.title;
 
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,25 +71,5 @@ public class TitleEntity {
 
   public void setBookEntity(BookEntity bookEntity) {
     this.bookEntity = bookEntity;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (!(o instanceof TitleEntity that)) {
-      return false;
-    }
-    return Objects.equals(id, that.id)
-        && Objects.equals(title, that.title)
-        && Objects.equals(titleType, that.titleType)
-        && Objects.equals(titleOrder, that.titleOrder)
-        && Objects.equals(bookEntity, that.bookEntity);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, title, titleType, titleOrder, bookEntity);
   }
 }

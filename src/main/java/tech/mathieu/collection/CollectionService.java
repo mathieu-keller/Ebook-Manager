@@ -2,6 +2,7 @@ package tech.mathieu.collection;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -10,6 +11,8 @@ import org.graalvm.collections.Pair;
 import tech.mathieu.book.BookService;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
+import tech.mathieu.exceptions.IllegalArgumentApplicationException;
+import tech.mathieu.exceptions.NotFoundApplicationException;
 
 @Transactional
 @ApplicationScoped
@@ -19,8 +22,18 @@ public class CollectionService {
 
   @Inject BookService bookService;
 
+  private Optional<CollectionEntity> getById(Long id) {
+    return Optional.ofNullable(entityManager.find(CollectionEntity.class, id));
+  }
+
+  private CollectionEntity getByIdExisting(Long id) {
+    return getById(id)
+        .orElseThrow(
+            () -> new NotFoundApplicationException("Collection with id " + id + " not found!"));
+  }
+
   public String getFirstBookCoverPath(Long id) {
-    var collection = entityManager.find(CollectionEntity.class, id);
+    var collection = getByIdExisting(id);
     var bookFolder =
         collection.getBookEntities().stream()
             .min(
@@ -33,11 +46,11 @@ public class CollectionService {
     if (bookFolder.isPresent()) {
       return bookFolder.get().getCoverPath();
     }
-    throw new IllegalStateException("no book folder, in collection " + id + " , found!");
+    throw new NotFoundApplicationException("no book folder, in collection " + id + " , found!");
   }
 
   public CollectionDto getDtos(Long id) {
-    var collection = entityManager.find(CollectionEntity.class, id);
+    var collection = getByIdExisting(id);
     var books =
         collection.getBookEntities().stream().map(book -> bookService.getBookDto(book)).toList();
     return new CollectionDto(collection.getId(), collection.getName(), books);
@@ -50,7 +63,7 @@ public class CollectionService {
             .filter(meta -> Objects.equals(meta.getProperty(), "belongs-to-collection"))
             .toList();
     if (collections.size() > 1) {
-      throw new IllegalArgumentException("only one collection is allowed!");
+      throw new IllegalArgumentApplicationException("only one collection is allowed!");
     }
     if (collections.size() == 1) {
       var collection = collections.get(0);
@@ -58,7 +71,7 @@ public class CollectionService {
       var collectionEntity =
           entityManager
               .createQuery(
-                  "select t from collection t where t.name = :name", CollectionEntity.class)
+                  "select t from CollectionEntity t where t.name = :name", CollectionEntity.class)
               .setParameter("name", collectionName)
               .getResultList()
               .stream()
