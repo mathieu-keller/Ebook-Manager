@@ -13,7 +13,7 @@ services:
     image: {{username}}/ebook-manager:{{version}}
     restart: on-failure
     ports:
-      - "1242:8080"
+      - "{{port}}:8080"
     environment:
       db-user: "{{db_username}}"
       db-password: "{{db_password}}"

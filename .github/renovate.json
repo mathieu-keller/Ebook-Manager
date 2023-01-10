@@ -24,7 +24,7 @@
       ],
       "matchStrings": [
         "base-jvm-image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s",
-        "image-name:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
+        "image:\\s(?<depName>.*?)\nversion:\\s(?<currentValue>.*?)\\s"
       ],
       "datasourceTemplate": "docker"
     },

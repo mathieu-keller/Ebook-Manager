@@ -117,6 +117,7 @@ jobs:
               "login_salt": "${{ secrets.LOGIN_SALT }}", 
               "admin_username": "${{ secrets.ADMIN_USERNAME }}", 
               "admin_password": "${{ secrets.ADMIN_PASSWORD }}",
-              "mount_folder": "/volume1/docker/dev-ebook"
+              "mount_folder": "/volume1/docker/dev-ebook",
+              "port": "1242"
             }
           image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
