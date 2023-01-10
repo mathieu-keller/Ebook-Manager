@@ -1,7 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
+    "workarounds:all",
+    ":ignoreUnstable",
+    ":ignoreModulesAndTests",
+    ":prImmediately",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    "group:monorepos",
+    "group:recommended",
+    "group:allNonMajor",
     ":prConcurrentLimitNone",
     ":prHourlyLimitNone",
     ":semanticPrefixFixDepsChoreOthers",
@@ -26,6 +34,15 @@
         "image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "(^|/)README\\.[^/]*$"
+      ],
+      "matchStrings": [
+        "image:\\s(?<depName>.*?):(?<currentValue>.*?)\\s"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "automerge": true,
@@ -33,6 +50,9 @@
   "automergeStrategy": "rebase",
   "platformAutomerge": true,
   "dependencyDashboard": true,
+  "labels": [
+    "dependencies"
+  ],
   "commitMessageAction": "bump",
   "reviewersFromCodeOwners": true
 }

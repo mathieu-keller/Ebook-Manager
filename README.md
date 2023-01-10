@@ -24,11 +24,11 @@ services:
       admin-username: "admin"
       admin-password: "changeme"
     volumes:
-      - '<path_where_to_save>:/home/jboss/upload'
+      - '<path_where_to_save_epubs>:/home/jboss/upload'
     depends_on:
       - "db"
   db:
-    image: postgres:15
+    image: postgres:15.0
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "changeme"
@@ -36,11 +36,10 @@ services:
       POSTGRES_DB: "ebook"
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - '<path_where_to_save>:/var/lib/postgresql/data'
+      - '<path_where_to_save_db_data>:/var/lib/postgresql/data'
     ports:
       - "5432:5432"
 ```
-
 ## Pictures
 ### Home
 ![Home](./examples/home.jpg)
