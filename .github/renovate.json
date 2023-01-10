@@ -19,10 +19,12 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "(^|/)application\\.[^/]*$"
+        "(^|/)application\\.[^/]*$",
+        "(^|/)application-test\\.[^/]*$"
       ],
       "matchStrings": [
-        "base-jvm-image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
+        "base-jvm-image:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s",
+        "image-name:\\s(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>.*?)\\s"
       ],
       "datasourceTemplate": "docker"
     },
