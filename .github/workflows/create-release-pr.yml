@@ -1,0 +1,25 @@
+name: Create Release PR
+
+on:
+  schedule:
+    - cron:  '*/7 * * * *'
+
+jobs:
+  create-pr:
+    name: create pr
+    runs-on: ubuntu-latest
+    steps:
+        #need checkout to read the .git folder
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: create pr if no pr is open
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          openPrs=$(gh pr list --base main)
+          # check if there is already an open pr. This only prevent an error because github
+          # can not have 2 open prs with the same source and target
+          if [ -z "$openPrs" ]
+          then
+            gh pr create --base main --head develop --title "Create release" --body "release pr don't merge via gui."
+          fi
