@@ -127,12 +127,12 @@ public class BookService {
       var book = saveBook(opf);
       var destPath = new File(Paths.get(book.getBookPath()).getParent().toString());
       destPath.mkdirs();
-      var dest = new File(destPath + "/original.epub");
+      var dest = new File(book.getBookPath());
       var result = new File(zipFile.getName()).renameTo(dest);
       if (!result) {
         throw new IOException("can't rename file " + zipFile.getName() + " to " + dest.getName());
       }
-      reader.saveCover(opfWithPath, zipFile, destPath.toString());
+      reader.saveCover(opfWithPath, zipFile, book.getCoverPath());
     } catch (IOException e) {
       Files.deleteIfExists(inboxPath);
       throw e;
