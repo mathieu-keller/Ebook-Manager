@@ -11,7 +11,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <skipITs>true</skipITs>
     <sonar.organization>afrima</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <quarkus.platform.version>2.15.3.Final</quarkus.platform.version>
@@ -37,12 +36,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jsonb</artifactId>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
-    <dependency>
-      <groupId>net.coobird</groupId>
-      <artifactId>thumbnailator</artifactId>
-      <version>${thumbnailator.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -83,6 +76,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-security-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-awt</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -204,7 +201,6 @@
         </property>
       </activation>
       <properties>
-        <skipITs>false</skipITs>
         <quarkus.package.type>native</quarkus.package.type>
       </properties>
     </profile>

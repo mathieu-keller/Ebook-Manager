@@ -1,7 +1,9 @@
 package tech.mathieu.epub;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -9,7 +11,6 @@ import java.util.zip.ZipFile;
 import javax.enterprise.context.ApplicationScoped;
 import javax.imageio.ImageIO;
 import javax.xml.bind.JAXB;
-import net.coobird.thumbnailator.Thumbnails;
 import tech.mathieu.epub.container.Container;
 import tech.mathieu.epub.opf.Item;
 import tech.mathieu.epub.opf.Opf;
@@ -32,15 +33,17 @@ public class Reader {
     return (double) targetWidth / sourceWidth;
   }
 
-  private void resizeImage(BufferedImage originalImage, String savePath) throws IOException {
-    var scale = determineImageScale(originalImage.getWidth(), 300);
-    var calculatedWidth = (int) (originalImage.getWidth() * scale);
-    var calculatedHeight = (int) (originalImage.getHeight() * scale);
-    Thumbnails.of(originalImage)
-        .size(calculatedWidth, calculatedHeight)
-        .outputQuality(0.7f)
-        .outputFormat("JPEG")
-        .toFile(savePath + "/cover.jpeg");
+  private void resizeImage(BufferedImage img, String savePath) throws IOException {
+    var scale = determineImageScale(img.getWidth(), 540);
+    var width = (int) (img.getWidth() * scale);
+    var height = (int) (img.getHeight() * scale);
+
+    BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    Graphics2D graphics2D = resizedImage.createGraphics();
+    graphics2D.drawImage(img, 0, 0, width, height, null);
+    graphics2D.dispose();
+    final FileOutputStream bos = new FileOutputStream(savePath);
+    ImageIO.write(resizedImage, "JPEG", bos);
   }
 
   public void saveCover(Pair<String, Opf> opfWithPath, ZipFile zipFile, String savePath)
