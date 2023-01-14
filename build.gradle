@@ -1,0 +1,91 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'io.quarkus' version '2.15.3.Final'
+    id "org.sonarqube" version "3.5.0.2730"
+    id "com.diffplug.spotless" version '6.12.1'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "Ebook-Manager"
+        property "sonar.organization", "afrima"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/jacoco-report/jacoco.xml"
+    }
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+}
+
+spotless {
+    java {
+        googleJavaFormat('1.15.0')
+    }
+}
+
+project.ext {
+    quarkusPlatformVersion = '2.15.3.Final'
+    assertjVersion = '3.24.1'
+    testcontainersVersion = '1.17.6'
+}
+
+dependencies {
+    implementation enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusPlatformVersion}")
+    implementation "io.quarkus:quarkus-resteasy-reactive-jsonb"
+    implementation "io.quarkus:quarkus-config-yaml"
+    implementation "io.quarkus:quarkus-hibernate-orm"
+    implementation "io.quarkus:quarkus-jdbc-postgresql"
+    implementation "io.quarkus:quarkus-flyway"
+    implementation "io.quarkus:quarkus-resteasy-reactive"
+    implementation "io.quarkus:quarkus-jaxb"
+    implementation "io.quarkus:quarkus-container-image-jib"
+    implementation "io.quarkus:quarkus-arc"
+    implementation "io.quarkus:quarkus-undertow"
+    implementation "io.quarkus:quarkus-security-jpa"
+    implementation "io.quarkus:quarkus-awt"
+
+    testImplementation "io.quarkus:quarkus-junit5"
+    testImplementation "io.quarkus:quarkus-jacoco"
+    testImplementation "io.quarkus:quarkus-test-security"
+
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+    testImplementation "org.assertj:assertj-core:$assertjVersion"
+}
+
+group 'tech.mathieu'
+version hasProperty('release-version') ? properties['release-version'] : 'DEV-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    finalizedBy jacocoTestReport
+    jacoco {
+        excludeClassLoaders = ["*QuarkusClassLoader"]
+        destinationFile = layout.buildDirectory.file("jacoco-quarkus.exec").get().asFile
+    }
+    jacocoTestReport.enabled = false
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}

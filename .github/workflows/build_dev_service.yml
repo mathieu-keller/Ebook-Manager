@@ -47,15 +47,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+          cache: gradle
       - name: Run tests
-        run: mvn test
+        run: ./gradlew clean spotlessJavaCheck test
   frontend_build:
     name: build frontend
     needs: [ yarn, lint ]
@@ -90,7 +84,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
+          cache: gradle
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -100,14 +94,11 @@ jobs:
         with:
           name: frontend
           path: ./src/main/resources/META-INF/resources
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build dev with Maven
-        run: mvn package -DskipTests -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ github.sha }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true
+      - name: Set sha
+        id: short-sha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - name: Build
+        run: ./gradlew build -x test -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=dev-${{ steps.short-sha.outputs.sha_short }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: frontend
@@ -119,6 +110,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set sha
+        id: short-sha
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Deploy stack to Portainer
         uses: carlrygart/portainer-stack-deploy@v1
         with:
@@ -129,7 +123,7 @@ jobs:
           stack-definition: 'stack-definition.yaml'
           template-variables: >
             {
-              "version": "${{ github.sha }}", 
+              "version": "dev-${{ steps.short-sha.outputs.sha_short }}", 
               "username": "${{ secrets.DOCKER_USER }}", 
               "db_username": "${{ secrets.DB_USER }}", 
               "db_password": "${{ secrets.DB_PASSWORD }}",

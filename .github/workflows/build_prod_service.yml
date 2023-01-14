@@ -65,7 +65,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn test org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Ebook-Manager -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-report/jacoco.xml
+        run: mvn spotlessJavaCheck sonar
   frontend_build:
     name: build frontend
     runs-on: ubuntu-latest
@@ -129,7 +129,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
-        run: mvn package -DskipTests -Pnative -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true -Dquarkus.container-image.tag=${{ steps.semantic.outputs.release-version  }} -Dquarkus.container-image.additional-tags=latest
+        run: ./gradlew build -x test -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true -Dquarkus.container-image.tag=${{ steps.semantic.outputs.release-version  }} -Dquarkus.container-image.additional-tags=latest
       - name: Semantic Release Action
         uses: codfish/semantic-release-action@v2
         with:
