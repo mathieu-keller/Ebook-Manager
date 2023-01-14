@@ -1,6 +1,7 @@
 /.idea/
+/.gradle/
 /upload/
-/target/
+/build/
 /src/frontend/node_modules/
 /src/frontend/dist/
 /ebook-manager.iml
