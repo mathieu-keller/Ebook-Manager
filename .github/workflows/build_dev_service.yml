@@ -49,7 +49,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
       - name: Run tests
-        run: ./gradlew clean spotlessJavaCheck test
+        run: ./gradlew spotlessJavaCheck test
   frontend_build:
     name: build frontend
     needs: [ yarn, lint ]
