@@ -3,13 +3,8 @@
   "extends": [
     "workarounds:all",
     ":ignoreUnstable",
-    ":ignoreModulesAndTests",
     ":prImmediately",
     ":separateMajorReleases",
-    ":combinePatchMinorReleases",
-    "group:monorepos",
-    "group:recommended",
-    "group:allNonMajor",
     ":prConcurrentLimitNone",
     ":prHourlyLimitNone",
     ":semanticPrefixFixDepsChoreOthers",
