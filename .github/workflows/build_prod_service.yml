@@ -161,4 +161,3 @@ jobs:
               "mount_folder": "/volume1/docker/ebook",
               "port": "1243"
             }
-          image: ${{ env.DOCKER_IMAGE_URI }}:${{ env.IMAGE_TAG }}
