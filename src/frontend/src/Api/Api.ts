@@ -1,5 +1,5 @@
 const API_PREFIX = '/api';
-export const DOWNLOAD_API = (id: number) => `${API_PREFIX}/book/download/${id}`;
+export const DOWNLOAD_API = (id: number) => `${API_PREFIX}/book/${id}/download`;
 export const SEARCH_API = (search: string, page: number) => {
   const params = new URLSearchParams({page: page.toString()});
   params.append('q', search);
