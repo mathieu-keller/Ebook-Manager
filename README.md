@@ -9,6 +9,7 @@ The service has a search function, user management, collections and has a light 
 ## Deployment
 
 ```
+version: '3.8'
 services:
   server:
     image: afrima/ebook-manager:latest
