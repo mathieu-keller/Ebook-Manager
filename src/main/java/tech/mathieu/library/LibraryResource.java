@@ -17,7 +17,7 @@ public class LibraryResource {
   @Inject LibraryService libraryService;
 
   @GET
-  @Path(("/"))
+  @Path("/")
   @RolesAllowed("USER")
   @Produces(MediaType.APPLICATION_JSON)
   public List<LibraryDto> getLibraryItems(

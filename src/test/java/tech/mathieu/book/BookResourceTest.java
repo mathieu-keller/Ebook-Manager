@@ -201,7 +201,7 @@ class BookResourceTest {
 
     var responseFile =
         given()
-            .get("download/" + book.getId())
+            .get(book.getId() + "/download")
             .then()
             .statusCode(HttpStatus.SC_OK)
             .header(
@@ -228,12 +228,12 @@ class BookResourceTest {
                           .build()));
               return entityManager.merge(entity);
             });
-    given().get("download/" + book.getId()).then().statusCode(HttpStatus.SC_NOT_FOUND);
+    given().get(book.getId() + "download").then().statusCode(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
   void test_download_ebook_entity_not_found() throws Exception {
-    given().get("download/9999").then().statusCode(HttpStatus.SC_NOT_FOUND);
+    given().get("9999/download").then().statusCode(HttpStatus.SC_NOT_FOUND);
   }
 
   @Test
