@@ -21,7 +21,7 @@ quarkus:
   container-image:
     builder: jib
   jib:
-    base-jvm-image: eclipse-temurin:17.0.6_10-jre-alpine@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+    base-jvm-image: eclipse-temurin:17.0.6_10-jre-alpine@sha256:4cb6f2a22962af35adfb6270fa89ef9590804648229a7b9951439bf5121ff739
     base-native-image: afrima/quarkus-base-image:1.0.8@sha256:19d4c2628150df2a081e3c5e57e6fc4eba28135339735e0b53e842f7f17ded27
 
 login:
