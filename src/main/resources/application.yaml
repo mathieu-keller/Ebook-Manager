@@ -22,7 +22,7 @@ quarkus:
     builder: jib
   jib:
     base-jvm-image: eclipse-temurin:17.0.6_10-jre-alpine@sha256:4cb6f2a22962af35adfb6270fa89ef9590804648229a7b9951439bf5121ff739
-    base-native-image: afrima/quarkus-base-image:1.0.8@sha256:d4cde91194e5042271255c6d998e13c23d6b9beb2649ad4efb2c5237a9ec1404
+    base-native-image: afrima/quarkus-base-image:1.0.8@sha256:9ed1cffa8cbd2a38afe1574c0a91bd654a95fbdf951af695066911f34be14465
 
 login:
   salt: ${login-salt}
