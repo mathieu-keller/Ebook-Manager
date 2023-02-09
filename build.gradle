@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'io.quarkus' version '2.16.1.Final'
+    id 'io.quarkus' version '2.16.2.Final'
     id "org.sonarqube" version "3.5.0.2730"
     id "com.diffplug.spotless" version '6.14.1'
 }
