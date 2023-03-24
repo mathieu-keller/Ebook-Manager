@@ -9,6 +9,7 @@ The service has a search function, user management, collections and has a light 
 ## Deployment
 
 ```
+version: '3.8'
 services:
   server:
     image: afrima/ebook-manager:latest
@@ -24,11 +25,11 @@ services:
       admin-username: "admin"
       admin-password: "changeme"
     volumes:
-      - '<path_where_to_save_epubs>:/work/upload'
+      - '<path_where_to_save_epubs>:/home/jboss/upload'
     depends_on:
       - "db"
   db:
-    image: postgres:15.1-alpine
+    image: postgres:15.2-alpine
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "changeme"

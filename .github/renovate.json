@@ -5,12 +5,17 @@
     ":ignoreUnstable",
     ":prImmediately",
     ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    "group:monorepos",
+    "group:recommended",
+    "group:allNonMajor",
     ":prConcurrentLimitNone",
     ":prHourlyLimitNone",
     ":semanticPrefixFixDepsChoreOthers",
     ":semanticCommits",
     ":semanticCommitTypeAll(fix)"
   ],
+  "rangeStrategy": "bump",
   "regexManagers": [
     {
       "fileMatch": [

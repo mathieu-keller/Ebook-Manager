@@ -34,7 +34,7 @@ public class BookResource {
     return bookService.getBookDto(bookId);
   }
 
-  @Path("download/{id}")
+  @Path("{id}/download")
   @GET
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   @RolesAllowed("USER")
