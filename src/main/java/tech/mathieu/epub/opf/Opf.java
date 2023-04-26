@@ -1,11 +1,12 @@
 package tech.mathieu.epub.opf;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.XMLConstants;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
@@ -29,7 +30,7 @@ public class Opf {
   @XmlAttribute(name = "dir")
   private String dir;
 
-  @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
+  @XmlAttribute(name = "lang", namespace = XMLConstants.XML_NS_URI)
   private String lang;
 
   public Metadata getMetadata() {

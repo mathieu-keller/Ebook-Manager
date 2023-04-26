@@ -6,5 +6,5 @@
 // Generated on: 2022.10.08 at 03:07:05 PM CEST
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://purl.org/dc/elements/1.1/")
+@jakarta.xml.bind.annotation.XmlSchema(namespace = "http://purl.org/dc/elements/1.1/")
 package tech.mathieu.epub.opf.metadata;

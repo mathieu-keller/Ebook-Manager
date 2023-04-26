@@ -1,12 +1,12 @@
 package tech.mathieu.collection;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import org.graalvm.collections.Pair;
 import tech.mathieu.book.BookService;
 import tech.mathieu.epub.opf.Opf;

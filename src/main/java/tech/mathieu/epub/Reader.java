@@ -1,5 +1,7 @@
 package tech.mathieu.epub;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.xml.bind.JAXB;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -8,9 +10,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.zip.ZipFile;
-import javax.enterprise.context.ApplicationScoped;
 import javax.imageio.ImageIO;
-import javax.xml.bind.JAXB;
 import tech.mathieu.epub.container.Container;
 import tech.mathieu.epub.opf.Item;
 import tech.mathieu.epub.opf.Opf;
