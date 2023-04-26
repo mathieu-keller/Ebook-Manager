@@ -1,12 +1,12 @@
 package tech.mathieu.testutil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Table;
+import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.Table;
-import javax.transaction.Transactional;
 import tech.mathieu.book.BookEntity;
 import tech.mathieu.collection.CollectionEntity;
 import tech.mathieu.contributor.ContributorEntity;

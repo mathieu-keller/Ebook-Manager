@@ -1,9 +1,9 @@
 package tech.mathieu.title;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.enterprise.context.ApplicationScoped;
 import tech.mathieu.book.BookEntity;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;

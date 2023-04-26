@@ -1,8 +1,8 @@
 package tech.mathieu.testutil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.util.concurrent.Callable;
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 
 @ApplicationScoped
 public class TestTransactionRunner {

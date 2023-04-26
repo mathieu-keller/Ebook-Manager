@@ -6,7 +6,7 @@
 // Generated on: 2022.10.08 at 03:07:05 PM CEST
 //
 
-@javax.xml.bind.annotation.XmlSchema(
+@jakarta.xml.bind.annotation.XmlSchema(
     namespace = "http://www.idpf.org/2007/opf",
-    elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+    elementFormDefault = jakarta.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package tech.mathieu.epub.opf;

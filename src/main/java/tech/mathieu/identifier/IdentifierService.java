@@ -1,8 +1,8 @@
 package tech.mathieu.identifier;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.util.List;
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
 import tech.mathieu.book.BookEntity;
 import tech.mathieu.epub.opf.Opf;
 

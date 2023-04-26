@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import java.io.File;
 import java.util.List;
 import java.util.zip.ZipFile;
-import javax.inject.Inject;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import tech.mathieu.epub.opf.Item;
