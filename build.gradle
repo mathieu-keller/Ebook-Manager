@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'io.quarkus' version '3.2.1.Final'
+    id 'io.quarkus' version '3.2.4.Final'
     id "org.sonarqube" version "4.3.0.3225"
     id "com.diffplug.spotless" version '6.20.0'
 }
@@ -28,7 +28,7 @@ spotless {
 }
 
 project.ext {
-    quarkusPlatformVersion = '3.2.1.Final'
+    quarkusPlatformVersion = '3.2.4.Final'
     assertjVersion = '3.24.2'
     testcontainersVersion = '1.18.3'
 }
