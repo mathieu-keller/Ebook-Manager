@@ -22,7 +22,7 @@ quarkus:
     builder: jib
   jib:
     base-jvm-image: gcr.io/distroless/java17:nonroot
-    base-native-image: afrima/quarkus-base-image:1.0.18@sha256:83ded76039a0181edde13a0635ce7a2c675485ccab2a3447472c3abbd8864cc1
+    base-native-image: afrima/quarkus-base-image:1.0.19@sha256:e1ed7fa853a2083a98fb6fd410ee1c55100bcef8977f184428d2f24a33ef6a47
 
 login:
   salt: ${login-salt}
