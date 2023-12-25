@@ -84,7 +84,7 @@ jobs:
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Build
         run: ./gradlew clean spotlessJavaCheck test build -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=dev-${{ steps.short-sha.outputs.sha_short }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=${{ github.ref == 'refs/heads/develop' }}
-      - uses: geekyeggo/delete-artifact@v2
+      - uses: geekyeggo/delete-artifact@v4
         with:
           name: frontend
   deploy:
