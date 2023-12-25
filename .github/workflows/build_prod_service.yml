@@ -12,6 +12,12 @@ jobs:
     with:
       release-branch: main
       dry: true
+  version-echo:
+    runs-on: ubuntu-latest
+    needs: [ dry-release ]
+    steps:
+      - name: echo
+        run: echo ${{ needs.dry-release.outputs.new_version }}
   yarn:
     name: cache node modules
     runs-on: ubuntu-latest
@@ -47,7 +53,7 @@ jobs:
   frontend_build:
     name: build frontend
     runs-on: ubuntu-latest
-    needs: [ yarn, lint ]
+    needs: [ yarn ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,7 +74,7 @@ jobs:
   backend_build:
     name: build backend
     runs-on: ubuntu-latest
-    needs: [frontend_build, dry-release]
+    needs: [frontend_build, lint, dry-release]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -101,6 +107,7 @@ jobs:
         run: ./gradlew clean spotlessJavaCheck test sonar build -Dquarkus.container-image.build=true -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.additional-tags=latest
       - uses: geekyeggo/delete-artifact@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: frontend
   release:
     name: create release
@@ -113,7 +120,7 @@ jobs:
   deploy:
     name: deploy
     runs-on: ubuntu-latest
-    needs: [ backend_build ]
+    needs: [ backend_build, dry-release ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

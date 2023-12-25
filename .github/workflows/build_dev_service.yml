@@ -2,6 +2,9 @@ name: Build-Dev Service
 
 on:
   pull_request:
+  push:
+    branches:
+      - 'develop'
 
 jobs:
   dry-release:
@@ -10,6 +13,12 @@ jobs:
     with:
       release-branch: main
       dry: true
+  version-echo:
+    runs-on: ubuntu-latest
+    needs: [dry-release]
+    steps:
+      - name: echo
+        run: echo ${{ needs.dry-release.outputs.new_version }}
   yarn:
     name: cache node modules
     runs-on: ubuntu-latest
@@ -44,7 +53,7 @@ jobs:
         run: npm run lint
   frontend_build:
     name: build frontend
-    needs: [ yarn, lint ]
+    needs: [ yarn ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -66,7 +75,7 @@ jobs:
   backend_build:
     name: build backend
     runs-on: ubuntu-latest
-    needs: [ frontend_build, dry-release ]
+    needs: [ frontend_build, lint, dry-release ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -84,25 +93,20 @@ jobs:
         with:
           name: frontend
           path: ./src/main/resources/META-INF/resources
-      - name: Set sha
-        id: short-sha
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Build
-        run: ./gradlew clean spotlessJavaCheck test build -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=dev-${{ steps.short-sha.outputs.sha_short }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=${{ github.ref == 'refs/heads/develop' }}
+        run: ./gradlew clean spotlessJavaCheck test build -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: frontend
   deploy:
     name: deploy
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
-    needs: [ backend_build ]
+    needs: [ backend_build, dry-release  ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set sha
-        id: short-sha
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Deploy stack to Portainer
         uses: carlrygart/portainer-stack-deploy@v1
         with:
@@ -113,7 +117,7 @@ jobs:
           stack-definition: 'stack-definition.yaml'
           template-variables: >
             {
-              "version": "dev-${{ steps.short-sha.outputs.sha_short }}", 
+              "version": "${{ needs.dry-release.outputs.new_version }}", 
               "username": "${{ secrets.DOCKER_USER }}", 
               "db_username": "${{ secrets.DB_USER }}", 
               "db_password": "${{ secrets.DB_PASSWORD }}",
