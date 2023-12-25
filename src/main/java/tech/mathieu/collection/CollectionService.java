@@ -7,12 +7,12 @@ import jakarta.transaction.Transactional;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import org.graalvm.collections.Pair;
 import tech.mathieu.book.BookService;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.exceptions.IllegalArgumentApplicationException;
 import tech.mathieu.exceptions.NotFoundApplicationException;
+import tech.mathieu.util.Pair;
 
 @Transactional
 @ApplicationScoped
@@ -89,12 +89,12 @@ public class CollectionService {
         var collectionType = collectionMetaData.get("collection-type");
         collectionEntity.setType(collectionType.getValue());
         var groupPosition = collectionMetaData.get("group-position");
-        return Pair.create(
+        return new Pair<CollectionEntity, Long>(
             collectionEntity,
             groupPosition != null ? Long.parseLong(groupPosition.getValue()) : null);
       }
-      return Pair.create(collectionEntity, null);
+      return new Pair<CollectionEntity, Long>(collectionEntity, null);
     }
-    return Pair.create(null, null);
+    return new Pair<CollectionEntity, Long>(null, null);
   }
 }
