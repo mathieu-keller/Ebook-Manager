@@ -23,7 +23,7 @@ repositories {
 
 spotless {
     java {
-        googleJavaFormat('1.15.0')
+        googleJavaFormat('1.19.1')
     }
 }
 
@@ -63,8 +63,8 @@ group 'tech.mathieu'
 version hasProperty('release-version') ? properties['release-version'] : 'DEV-SNAPSHOT'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 test {

@@ -21,9 +21,7 @@ quarkus:
   container-image:
     builder: jib
   jib:
-    base-jvm-image: gcr.io/distroless/java17:nonroot
-    base-native-image: afrima/quarkus-base-image:1.0.19@sha256:e1ed7fa853a2083a98fb6fd410ee1c55100bcef8977f184428d2f24a33ef6a47
-
+    base-jvm-image: gcr.io/distroless/java21:nonroot
 login:
   salt: ${login-salt}
   iteration: ${login-iteration:4}
