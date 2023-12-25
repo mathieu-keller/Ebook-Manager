@@ -5,14 +5,13 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
     name = "",
-    propOrder = { "name", "content", "refines", "property", "scheme"})
+    propOrder = {"name", "content", "refines", "property", "scheme"})
 @XmlRootElement(name = "meta")
-public class Meta extends DefaultAttributes{
+public class Meta extends DefaultAttributes {
 
   /**
    * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
@@ -40,7 +39,6 @@ public class Meta extends DefaultAttributes{
 
   @XmlAttribute(name = "scheme")
   private String scheme;
-
 
   /**
    * @deprecated it was an attribute in epub2 but is allowed as legacy feature in epub3 see <a
