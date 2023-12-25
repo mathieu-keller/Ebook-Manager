@@ -201,8 +201,8 @@ public class BookService {
     book.setBookPath(bookFolder + "/original.epub");
     book.setCoverPath(bookFolder + "/cover.jpeg");
     var collection = collectionService.getCollection(opf, bookFolder, metaData);
-    book.setCollectionEntity(collection.getLeft());
-    book.setGroupPosition(collection.getRight());
+    book.setCollectionEntity(collection.left());
+    book.setGroupPosition(collection.right());
     return entityManager.merge(book);
   }
 
