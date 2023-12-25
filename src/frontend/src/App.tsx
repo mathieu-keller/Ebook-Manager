@@ -1,7 +1,7 @@
 import type {Component} from 'solid-js';
 import {lazy} from 'solid-js';
 
-import {Route, Routes} from '@solidjs/router';
+import {Route, Router} from '@solidjs/router';
 import Header from './Header/Header';
 
 const Book = lazy(() => import('./Book/Book'));
@@ -13,12 +13,12 @@ const App: Component = () => {
   return (
     <>
       <Header/>
-      <Routes>
-        <Route path="/" element={<Library/>}/>
-        <Route path="/collection/:collectionId/:collection" element={<Collection/>}/>
-        <Route path="/book/:bookId/:book" element={<Book/>}/>
-        <Route path="/search" element={<Search/>}/>
-      </Routes>
+      <Router>
+        <Route path="/" component={Library}/>
+        <Route path="/collection/:collectionId/:collection" component={Collection}/>
+        <Route path="/book/:bookId/:book" component={Book}/>
+        <Route path="/search" component={Search}/>
+      </Router>
     </>
   );
 };
