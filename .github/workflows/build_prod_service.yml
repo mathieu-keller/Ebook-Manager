@@ -86,7 +86,7 @@ jobs:
           path: ./src/main/resources/META-INF/resources
       - name: Semantic Pre-Release Action
         id: semantic
-        uses: codfish/semantic-release-action@v2
+        uses: codfish/semantic-release-action@v3
         with:
           branches: main
           dry_run: true
@@ -108,7 +108,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew clean spotlessJavaCheck test sonar build -Dquarkus.container-image.build=true -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true -Dquarkus.container-image.tag=${{ steps.semantic.outputs.release-version  }} -Dquarkus.container-image.additional-tags=latest
       - name: Semantic Release Action
-        uses: codfish/semantic-release-action@v2
+        uses: codfish/semantic-release-action@v3
         with:
           branches: main
           dry_run: false
