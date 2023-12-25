@@ -1,7 +1,7 @@
 containers:
   postgres:
     image: postgres
-    version: 15.4-alpine
+    version: 15.5-alpine
 
 quarkus:
   datasource:
