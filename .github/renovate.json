@@ -1,21 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "workarounds:all",
-    ":ignoreUnstable",
-    ":prImmediately",
-    ":separateMajorReleases",
-    ":combinePatchMinorReleases",
-    "group:monorepos",
-    "group:recommended",
-    "group:allNonMajor",
-    ":prConcurrentLimitNone",
-    ":prHourlyLimitNone",
-    ":semanticPrefixFixDepsChoreOthers",
     ":semanticCommits",
-    ":semanticCommitTypeAll(fix)"
+    "group:monorepos",
+    ":prImmediately",
+    ":prConcurrentLimitNone",
+    ":prHourlyLimitNone"
   ],
-  "rangeStrategy": "bump",
+  "dependencyDashboard": true,
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": true,
   "regexManagers": [
     {
       "fileMatch": [
@@ -46,16 +46,58 @@
         "image:\\s(?<depName>.*?):(?<currentValue>.*?)\\s"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": [
+        "^build\\.gradle(\\..*)?$"
+      ],
+      "matchStrings": [
+        "googleJavaFormat\\('(?<currentValue>[0-9\\.]+?)'\\)"
+      ],
+      "datasourceTemplate": "maven",
+      "depNameTemplate": "com.google.googlejavaformat:google-java-format"
     }
   ],
-  "automerge": true,
-  "automergeType": "pr",
-  "automergeStrategy": "rebase",
-  "platformAutomerge": true,
-  "dependencyDashboard": true,
-  "labels": [
-    "dependencies"
-  ],
   "commitMessageAction": "bump",
-  "reviewersFromCodeOwners": true
+  "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}",
+  "commitBodyTable": true,
+  "pre-commit": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
+      "semanticCommitType": "fix",
+      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
+    },
+    {
+      "matchManagers": [
+        "docker-compose"
+      ],
+      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
+    },
+    {
+      "matchManagers": [
+        "gradle"
+      ],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchPackagePrefixes": [
+        "com.google.googlejavaformat:"
+      ],
+      "semanticCommitType": "chore"
+    }
+  ]
 }
