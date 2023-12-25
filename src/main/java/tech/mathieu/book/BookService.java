@@ -20,7 +20,8 @@ import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
 import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
-import tech.mathieu.epub.opf.metadata.Date;
+import tech.mathieu.epub.opf.metadata.DefaultAttributes;
+import tech.mathieu.epub.opf.metadata.Id;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.exceptions.IllegalArgumentApplicationException;
 import tech.mathieu.exceptions.NotFoundApplicationException;
@@ -209,7 +210,7 @@ public class BookService {
   private String getDates(Opf epub) {
     if (epub.getMetadata().getDates() != null) {
       return epub.getMetadata().getDates().stream()
-          .map(Date::getValue)
+          .map(Id::getValue)
           .collect(Collectors.joining(", "));
     }
     return null;

@@ -7,7 +7,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import tech.mathieu.epub.opf.Opf;
-import tech.mathieu.epub.opf.metadata.Creator;
+import tech.mathieu.epub.opf.metadata.DefaultAttributes;
 
 @ApplicationScoped
 @Transactional
@@ -28,7 +28,7 @@ public class CreatorService {
   public List<CreatorEntity> getCreators(Opf epub) {
     if (epub.getMetadata().getCreators() != null) {
       return epub.getMetadata().getCreators().stream()
-          .map(Creator::getValue)
+          .map(DefaultAttributes::getValue)
           .map(
               creator -> {
                 var name = creator.strip();

@@ -14,8 +14,8 @@ import tech.mathieu.epub.opf.Item;
 import tech.mathieu.epub.opf.Manifest;
 import tech.mathieu.epub.opf.Metadata;
 import tech.mathieu.epub.opf.Opf;
+import tech.mathieu.epub.opf.metadata.DefaultAttributes;
 import tech.mathieu.epub.opf.metadata.Meta;
-import tech.mathieu.epub.opf.metadata.Subject;
 import tech.mathieu.exceptions.IllegalArgumentApplicationException;
 
 @QuarkusTest
@@ -92,7 +92,7 @@ class ReaderTest {
 
             // subjects
             var subjects =
-                book.getMetadata().getSubjects().stream().map(Subject::getValue).toList();
+                book.getMetadata().getSubjects().stream().map(DefaultAttributes::getValue).toList();
             softly
                 .assertThat(subjects)
                 .containsExactly("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen");

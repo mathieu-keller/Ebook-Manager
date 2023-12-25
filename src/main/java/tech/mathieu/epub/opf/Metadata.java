@@ -5,17 +5,8 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import java.util.List;
-import tech.mathieu.epub.opf.metadata.Contributor;
-import tech.mathieu.epub.opf.metadata.Creator;
-import tech.mathieu.epub.opf.metadata.Date;
-import tech.mathieu.epub.opf.metadata.Description;
-import tech.mathieu.epub.opf.metadata.Identifier;
-import tech.mathieu.epub.opf.metadata.Language;
-import tech.mathieu.epub.opf.metadata.Meta;
-import tech.mathieu.epub.opf.metadata.Publisher;
-import tech.mathieu.epub.opf.metadata.Rights;
-import tech.mathieu.epub.opf.metadata.Subject;
-import tech.mathieu.epub.opf.metadata.Title;
+
+import tech.mathieu.epub.opf.metadata.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
@@ -36,107 +27,107 @@ import tech.mathieu.epub.opf.metadata.Title;
 public class Metadata {
 
   @XmlElement(name = "title", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Title> titles;
+  private List<DefaultAttributes> titles;
 
   @XmlElement(name = "creator", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Creator> creators;
+  private List<DefaultAttributes> creators;
 
   @XmlElement(name = "contributor", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Contributor> contributors;
+  private List<DefaultAttributes> contributors;
 
   @XmlElement(name = "publisher", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Publisher> publishers;
+  private List<DefaultAttributes> publishers;
 
   @XmlElement(name = "identifier", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Identifier> identifiers;
+  private List<Id> identifiers;
 
   @XmlElement(name = "date", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Date> dates;
+  private List<Id> dates;
 
   @XmlElement(name = "subject", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Subject> subjects;
+  private List<DefaultAttributes> subjects;
 
   @XmlElement(name = "language", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Language> languages;
+  private List<Id> languages;
 
   @XmlElement(name = "rights", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Rights> rights;
+  private List<DefaultAttributes> rights;
 
   @XmlElement(name = "meta", namespace = "http://www.idpf.org/2007/opf")
   private List<Meta> meta;
 
   @XmlElement(name = "description", namespace = "http://purl.org/dc/elements/1.1/")
-  private List<Description> descriptions;
+  private List<DefaultAttributes> descriptions;
 
-  public List<Title> getTitles() {
+  public List<DefaultAttributes> getTitles() {
     return titles;
   }
 
-  public void setTitles(List<Title> titles) {
+  public void setTitles(List<DefaultAttributes> titles) {
     this.titles = titles;
   }
 
-  public List<Creator> getCreators() {
+  public List<DefaultAttributes> getCreators() {
     return creators;
   }
 
-  public void setCreators(List<Creator> creators) {
+  public void setCreators(List<DefaultAttributes> creators) {
     this.creators = creators;
   }
 
-  public List<Contributor> getContributors() {
+  public List<DefaultAttributes> getContributors() {
     return contributors;
   }
 
-  public void setContributors(List<Contributor> contributors) {
+  public void setContributors(List<DefaultAttributes> contributors) {
     this.contributors = contributors;
   }
 
-  public List<Publisher> getPublishers() {
+  public List<DefaultAttributes> getPublishers() {
     return publishers;
   }
 
-  public void setPublishers(List<Publisher> publishers) {
+  public void setPublishers(List<DefaultAttributes> publishers) {
     this.publishers = publishers;
   }
 
-  public List<Identifier> getIdentifiers() {
+  public List<Id> getIdentifiers() {
     return identifiers;
   }
 
-  public void setIdentifiers(List<Identifier> identifiers) {
+  public void setIdentifiers(List<Id> identifiers) {
     this.identifiers = identifiers;
   }
 
-  public List<Date> getDates() {
+  public List<Id> getDates() {
     return dates;
   }
 
-  public void setDates(List<Date> dates) {
+  public void setDates(List<Id> dates) {
     this.dates = dates;
   }
 
-  public List<Subject> getSubjects() {
+  public List<DefaultAttributes> getSubjects() {
     return subjects;
   }
 
-  public void setSubjects(List<Subject> subjects) {
+  public void setSubjects(List<DefaultAttributes> subjects) {
     this.subjects = subjects;
   }
 
-  public List<Language> getLanguages() {
+  public List<Id> getLanguages() {
     return languages;
   }
 
-  public void setLanguages(List<Language> languages) {
+  public void setLanguages(List<Id> languages) {
     this.languages = languages;
   }
 
-  public List<Rights> getRights() {
+  public List<DefaultAttributes> getRights() {
     return rights;
   }
 
-  public void setRights(List<Rights> rights) {
+  public void setRights(List<DefaultAttributes> rights) {
     this.rights = rights;
   }
 
@@ -148,11 +139,11 @@ public class Metadata {
     this.meta = meta;
   }
 
-  public List<Description> getDescriptions() {
+  public List<DefaultAttributes> getDescriptions() {
     return descriptions;
   }
 
-  public void setDescriptions(List<Description> descriptions) {
+  public void setDescriptions(List<DefaultAttributes> descriptions) {
     this.descriptions = descriptions;
   }
 }
