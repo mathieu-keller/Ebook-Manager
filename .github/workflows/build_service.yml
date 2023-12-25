@@ -1,8 +1,10 @@
-name: Build-Prod Service
+name: Build Service
 
 on:
+  pull_request:
   push:
     branches:
+      - 'develop'
       - 'main'
 
 jobs:
@@ -12,6 +14,12 @@ jobs:
     with:
       release-branch: main
       dry: true
+  version-echo:
+    runs-on: ubuntu-latest
+    needs: [dry-release]
+    steps:
+      - name: echo
+        run: echo ${{ needs.dry-release.outputs.new_version }}
   yarn:
     name: cache node modules
     runs-on: ubuntu-latest
@@ -46,8 +54,8 @@ jobs:
         run: npm run lint
   frontend_build:
     name: build frontend
+    needs: [ yarn ]
     runs-on: ubuntu-latest
-    needs: [ yarn, lint ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,11 +76,9 @@ jobs:
   backend_build:
     name: build backend
     runs-on: ubuntu-latest
-    needs: [frontend_build, dry-release]
+    needs: [ frontend_build, lint, dry-release ]
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -88,23 +94,15 @@ jobs:
         with:
           name: frontend
           path: ./src/main/resources/META-INF/resources
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
       - name: Build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew clean spotlessJavaCheck test sonar build -Dquarkus.container-image.build=true -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.additional-tags=latest
+        run: ./gradlew clean spotlessJavaCheck test build -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.additional-tags=${{github.ref == 'refs/heads/develop' && 'latest-dev' || 'latest' }} -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: frontend
   release:
     name: create release
-    needs: [ backend_build, frontend_build, dry-release ]
+    needs: [ backend_build, frontend_build, lint, dry-release ]
     if: ${{ github.ref == 'refs/heads/main' }}
     uses: mathieu-keller/github-action-workflows/.github/workflows/semantic-release.yaml@1.0.1
     with:
@@ -112,8 +110,9 @@ jobs:
       dry: false
   deploy:
     name: deploy
+    if: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    needs: [ backend_build ]
+    needs: [ backend_build, dry-release  ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -123,7 +122,7 @@ jobs:
           portainer-host: ${{ secrets.PORTAINER_HOST }}
           username: ${{ secrets.PORTAINER_USERNAME }}
           password: ${{ secrets.PORTAINER_PASSWORD }}
-          stack-name: 'ebooks'
+          stack-name: ${{github.ref == 'refs/heads/develop' && 'dev-ebooks' || 'ebooks'}}
           stack-definition: 'stack-definition.yaml'
           template-variables: >
             {
@@ -134,6 +133,6 @@ jobs:
               "login_salt": "${{ secrets.LOGIN_SALT }}", 
               "admin_username": "${{ secrets.ADMIN_USERNAME }}", 
               "admin_password": "${{ secrets.ADMIN_PASSWORD }}",
-              "mount_folder": "/volume1/docker/ebook",
-              "port": "1243"
+              "mount_folder": "${{github.ref == 'refs/heads/develop' && '/volume1/docker/dev-ebook' || '/volume1/docker/ebook'}}",
+              "port": "${{github.ref == 'refs/heads/develop' && '1242' || '1243'}}"
             }
