@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:15.4-alpine@sha256:f36c528a2dc8747ea40b4cb8578da69fa75c5063fd6a71dcea3e3b2a6404ff7b
+    image: postgres:15.5-alpine@sha256:5a478cbc7036d3ee788060b1a1a55701522b00ab6099b6c368b50f35859f8641
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "{{db_password}}"
