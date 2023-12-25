@@ -7,28 +7,28 @@ import jakarta.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
-        name = "",
-        propOrder = {"dir", "lang"})
-public class DefaultAttributes extends Id{
-    @XmlAttribute(name = "dir")
-    private String dir;
+    name = "",
+    propOrder = {"dir", "lang"})
+public class DefaultAttributes extends Id {
+  @XmlAttribute(name = "dir")
+  private String dir;
 
-    @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
-    private String lang;
+  @XmlAttribute(name = "lang", namespace = javax.xml.XMLConstants.XML_NS_URI)
+  private String lang;
 
-    public String getDir() {
-        return dir;
-    }
+  public String getDir() {
+    return dir;
+  }
 
-    public void setDir(String dir) {
-        this.dir = dir;
-    }
+  public void setDir(String dir) {
+    this.dir = dir;
+  }
 
-    public String getLang() {
-        return lang;
-    }
+  public String getLang() {
+    return lang;
+  }
 
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
 }

@@ -20,7 +20,6 @@ import tech.mathieu.creator.CreatorDto;
 import tech.mathieu.creator.CreatorService;
 import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
-import tech.mathieu.epub.opf.metadata.DefaultAttributes;
 import tech.mathieu.epub.opf.metadata.Id;
 import tech.mathieu.epub.opf.metadata.Meta;
 import tech.mathieu.exceptions.IllegalArgumentApplicationException;
