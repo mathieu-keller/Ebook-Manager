@@ -91,6 +91,7 @@
       "matchDepTypes": [
         "dependencies"
       ],
+      "postUpdateOptions": ["yarnDedupeHighest"],
       "semanticCommitType": "fix"
     },
     {
