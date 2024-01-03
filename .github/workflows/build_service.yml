@@ -15,56 +15,68 @@ jobs:
       release-branch: main
       dry: true
   version-echo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [dry-release]
     steps:
       - name: echo
         run: echo ${{ needs.dry-release.outputs.new_version }}
   yarn:
     name: cache node modules
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - run: corepack enable
       - name: Cache node_modules
         uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Yarn install if cache is invalid
         if: steps.yarn-cache-node-modules.outputs.cache-hit != 'true'
         working-directory: ./src/frontend
         run: yarn install
   lint:
     name: lint frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ yarn ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - run: corepack enable
       - name: Cache node_modules
         uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: lint
         working-directory: ./src/frontend
         run: npm run lint
   frontend_build:
     name: build frontend
     needs: [ yarn ]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - run: corepack enable
       - name: Cache node_modules
         uses: actions/cache@v3
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: build vite
         working-directory: ./src/frontend
         run: npm run build
@@ -75,7 +87,7 @@ jobs:
           path: src/frontend/dist
   backend_build:
     name: build backend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ frontend_build, lint, dry-release ]
     steps:
       - uses: actions/checkout@v4
@@ -111,7 +123,7 @@ jobs:
   deploy:
     name: deploy
     if: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ backend_build, dry-release  ]
     steps:
       - name: Checkout
