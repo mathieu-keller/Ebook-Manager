@@ -23,6 +23,6 @@ services:
       admin-username: "{{admin_username}}"
       admin-password: "{{admin_password}}"
     volumes:
-      - '{{mount_folder}}/data/:/home/jboss/upload'
+      - '{{mount_folder}}/data/:/work/upload'
     depends_on:
       - "db"

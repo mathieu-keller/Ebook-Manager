@@ -22,7 +22,7 @@ quarkus:
     builder: jib
   jib:
     base-jvm-image: gcr.io/distroless/java21:nonroot
-    base-native-image: afrima/quarkus-base-image:1.0.19@sha256:e1ed7fa853a2083a98fb6fd410ee1c55100bcef8977f184428d2f24a33ef6a47
+    base-native-image: afrima/quarkus-base-image:1.1.0@sha256:a85c9274f2c8c182b36da92eca11cf508afcdcbd0766dedaf818c341d630ea25
   native:
     additional-build-args: -march=x86-64-v2
 login:
