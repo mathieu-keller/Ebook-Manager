@@ -107,7 +107,7 @@ jobs:
           name: frontend
           path: ./src/main/resources/META-INF/resources
       - name: Build
-        run: ./gradlew clean spotlessJavaCheck test build -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.additional-tags=${{github.ref == 'refs/heads/develop' && 'latest-dev' || 'latest' }} -Dquarkus.container-image.push=true
+        run: ./gradlew build -x test -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
