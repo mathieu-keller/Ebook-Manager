@@ -833,7 +833,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidjs/router@npm:^0.10.5":
+"@solidjs/router@npm:0.10.8":
   version: 0.10.8
   resolution: "@solidjs/router@npm:0.10.8"
   peerDependencies:
@@ -904,7 +904,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^6.15.0":
+"@typescript-eslint/eslint-plugin@npm:6.18.1":
   version: 6.18.1
   resolution: "@typescript-eslint/eslint-plugin@npm:6.18.1"
   dependencies:
@@ -929,7 +929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^6.15.0":
+"@typescript-eslint/parser@npm:6.18.1":
   version: 6.18.1
   resolution: "@typescript-eslint/parser@npm:6.18.1"
   dependencies:
@@ -1249,7 +1249,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^10.4.16":
+"autoprefixer@npm:10.4.16":
   version: 10.4.16
   resolution: "autoprefixer@npm:10.4.16"
   dependencies:
@@ -1274,7 +1274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.2":
+"axios@npm:1.6.5":
   version: 1.6.5
   resolution: "axios@npm:1.6.5"
   dependencies:
@@ -1915,7 +1915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-standard@npm:^17.1.0":
+"eslint-config-standard@npm:17.1.0":
   version: 17.1.0
   resolution: "eslint-config-standard@npm:17.1.0"
   peerDependencies:
@@ -1963,7 +1963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.29.1":
+"eslint-plugin-import@npm:2.29.1":
   version: 2.29.1
   resolution: "eslint-plugin-import@npm:2.29.1"
   dependencies:
@@ -1990,7 +1990,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^16.5.0":
+"eslint-plugin-n@npm:16.6.2":
   version: 16.6.2
   resolution: "eslint-plugin-n@npm:16.6.2"
   dependencies:
@@ -2011,7 +2011,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-promise@npm:^6.1.1":
+"eslint-plugin-promise@npm:6.1.1":
   version: 6.1.1
   resolution: "eslint-plugin-promise@npm:6.1.1"
   peerDependencies:
@@ -2020,7 +2020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-solid@npm:^0.13.0":
+"eslint-plugin-solid@npm:0.13.1":
   version: 0.13.1
   resolution: "eslint-plugin-solid@npm:0.13.1"
   dependencies:
@@ -2052,7 +2052,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.56.0":
+"eslint@npm:8.56.0":
   version: 8.56.0
   resolution: "eslint@npm:8.56.0"
   dependencies:
@@ -3653,7 +3653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.32":
+"postcss@npm:8.4.33, postcss@npm:^8.4.23, postcss@npm:^8.4.32":
   version: 8.4.33
   resolution: "postcss@npm:8.4.33"
   dependencies:
@@ -4023,7 +4023,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solid-js@npm:^1.8.7":
+"solid-js@npm:1.8.10":
   version: 1.8.10
   resolution: "solid-js@npm:1.8.10"
   dependencies:
@@ -4202,7 +4202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.4.0":
+"tailwindcss@npm:3.4.1":
   version: 3.4.1
   resolution: "tailwindcss@npm:3.4.1"
   dependencies:
@@ -4381,7 +4381,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.3.3":
+"typescript@npm:5.3.3":
   version: 5.3.3
   resolution: "typescript@npm:5.3.3"
   bin:
@@ -4391,7 +4391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>":
   version: 5.3.3
   resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
@@ -4468,7 +4468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-solid@npm:^2.8.0":
+"vite-plugin-solid@npm:2.8.0":
   version: 2.8.0
   resolution: "vite-plugin-solid@npm:2.8.0"
   dependencies:
@@ -4490,27 +4490,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vite-template-solid@workspace:."
   dependencies:
-    "@solidjs/router": "npm:^0.10.5"
-    "@typescript-eslint/eslint-plugin": "npm:^6.15.0"
-    "@typescript-eslint/parser": "npm:^6.15.0"
-    autoprefixer: "npm:^10.4.16"
-    axios: "npm:^1.6.2"
-    eslint: "npm:^8.56.0"
-    eslint-config-standard: "npm:^17.1.0"
-    eslint-plugin-import: "npm:^2.29.1"
-    eslint-plugin-n: "npm:^16.5.0"
-    eslint-plugin-promise: "npm:^6.1.1"
-    eslint-plugin-solid: "npm:^0.13.0"
-    postcss: "npm:^8.4.32"
-    solid-js: "npm:^1.8.7"
-    tailwindcss: "npm:^3.4.0"
-    typescript: "npm:^5.3.3"
-    vite: "npm:^5.0.10"
-    vite-plugin-solid: "npm:^2.8.0"
+    "@solidjs/router": "npm:0.10.8"
+    "@typescript-eslint/eslint-plugin": "npm:6.18.1"
+    "@typescript-eslint/parser": "npm:6.18.1"
+    autoprefixer: "npm:10.4.16"
+    axios: "npm:1.6.5"
+    eslint: "npm:8.56.0"
+    eslint-config-standard: "npm:17.1.0"
+    eslint-plugin-import: "npm:2.29.1"
+    eslint-plugin-n: "npm:16.6.2"
+    eslint-plugin-promise: "npm:6.1.1"
+    eslint-plugin-solid: "npm:0.13.1"
+    postcss: "npm:8.4.33"
+    solid-js: "npm:1.8.10"
+    tailwindcss: "npm:3.4.1"
+    typescript: "npm:5.3.3"
+    vite: "npm:5.0.11"
+    vite-plugin-solid: "npm:2.8.0"
   languageName: unknown
   linkType: soft
 
-"vite@npm:^5.0.10":
+"vite@npm:5.0.11":
   version: 5.0.11
   resolution: "vite@npm:5.0.11"
   dependencies:
