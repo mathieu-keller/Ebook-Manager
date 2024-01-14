@@ -67,22 +67,17 @@
   "packageRules": [
     {
       "matchManagers": [
-        "dockerfile"
+        "regex"
       ],
       "semanticCommitType": "fix",
       "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
     },
     {
       "matchManagers": [
-        "docker-compose"
-      ],
-      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
-    },
-    {
-      "matchManagers": [
         "gradle"
       ],
-      "semanticCommitType": "fix"
+      "semanticCommitType": "fix",
+      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
     },
     {
       "matchManagers": [
@@ -92,13 +87,15 @@
         "dependencies"
       ],
       "postUpdateOptions": ["yarnDedupeHighest"],
-      "semanticCommitType": "fix"
+      "semanticCommitType": "fix",
+      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
     },
     {
       "matchPackagePrefixes": [
         "com.google.googlejavaformat:"
       ],
-      "semanticCommitType": "chore"
+      "semanticCommitType": "chore",
+      "commitMessageExtra": "from {{{currentValue}}} to {{#if isMajor}}{{{newMajor}}}{{else}}{{#if isSingleVersion}}{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}{{/if}}"
     }
   ]
 }
