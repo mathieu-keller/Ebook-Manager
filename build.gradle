@@ -28,7 +28,7 @@ spotless {
 }
 
 project.ext {
-    quarkusPlatformVersion = '3.6.5'
+    quarkusPlatformVersion = '3.6.6'
     assertjVersion = '3.25.1'
     testcontainersVersion = '1.19.3'
 }
