@@ -712,12 +712,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solidjs/router@npm:0.10.9":
-  version: 0.10.9
-  resolution: "@solidjs/router@npm:0.10.9"
+"@solidjs/router@npm:0.10.10":
+  version: 0.10.10
+  resolution: "@solidjs/router@npm:0.10.10"
   peerDependencies:
     solid-js: ^1.8.6
-  checksum: 33d3397c830f8aa0de7ba8d827f8b51c543314f451e43475622c6dab05aa09ea396d03cad17af8e92e0a9433b8917c64474018ccf52e6f405a509714c8bba6ed
+  checksum: bc0e8d5b160b5cc0704574c0194055b712745cad147fe5795e53b80fe44e8b04b4fcd93e75794701d81a299c8d9fdd8eb3473581f7f5e5993b4fb9a69c9e2ffb
   languageName: node
   linkType: hard
 
@@ -4372,7 +4372,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "vite-template-solid@workspace:."
   dependencies:
-    "@solidjs/router": "npm:0.10.9"
+    "@solidjs/router": "npm:0.10.10"
     "@typescript-eslint/eslint-plugin": "npm:6.19.0"
     "@typescript-eslint/parser": "npm:6.19.0"
     autoprefixer: "npm:10.4.17"
