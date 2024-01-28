@@ -16,15 +16,17 @@ public class Id {
     return id;
   }
 
-  public void setId(String id) {
+  public Id setId(String id) {
     this.id = id;
+    return this;
   }
 
   public String getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  public Id setValue(String value) {
     this.value = value;
+    return this;
   }
 }

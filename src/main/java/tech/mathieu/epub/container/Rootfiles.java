@@ -17,7 +17,8 @@ public class Rootfiles {
     return rootfile;
   }
 
-  public void setRootfile(Rootfile[] value) {
-    this.rootfile = value;
+  public Rootfiles setRootfile(Rootfile[] rootfile) {
+    this.rootfile = rootfile;
+    return this;
   }
 }

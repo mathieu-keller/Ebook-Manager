@@ -20,15 +20,37 @@ public class DefaultAttributes extends Id {
     return dir;
   }
 
-  public void setDir(String dir) {
+  public DefaultAttributes setDir(String dir) {
     this.dir = dir;
+    return this;
   }
 
   public String getLang() {
     return lang;
   }
 
-  public void setLang(String lang) {
+  public DefaultAttributes setLang(String lang) {
     this.lang = lang;
+    return this;
+  }
+
+  @Override
+  public String getId() {
+    return super.getId();
+  }
+
+  @Override
+  public DefaultAttributes setId(String id) {
+    return (DefaultAttributes) super.setId(id);
+  }
+
+  @Override
+  public String getValue() {
+    return super.getValue();
+  }
+
+  @Override
+  public DefaultAttributes setValue(String value) {
+    return (DefaultAttributes) super.setValue(value);
   }
 }

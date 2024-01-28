@@ -19,7 +19,8 @@ public class Manifest {
     return items;
   }
 
-  public void setItems(List<Item> items) {
+  public Manifest setItems(List<Item> items) {
     this.items = items;
+    return this;
   }
 }
