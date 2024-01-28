@@ -1,94 +1,29 @@
 package tech.mathieu.book;
 
-import jakarta.annotation.security.DenyAll;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import java.io.File;
+import io.smallrye.mutiny.Uni;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.multipart.FileUpload;
-import tech.mathieu.exceptions.NotFoundApplicationException;
-import tech.mathieu.title.TitleEntity;
 
 @Path("/api/book")
-@DenyAll
 public class BookResource {
 
-  @Inject BookService bookService;
+  private final BookService bookService;
 
-  @Path("{id}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @RolesAllowed("USER")
-  public BookDto getBook(@PathParam("id") Long bookId) {
-    return bookService.getBookDto(bookId);
-  }
-
-  @Path("{id}/download")
-  @GET
-  @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @RolesAllowed("USER")
-  public Response downloadBook(@PathParam("id") Long id) {
-    var book = bookService.getBookById(id);
-    var file = new File(book.getBookPath());
-    if (!file.exists()) {
-      throw new NotFoundApplicationException("file not found!");
-    }
-    var title =
-        URLEncoder.encode(
-                book.getTitleEntities().stream()
-                        .filter(titleEntity -> Objects.equals(titleEntity.getTitleType(), "main"))
-                        .map(TitleEntity::getTitle)
-                        .collect(Collectors.joining(", "))
-                    + ".epub",
-                StandardCharsets.UTF_8)
-            .replace("+", "%20");
-    return Response.ok(file)
-        .header(
-            "Content-Disposition",
-            "attachment; filename*=UTF-8''" + title + ";filename=\"" + title + "\"")
-        .build();
+  public BookResource(BookService bookService) {
+    this.bookService = bookService;
   }
 
   @Path("upload")
   @POST
-  @RolesAllowed("USER")
-  public void upload(@RestForm FileUpload file) {
-    var uuid = String.valueOf(UUID.randomUUID());
-    var inboxPath = Paths.get("upload", "inbox");
-    new File(inboxPath.toUri()).mkdirs();
-    var inboxBookPath = Paths.get(inboxPath.toString(), uuid + ".epub");
+  public Uni<Book> upload(@RestForm FileUpload file) {
     try (var in = new FileInputStream(file.uploadedFile().toFile())) {
-      bookService.saveBookToInbox(in, inboxBookPath);
-      bookService.processInbox(inboxBookPath);
+      return bookService.processInbox(file.uploadedFile().toFile());
     } catch (IOException e) {
       throw new IllegalStateException(e);
     }
-  }
-
-  @GET
-  @Path("{id}/cover")
-  @RolesAllowed("USER")
-  public File getCover(@PathParam("id") Long id) {
-    var entity = bookService.getBookById(id);
-    if (entity.getCoverPath() == null) {
-      throw new NotFoundApplicationException("cover path is null!");
-    }
-    var coverPath = entity.getCoverPath();
-    var cover = new File(coverPath);
-    if (cover.exists()) {
-      return cover;
-    }
-    throw new NotFoundApplicationException("cover not found!");
   }
 }

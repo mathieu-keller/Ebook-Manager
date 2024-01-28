@@ -1,13 +1,13 @@
 containers:
-  postgres:
-    image: postgres
-    version: 16.2-alpine
+  mongodb:
+    image: mongo
+    version: 7.0.4
 
 quarkus:
-  datasource:
+  mongodb:
+    connection-string: "mongodb://localhost:27017"
+    database: test
     devservices:
+      port: 27017
       enabled: true
-      image-name: ${containers.postgres.image}:${containers.postgres.version}
-    jdbc:
-      driver: org.testcontainers.jdbc.ContainerDatabaseDriver
-      url: jdbc:tc:postgresql:${containers.postgres.version}:///test
+      image-name: ${containers.mongodb.image}:${containers.mongodb.version}

@@ -37,25 +37,17 @@ dependencies {
     implementation enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusPlatformVersion}")
     implementation "io.quarkus:quarkus-config-yaml"
     implementation "io.quarkus:quarkus-jaxb"
-    implementation "io.quarkus:quarkus-resteasy-reactive-jsonb"
-    implementation "io.quarkus:quarkus-resteasy-reactive"
-    implementation "io.quarkus:quarkus-smallrye-openapi"
-    implementation "io.quarkus:quarkus-jdbc-postgresql"
-    implementation "io.quarkus:quarkus-hibernate-orm"
-    implementation "io.quarkus:quarkus-security-jpa"
-    implementation "io.quarkus:quarkus-flyway"
-    implementation "io.quarkus:quarkus-undertow"
-    implementation "io.quarkus:quarkus-arc"
-    implementation "io.quarkus:quarkus-awt"
+    implementation 'io.quarkus:quarkus-mongodb-panache'
+    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
+  
     implementation "io.quarkus:quarkus-container-image-jib"
-
 
     testImplementation "io.quarkus:quarkus-junit5"
     testImplementation "io.quarkus:quarkus-jacoco"
     testImplementation "io.quarkus:quarkus-test-security"
 
     testImplementation "io.rest-assured:rest-assured"
-    testImplementation "org.testcontainers:postgresql:$testcontainersVersion"
+    testImplementation "org.testcontainers:mongodb:$testcontainersVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
 }
 
