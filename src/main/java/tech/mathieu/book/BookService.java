@@ -20,13 +20,12 @@ public class BookService {
 
   // visible for test
   boolean isArchive(File file) throws IOException {
-    var fileSignature = 0;
     try (var raf = new RandomAccessFile(file, "r")) {
-      fileSignature = raf.readInt();
+      return switch (raf.readInt()) {
+        case 0x504B0304, 0x504B0506, 0x504B0708 -> true;
+        default -> false;
+      };
     }
-    return fileSignature == 0x504B0304
-        || fileSignature == 0x504B0506
-        || fileSignature == 0x504B0708;
   }
 
   public Uni<Book> processInbox(File file) {
@@ -55,18 +54,13 @@ public class BookService {
 
   // visible for test
   String getBookId(Opf opf) {
-    String idName = opf.getUniqueIdentifier();
-    var id =
-        opf.getMetadata().getIdentifiers().stream()
-            .filter(identifier -> Objects.equals(identifier.getId(), idName))
-            .map(Id::getValue)
-            .toList();
-    if (id.isEmpty()) {
-      throw new IllegalArgumentException("No main Identifiers found!");
-    }
-    if (id.size() != 1) {
-      throw new IllegalArgumentException("Too many main Identifiers found!");
-    }
-    return id.getFirst();
+    return opf.getMetadata().getIdentifiers().stream()
+        .filter(identifier -> Objects.equals(identifier.getId(), opf.getUniqueIdentifier()))
+        .map(Id::getValue)
+        .reduce(
+            (first, second) -> {
+              throw new IllegalArgumentException("Too many main Identifiers found!");
+            })
+        .orElseThrow(() -> new IllegalArgumentException("No main Identifiers found!"));
   }
 }
