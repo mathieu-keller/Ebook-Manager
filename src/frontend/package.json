@@ -32,5 +32,5 @@
     "axios": "1.6.7",
     "solid-js": "1.8.12"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.1.0"
 }
