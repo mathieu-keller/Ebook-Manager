@@ -3532,7 +3532,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.4.35, postcss@npm:^8.4.35":
+"postcss@npm:8.4.35, postcss@npm:^8.4.23, postcss@npm:^8.4.35":
   version: 8.4.35
   resolution: "postcss@npm:8.4.35"
   dependencies:
@@ -3540,17 +3540,6 @@ __metadata:
     picocolors: "npm:^1.0.0"
     source-map-js: "npm:^1.0.2"
   checksum: 10c0/e8dd04e48001eb5857abc9475365bf08f4e508ddf9bc0b8525449a95d190f10d025acebc5b56ac2e94b3c7146790e4ae78989bb9633cb7ee20d1cc9b7dc909b2
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^8.4.23":
-  version: 8.4.33
-  resolution: "postcss@npm:8.4.33"
-  dependencies:
-    nanoid: "npm:^3.3.7"
-    picocolors: "npm:^1.0.0"
-    source-map-js: "npm:^1.0.2"
-  checksum: 10c0/16eda83458fcd8a91bece287b5920c7f57164c3ea293e6c80d0ea71ce7843007bcd8592260a5160b9a7f02693e6ac93e2495b02d8c7596d3f3f72c1447e3ba79
   languageName: node
   linkType: hard
 
@@ -3913,14 +3902,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solid-js@npm:1.8.12":
-  version: 1.8.12
-  resolution: "solid-js@npm:1.8.12"
+"solid-js@npm:1.8.14":
+  version: 1.8.14
+  resolution: "solid-js@npm:1.8.14"
   dependencies:
     csstype: "npm:^3.1.0"
     seroval: "npm:^1.0.3"
     seroval-plugins: "npm:^1.0.3"
-  checksum: 10c0/7d0cb59283618653b6801fbe2f413fa71de57518b46728d30659b9c1004d7f571eb697acbd9c5865ba7f82bd2129182a1c26590843764ae802264cb63f798d9e
+  checksum: 10c0/29744f756ab1697748cfe4655ededc973aba063542c612f12a47a0108e7161f9d7868f5160e2992f480f61343ae5b16252d5b9f20a538a9814cd88981097e47a
   languageName: node
   linkType: hard
 
@@ -4395,7 +4384,7 @@ __metadata:
     eslint-plugin-promise: "npm:6.1.1"
     eslint-plugin-solid: "npm:0.13.1"
     postcss: "npm:8.4.35"
-    solid-js: "npm:1.8.12"
+    solid-js: "npm:1.8.14"
     tailwindcss: "npm:3.4.1"
     typescript: "npm:5.3.3"
     vite: "npm:5.1.1"
