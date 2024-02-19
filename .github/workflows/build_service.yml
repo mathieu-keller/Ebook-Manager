@@ -128,15 +128,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Deploy stack to Portainer
-        uses: carlrygart/portainer-stack-deploy@v1
+      - name: Deploy to Portainer
+        uses: mathieu-keller/action-stack-deploy-to-portainer@1.0.1
         with:
-          portainer-host: ${{ secrets.PORTAINER_HOST }}
-          username: ${{ secrets.PORTAINER_USERNAME }}
-          password: ${{ secrets.PORTAINER_PASSWORD }}
-          stack-name: ${{github.ref == 'refs/heads/develop' && 'dev-ebooks' || 'ebooks'}}
-          stack-definition: 'stack-definition.yaml'
-          template-variables: >
+          portainerHost: ${{ secrets.PORTAINER_HOST }}
+          portainerApiKey: ${{ secrets.PORTAINER_API_KEY }}
+          portainerStackName: ${{github.ref == 'refs/heads/develop' && 'dev-ebooks' || 'ebooks'}}
+          portainerFilePath: 'stack-definition.yaml'
+          portainerEnvVars: >
             {
               "version": "${{ needs.dry-release.outputs.new_version }}", 
               "username": "${{ secrets.DOCKER_USER }}", 
