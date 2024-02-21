@@ -26,16 +26,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Cache node_modules
         uses: actions/cache@v4
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - name: Yarn install if cache is invalid
         if: steps.yarn-cache-node-modules.outputs.cache-hit != 'true'
         working-directory: ./src/frontend
@@ -47,16 +46,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Cache node_modules
         uses: actions/cache@v4
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - name: lint
         working-directory: ./src/frontend
         run: npm run lint
@@ -67,16 +65,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Cache node_modules
         uses: actions/cache@v4
         id: yarn-cache-node-modules
         with:
           path: src/frontend/node_modules
           key: ${{ runner.os }}-yarn-cache-${{ hashFiles('src/frontend/yarn.lock') }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - name: build vite
         working-directory: ./src/frontend
         run: npm run build
