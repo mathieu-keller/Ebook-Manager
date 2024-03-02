@@ -59,7 +59,17 @@ public class BookService {
                   Collectors.groupingBy(
                       Meta::getRefines, Collectors.toMap(Meta::getProperty, Function.identity())));
     }
-    return new Book().setId(getBookId(opf)).setTitles(getTitle(opf, metadata));
+    return new Book()
+        .setId(getBookId(opf))
+        .setTitles(getTitle(opf, metadata))
+        .setSubjects(getSubjects(opf));
+  }
+
+  List<String> getSubjects(Opf opf) {
+    if (opf.getMetadata().getSubjects() == null) {
+      return null;
+    }
+    return opf.getMetadata().getSubjects().stream().map(Id::getValue).collect(Collectors.toList());
   }
 
   List<Title> getTitle(Opf opf, Map<String, Map<String, Meta>> metadata) {

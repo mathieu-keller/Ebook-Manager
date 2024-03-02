@@ -12,6 +12,8 @@ public class Book extends ReactivePanacheMongoEntityBase {
 
   private List<Title> titles;
 
+  private List<String> subjects;
+
   public String getId() {
     return id;
   }
@@ -30,21 +32,32 @@ public class Book extends ReactivePanacheMongoEntityBase {
     return this;
   }
 
+  public List<String> getSubjects() {
+    return subjects;
+  }
+
+  public Book setSubjects(List<String> subjects) {
+    this.subjects = subjects;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Book book = (Book) o;
-    return Objects.equals(id, book.id) && Objects.equals(titles, book.titles);
+    return Objects.equals(id, book.id)
+        && Objects.equals(titles, book.titles)
+        && Objects.equals(subjects, book.subjects);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, titles);
+    return Objects.hash(id, titles, subjects);
   }
 
   @Override
   public String toString() {
-    return "Book{" + "id='" + id + '\'' + ", titles=" + titles + '}';
+    return "Book{" + "id='" + id + '\'' + ", titles=" + titles + ", subjects=" + subjects + '}';
   }
 }

@@ -37,7 +37,8 @@ class BookServiceTest {
                 List.of(
                     new Title("Test Book 01", "main", "2", null),
                     new Title("-", "sub", "1", null),
-                    new Title("Test Books", "collection", "0", null)));
+                    new Title("Test Books", "collection", "0", null)))
+            .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"));
     Uni<Book> result = bookService.processInbox(epubFile);
     assertThat(result.await().atMost(Duration.ofSeconds(1))).isEqualTo(expectedBook);
   }
