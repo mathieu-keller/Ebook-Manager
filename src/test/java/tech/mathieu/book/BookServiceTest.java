@@ -33,7 +33,8 @@ class BookServiceTest {
         new Book()
             .setId("urn:isbn:0001112223334")
             .setTitle("Test Book 01")
-            .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"));
+            .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"))
+            .setLanguages(List.of("de"));
     Uni<Book> result = bookService.processInbox(epubFile);
     assertThat(result.await().atMost(Duration.ofSeconds(1))).isEqualTo(expectedBook);
   }
@@ -91,9 +92,14 @@ class BookServiceTest {
                     .setTitles(
                         List.of(
                             new DefaultAttributes().setValue("Title 1"),
-                            new DefaultAttributes().setValue("Title 2"))));
+                            new DefaultAttributes().setValue("Title 2")))
+                    .setLanguages(List.of(new Id().setValue("en-US"), new Id().setValue("jp-JP"))));
 
-    Book expectedBook = new Book().setId("expectedValue").setTitle("Title 1");
+    Book expectedBook =
+        new Book()
+            .setId("expectedValue")
+            .setTitle("Title 1")
+            .setLanguages(List.of("en-US", "jp-JP"));
 
     Book result = bookService.getGetBook(opf);
 

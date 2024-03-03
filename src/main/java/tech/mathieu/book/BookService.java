@@ -47,7 +47,11 @@ public class BookService {
   }
 
   Book getGetBook(Opf opf) {
-    return new Book().setId(getBookId(opf)).setTitle(getTitle(opf)).setSubjects(getSubjects(opf));
+    return new Book()
+        .setId(getBookId(opf))
+        .setTitle(getTitle(opf))
+        .setSubjects(getSubjects(opf))
+        .setLanguages(getLanguages(opf));
   }
 
   List<String> getSubjects(Opf opf) {
@@ -61,6 +65,12 @@ public class BookService {
         .filter(titles -> !titles.isEmpty())
         .map(titles -> titles.getFirst().getValue())
         .orElseThrow(() -> new IllegalArgumentException("No Title found!"));
+  }
+
+  List<String> getLanguages(Opf opf) {
+    return Optional.ofNullable(opf.getMetadata().getLanguages())
+        .map(languages -> languages.stream().map(Id::getValue).collect(Collectors.toList()))
+        .orElse(null);
   }
 
   // visible for test
