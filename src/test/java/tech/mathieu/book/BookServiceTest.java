@@ -34,7 +34,8 @@ class BookServiceTest {
             .setId("urn:isbn:0001112223334")
             .setTitle("Test Book 01")
             .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"))
-            .setLanguages(List.of("de"));
+            .setLanguages(List.of("de"))
+            .setCreators(List.of("Last Name, First Name"));
     Uni<Book> result = bookService.processInbox(epubFile);
     assertThat(result.await().atMost(Duration.ofSeconds(1))).isEqualTo(expectedBook);
   }
@@ -93,13 +94,23 @@ class BookServiceTest {
                         List.of(
                             new DefaultAttributes().setValue("Title 1"),
                             new DefaultAttributes().setValue("Title 2")))
-                    .setLanguages(List.of(new Id().setValue("en-US"), new Id().setValue("jp-JP"))));
+                    .setLanguages(List.of(new Id().setValue("en-US"), new Id().setValue("jp-JP")))
+                    .setContributors(
+                        List.of(
+                            new DefaultAttributes().setValue("contributor1"),
+                            new DefaultAttributes().setValue("contributor2")))
+                    .setCreators(
+                        List.of(
+                            new DefaultAttributes().setValue("creator1"),
+                            new DefaultAttributes().setValue("creator2"))));
 
     Book expectedBook =
         new Book()
             .setId("expectedValue")
             .setTitle("Title 1")
-            .setLanguages(List.of("en-US", "jp-JP"));
+            .setLanguages(List.of("en-US", "jp-JP"))
+            .setContributors(List.of("contributor1", "contributor2"))
+            .setCreators(List.of("creator1", "creator2"));
 
     Book result = bookService.getGetBook(opf);
 

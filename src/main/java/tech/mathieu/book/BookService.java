@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
+import tech.mathieu.epub.opf.metadata.DefaultAttributes;
 import tech.mathieu.epub.opf.metadata.Id;
 
 @ApplicationScoped
@@ -51,7 +52,9 @@ public class BookService {
         .setId(getBookId(opf))
         .setTitle(getTitle(opf))
         .setSubjects(getSubjects(opf))
-        .setLanguages(getLanguages(opf));
+        .setLanguages(getLanguages(opf))
+        .setContributors(getContributors(opf))
+        .setCreators(getCreators(opf));
   }
 
   List<String> getSubjects(Opf opf) {
@@ -70,6 +73,22 @@ public class BookService {
   List<String> getLanguages(Opf opf) {
     return Optional.ofNullable(opf.getMetadata().getLanguages())
         .map(languages -> languages.stream().map(Id::getValue).collect(Collectors.toList()))
+        .orElse(null);
+  }
+
+  List<String> getContributors(Opf opf) {
+    return Optional.ofNullable(opf.getMetadata().getContributors())
+        .map(
+            contributors ->
+                contributors.stream().map(DefaultAttributes::getValue).collect(Collectors.toList()))
+        .orElse(null);
+  }
+
+  List<String> getCreators(Opf opf) {
+    return Optional.ofNullable(opf.getMetadata().getCreators())
+        .map(
+            creators ->
+                creators.stream().map(DefaultAttributes::getValue).collect(Collectors.toList()))
         .orElse(null);
   }
 
