@@ -1,23 +1,12 @@
 quarkus:
-  datasource:
-    db-kind: postgresql
-    username: ${db-user}
-    password: ${db-password}
-    jdbc:
-      url: jdbc:postgresql://${db-address}/${db-schema}
+  mongodb:
+    database: ebooks
   http:
     auth:
       basic: true
     limits:
       max-form-attribute-size: 200M
       max-body-size: 200M
-  flyway:
-    default-schema: public
-    clean-at-start: false
-    table: SCHEMA_VERSION
-    validate-on-migrate: true
-    out-of-order: false
-    migrate-at-start: true
   container-image:
     builder: jib
   jib:

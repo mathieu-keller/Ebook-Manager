@@ -29,17 +29,24 @@ services:
     depends_on:
       - "db"
   db:
-    image: postgres:16.2-alpine
-    restart: on-failure
+    image: mongo:7.0.4
+    restart: always
     environment:
-      POSTGRES_PASSWORD: "changeme"
-      POSTGRES_USER: "ebook"
-      POSTGRES_DB: "ebook"
-      PGDATA: /var/lib/postgresql/data/pgdata
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - '<path_where_to_save_db_data>:/var/lib/postgresql/data'
+      - /my/own/datadir:/data/db
+  db-ui:
+    image: mongo-express:1.0.0
+    restart: always
     ports:
-      - "5432:5432"
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@db:27017/
+  depends_on:
+      - "db"
 ```
 ## Pictures
 ### Home

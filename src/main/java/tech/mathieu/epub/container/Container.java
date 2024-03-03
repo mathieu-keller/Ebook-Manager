@@ -24,15 +24,17 @@ public class Container {
     return rootfiles;
   }
 
-  public void setRootfiles(Rootfiles value) {
-    this.rootfiles = value;
+  public Container setRootfiles(Rootfiles rootfiles) {
+    this.rootfiles = rootfiles;
+    return this;
   }
 
   public BigDecimal getVersion() {
     return version;
   }
 
-  public void setVersion(BigDecimal value) {
-    this.version = value;
+  public Container setVersion(BigDecimal version) {
+    this.version = version;
+    return this;
   }
 }

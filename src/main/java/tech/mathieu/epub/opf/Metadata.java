@@ -62,87 +62,98 @@ public class Metadata {
     return titles;
   }
 
-  public void setTitles(List<DefaultAttributes> titles) {
+  public Metadata setTitles(List<DefaultAttributes> titles) {
     this.titles = titles;
+    return this;
   }
 
   public List<DefaultAttributes> getCreators() {
     return creators;
   }
 
-  public void setCreators(List<DefaultAttributes> creators) {
+  public Metadata setCreators(List<DefaultAttributes> creators) {
     this.creators = creators;
+    return this;
   }
 
   public List<DefaultAttributes> getContributors() {
     return contributors;
   }
 
-  public void setContributors(List<DefaultAttributes> contributors) {
+  public Metadata setContributors(List<DefaultAttributes> contributors) {
     this.contributors = contributors;
+    return this;
   }
 
   public List<DefaultAttributes> getPublishers() {
     return publishers;
   }
 
-  public void setPublishers(List<DefaultAttributes> publishers) {
+  public Metadata setPublishers(List<DefaultAttributes> publishers) {
     this.publishers = publishers;
+    return this;
   }
 
   public List<Id> getIdentifiers() {
     return identifiers;
   }
 
-  public void setIdentifiers(List<Id> identifiers) {
+  public Metadata setIdentifiers(List<Id> identifiers) {
     this.identifiers = identifiers;
+    return this;
   }
 
   public List<Id> getDates() {
     return dates;
   }
 
-  public void setDates(List<Id> dates) {
+  public Metadata setDates(List<Id> dates) {
     this.dates = dates;
+    return this;
   }
 
   public List<DefaultAttributes> getSubjects() {
     return subjects;
   }
 
-  public void setSubjects(List<DefaultAttributes> subjects) {
+  public Metadata setSubjects(List<DefaultAttributes> subjects) {
     this.subjects = subjects;
+    return this;
   }
 
   public List<Id> getLanguages() {
     return languages;
   }
 
-  public void setLanguages(List<Id> languages) {
+  public Metadata setLanguages(List<Id> languages) {
     this.languages = languages;
+    return this;
   }
 
   public List<DefaultAttributes> getRights() {
     return rights;
   }
 
-  public void setRights(List<DefaultAttributes> rights) {
+  public Metadata setRights(List<DefaultAttributes> rights) {
     this.rights = rights;
+    return this;
   }
 
   public List<Meta> getMeta() {
     return meta;
   }
 
-  public void setMeta(List<Meta> meta) {
+  public Metadata setMeta(List<Meta> meta) {
     this.meta = meta;
+    return this;
   }
 
   public List<DefaultAttributes> getDescriptions() {
     return descriptions;
   }
 
-  public void setDescriptions(List<DefaultAttributes> descriptions) {
+  public Metadata setDescriptions(List<DefaultAttributes> descriptions) {
     this.descriptions = descriptions;
+    return this;
   }
 }

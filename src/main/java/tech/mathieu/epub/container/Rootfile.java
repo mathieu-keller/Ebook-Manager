@@ -18,15 +18,17 @@ public class Rootfile {
     return fullPath;
   }
 
-  public void setFullPath(String value) {
-    this.fullPath = value;
+  public Rootfile setFullPath(String fullPath) {
+    this.fullPath = fullPath;
+    return this;
   }
 
   public String getMediaType() {
     return mediaType;
   }
 
-  public void setMediaType(String value) {
-    this.mediaType = value;
+  public Rootfile setMediaType(String mediaType) {
+    this.mediaType = mediaType;
+    return this;
   }
 }

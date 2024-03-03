@@ -34,34 +34,56 @@ public class Opf {
   private String lang;
 
   public Metadata getMetadata() {
-    return this.metadata;
+    return metadata;
   }
 
-  public void setMetadata(Metadata value) {
-    this.metadata = value;
-  }
-
-  public String getVersion() {
-    return this.version;
-  }
-
-  public void setVersion(String value) {
-    this.version = value;
-  }
-
-  public String getUniqueIdentifier() {
-    return this.uniqueIdentifier;
-  }
-
-  public void setUniqueIdentifier(String value) {
-    this.uniqueIdentifier = value;
+  public Opf setMetadata(Metadata metadata) {
+    this.metadata = metadata;
+    return this;
   }
 
   public Manifest getManifest() {
     return manifest;
   }
 
-  public void setManifest(Manifest manifest) {
+  public Opf setManifest(Manifest manifest) {
     this.manifest = manifest;
+    return this;
+  }
+
+  public String getVersion() {
+    return version;
+  }
+
+  public Opf setVersion(String version) {
+    this.version = version;
+    return this;
+  }
+
+  public String getUniqueIdentifier() {
+    return uniqueIdentifier;
+  }
+
+  public Opf setUniqueIdentifier(String uniqueIdentifier) {
+    this.uniqueIdentifier = uniqueIdentifier;
+    return this;
+  }
+
+  public String getDir() {
+    return dir;
+  }
+
+  public Opf setDir(String dir) {
+    this.dir = dir;
+    return this;
+  }
+
+  public String getLang() {
+    return lang;
+  }
+
+  public Opf setLang(String lang) {
+    this.lang = lang;
+    return this;
   }
 }
