@@ -4,13 +4,11 @@ import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 import tech.mathieu.epub.Reader;
 import tech.mathieu.epub.opf.Opf;
 import tech.mathieu.epub.opf.metadata.Id;
-import tech.mathieu.epub.opf.metadata.Meta;
 
 @ApplicationScoped
 public class BookService {
@@ -49,56 +47,20 @@ public class BookService {
   }
 
   Book getGetBook(Opf opf) {
-    var meta = opf.getMetadata().getMeta();
-    Map<String, Map<String, Meta>> metadata = new HashMap<>();
-    if (meta != null) {
-      metadata =
-          opf.getMetadata().getMeta().stream()
-              .filter(m -> m.getRefines() != null)
-              .collect(
-                  Collectors.groupingBy(
-                      Meta::getRefines, Collectors.toMap(Meta::getProperty, Function.identity())));
-    }
-    return new Book()
-        .setId(getBookId(opf))
-        .setTitles(getTitle(opf, metadata))
-        .setSubjects(getSubjects(opf));
+    return new Book().setId(getBookId(opf)).setTitle(getTitle(opf)).setSubjects(getSubjects(opf));
   }
 
   List<String> getSubjects(Opf opf) {
-    if (opf.getMetadata().getSubjects() == null) {
-      return null;
-    }
-    return opf.getMetadata().getSubjects().stream().map(Id::getValue).collect(Collectors.toList());
+    return Optional.ofNullable(opf.getMetadata().getSubjects())
+        .map(subjects -> subjects.stream().map(Id::getValue).collect(Collectors.toList()))
+        .orElse(null);
   }
 
-  List<Title> getTitle(Opf opf, Map<String, Map<String, Meta>> metadata) {
-    var epubTitles = opf.getMetadata().getTitles();
-    if (epubTitles == null || epubTitles.isEmpty()) {
-      throw new IllegalArgumentException("No Title found!");
-    }
-    var returnList = new ArrayList<Title>();
-    for (var epubTitle : epubTitles) {
-      if (epubTitle.getId() != null) {
-        var id = "#" + epubTitle.getId();
-        if (metadata.containsKey(id)) {
-          var meta = metadata.get(id);
-          var title = meta.getOrDefault("title-type", new Meta()).getValue();
-          var displaySeq = meta.getOrDefault("display-seq", new Meta()).getValue();
-          returnList.add(
-              new Title(
-                  epubTitle.getValue(),
-                  title == null ? "main" : title,
-                  displaySeq == null ? "0" : displaySeq,
-                  meta.getOrDefault("lang", new Meta()).getValue()));
-        } else {
-          returnList.add(new Title(epubTitle.getValue(), "main", "0", null));
-        }
-      } else {
-        returnList.add(new Title(epubTitle.getValue(), "main", "0", null));
-      }
-    }
-    return returnList;
+  String getTitle(Opf opf) {
+    return Optional.ofNullable(opf.getMetadata().getTitles())
+        .filter(titles -> !titles.isEmpty())
+        .map(titles -> titles.getFirst().getValue())
+        .orElseThrow(() -> new IllegalArgumentException("No Title found!"));
   }
 
   // visible for test

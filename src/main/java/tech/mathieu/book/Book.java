@@ -10,7 +10,7 @@ import org.bson.codecs.pojo.annotations.BsonId;
 public class Book extends ReactivePanacheMongoEntityBase {
   @BsonId private String id;
 
-  private List<Title> titles;
+  private String title;
 
   private List<String> subjects;
 
@@ -23,12 +23,12 @@ public class Book extends ReactivePanacheMongoEntityBase {
     return this;
   }
 
-  public List<Title> getTitles() {
-    return titles;
+  public String getTitle() {
+    return title;
   }
 
-  public Book setTitles(List<Title> titles) {
-    this.titles = titles;
+  public Book setTitle(String title) {
+    this.title = title;
     return this;
   }
 
@@ -47,17 +47,26 @@ public class Book extends ReactivePanacheMongoEntityBase {
     if (o == null || getClass() != o.getClass()) return false;
     Book book = (Book) o;
     return Objects.equals(id, book.id)
-        && Objects.equals(titles, book.titles)
+        && Objects.equals(title, book.title)
         && Objects.equals(subjects, book.subjects);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, titles, subjects);
+    return Objects.hash(id, title, subjects);
   }
 
   @Override
   public String toString() {
-    return "Book{" + "id='" + id + '\'' + ", titles=" + titles + ", subjects=" + subjects + '}';
+    return "Book{"
+        + "id='"
+        + id
+        + '\''
+        + ", title='"
+        + title
+        + '\''
+        + ", subjects="
+        + subjects
+        + '}';
   }
 }

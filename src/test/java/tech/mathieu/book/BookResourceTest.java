@@ -30,12 +30,7 @@ class BookResourceTest {
     SoftAssertions.assertSoftly(
         softly -> {
           softly.assertThat(book.getId()).isEqualTo("urn:isbn:0001112223334");
-          softly
-              .assertThat(book.getTitles())
-              .containsExactly(
-                  new Title("Test Book 01", "main", "2", null),
-                  new Title("-", "sub", "1", null),
-                  new Title("Test Books", "collection", "0", null));
+          softly.assertThat(book.getTitle()).isEqualTo("Test Book 01");
         });
   }
 }

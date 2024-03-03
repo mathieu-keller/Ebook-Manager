@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import tech.mathieu.epub.opf.Metadata;
@@ -33,11 +32,7 @@ class BookServiceTest {
     Book expectedBook =
         new Book()
             .setId("urn:isbn:0001112223334")
-            .setTitles(
-                List.of(
-                    new Title("Test Book 01", "main", "2", null),
-                    new Title("-", "sub", "1", null),
-                    new Title("Test Books", "collection", "0", null)))
+            .setTitle("Test Book 01")
             .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"));
     Uni<Book> result = bookService.processInbox(epubFile);
     assertThat(result.await().atMost(Duration.ofSeconds(1))).isEqualTo(expectedBook);
@@ -74,13 +69,7 @@ class BookServiceTest {
                             new DefaultAttributes().setValue("Title 1"),
                             new DefaultAttributes().setValue("Title 2"))));
 
-    Book expectedBook =
-        new Book()
-            .setId("expectedValue")
-            .setTitles(
-                List.of(
-                    new Title("Title 1", "main", "0", null),
-                    new Title("Title 2", "main", "0", null)));
+    Book expectedBook = new Book().setId("expectedValue").setTitle("Title 1");
 
     Uni<Book> result = bookService.saveBook(opf);
 
@@ -104,13 +93,7 @@ class BookServiceTest {
                             new DefaultAttributes().setValue("Title 1"),
                             new DefaultAttributes().setValue("Title 2"))));
 
-    Book expectedBook =
-        new Book()
-            .setId("expectedValue")
-            .setTitles(
-                List.of(
-                    new Title("Title 1", "main", "0", null),
-                    new Title("Title 2", "main", "0", null)));
+    Book expectedBook = new Book().setId("expectedValue").setTitle("Title 1");
 
     Book result = bookService.getGetBook(opf);
 
@@ -128,30 +111,22 @@ class BookServiceTest {
                             new DefaultAttributes().setValue("Title 1"),
                             new DefaultAttributes().setValue("Title 2"))));
 
-    var result = bookService.getTitle(opf, new HashMap<>());
-    assertThat(result).hasSize(2);
-    assertThat(result.get(0).name()).isEqualTo("Title 1");
-    assertThat(result.get(0).type()).isEqualTo("main");
-    assertThat(result.get(0).seq()).isEqualTo("0");
-    assertThat(result.get(0).lang()).isNull();
-    assertThat(result.get(1).name()).isEqualTo("Title 2");
-    assertThat(result.get(1).type()).isEqualTo("main");
-    assertThat(result.get(1).seq()).isEqualTo("0");
-    assertThat(result.get(1).lang()).isNull();
+    var result = bookService.getTitle(opf);
+    assertThat(result).isEqualTo("Title 1");
   }
 
   @Test
   void shouldThrowExceptionWhenTitlesAreNull() {
     Opf opf = new Opf().setMetadata(new Metadata().setTitles(null));
 
-    assertThrows(IllegalArgumentException.class, () -> bookService.getTitle(opf, new HashMap<>()));
+    assertThrows(IllegalArgumentException.class, () -> bookService.getTitle(opf));
   }
 
   @Test
   void shouldThrowExceptionWhenNoTitlesArePresent() {
     Opf opf = new Opf().setMetadata(new Metadata().setTitles(List.of()));
 
-    assertThrows(IllegalArgumentException.class, () -> bookService.getTitle(opf, new HashMap<>()));
+    assertThrows(IllegalArgumentException.class, () -> bookService.getTitle(opf));
   }
 
   @Test
