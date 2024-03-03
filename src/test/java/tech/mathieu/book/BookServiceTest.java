@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import tech.mathieu.epub.opf.Metadata;
@@ -35,7 +37,9 @@ class BookServiceTest {
             .setTitle("Test Book 01")
             .setSubjects(List.of("Action", "Fantasy", "Manga", "Mythology", "School", "Shounen"))
             .setLanguages(List.of("de"))
-            .setCreators(List.of("Last Name, First Name"));
+            .setCreators(List.of("Last Name, First Name"))
+            .setPublicationDate(
+                ZonedDateTime.of(2020, 3, 4, 0, 0, 0, 0, ZoneOffset.UTC).toInstant());
     Uni<Book> result = bookService.processInbox(epubFile);
     assertThat(result.await().atMost(Duration.ofSeconds(1))).isEqualTo(expectedBook);
   }
@@ -216,5 +220,46 @@ class BookServiceTest {
                             new DefaultAttributes().setValue("Title 2"))));
 
     assertThrows(IllegalArgumentException.class, () -> bookService.getBookId(opf));
+  }
+
+  @Test
+  void getPublicationDate_withDateOnly() {
+    Opf opf = createOpfWithDate("2020-01-01");
+    var expected = ZonedDateTime.of(2020, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC).toInstant();
+    assertThat(bookService.getPublicationDate(opf)).isEqualTo(expected);
+  }
+
+  @Test
+  void getPublicationDate_withDateTime() {
+    Opf opf = createOpfWithDate("2020-01-01T13:30");
+    var expected = ZonedDateTime.of(2020, 1, 1, 13, 30, 0, 0, ZoneOffset.UTC).toInstant();
+    assertThat(bookService.getPublicationDate(opf)).isEqualTo(expected);
+  }
+
+  @Test
+  void getPublicationDate_withDateTimeSeconds() {
+    Opf opf = createOpfWithDate("2020-01-01T13:30:00");
+    var expected = ZonedDateTime.of(2020, 1, 1, 13, 30, 0, 0, ZoneOffset.UTC).toInstant();
+    assertThat(bookService.getPublicationDate(opf)).isEqualTo(expected);
+  }
+
+  @Test
+  void getPublicationDate_withDateTimeMillis() {
+    Opf opf = createOpfWithDate("2020-01-01T13:30:00.000");
+    var expected = ZonedDateTime.of(2020, 1, 1, 13, 30, 0, 0, ZoneOffset.UTC).toInstant();
+    assertThat(bookService.getPublicationDate(opf)).isEqualTo(expected);
+  }
+
+  @Test
+  void getPublicationDate_withDateTimeZ() {
+    Opf opf = createOpfWithDate("2020-01-01T13:30:00Z");
+    var expected = ZonedDateTime.of(2020, 1, 1, 13, 30, 0, 0, ZoneOffset.UTC).toInstant();
+    assertThat(bookService.getPublicationDate(opf)).isEqualTo(expected);
+  }
+
+  private Opf createOpfWithDate(String date) {
+    Metadata metadata = new Metadata();
+    metadata.setDates(List.of(new Id().setValue(date)));
+    return new Opf().setMetadata(metadata);
   }
 }

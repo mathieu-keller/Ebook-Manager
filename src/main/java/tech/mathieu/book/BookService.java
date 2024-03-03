@@ -3,6 +3,12 @@ package tech.mathieu.book;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.io.*;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
@@ -54,7 +60,8 @@ public class BookService {
         .setSubjects(getSubjects(opf))
         .setLanguages(getLanguages(opf))
         .setContributors(getContributors(opf))
-        .setCreators(getCreators(opf));
+        .setCreators(getCreators(opf))
+        .setPublicationDate(getPublicationDate(opf));
   }
 
   List<String> getSubjects(Opf opf) {
@@ -89,6 +96,31 @@ public class BookService {
         .map(
             creators ->
                 creators.stream().map(DefaultAttributes::getValue).collect(Collectors.toList()))
+        .orElse(null);
+  }
+
+  Instant getPublicationDate(Opf opf) {
+    DateTimeFormatter formatter =
+        new DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd['T'HH:mm[:ss[.SSS]][z]]")
+            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+            .parseDefaulting(ChronoField.NANO_OF_SECOND, 0)
+            .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
+            .toFormatter();
+    return Optional.ofNullable(opf.getMetadata().getDates())
+        .map(
+            dates ->
+                dates.stream()
+                    .map(Id::getValue)
+                    .findFirst()
+                    .map(
+                        date ->
+                            ZonedDateTime.parse(date, formatter)
+                                .withZoneSameInstant(ZoneOffset.UTC)
+                                .toInstant())
+                    .orElse(null))
         .orElse(null);
   }
 

@@ -2,6 +2,7 @@ package tech.mathieu.book;
 
 import io.quarkus.mongodb.panache.common.MongoEntity;
 import io.quarkus.mongodb.panache.reactive.ReactivePanacheMongoEntityBase;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import org.bson.codecs.pojo.annotations.BsonId;
@@ -19,6 +20,8 @@ public class Book extends ReactivePanacheMongoEntityBase {
   private List<String> contributors;
 
   private List<String> creators;
+
+  private Instant publicationDate;
 
   public String getId() {
     return id;
@@ -74,6 +77,15 @@ public class Book extends ReactivePanacheMongoEntityBase {
     return this;
   }
 
+  public Instant getPublicationDate() {
+    return publicationDate;
+  }
+
+  public Book setPublicationDate(Instant publicationDate) {
+    this.publicationDate = publicationDate;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -84,12 +96,13 @@ public class Book extends ReactivePanacheMongoEntityBase {
         && Objects.equals(subjects, book.subjects)
         && Objects.equals(languages, book.languages)
         && Objects.equals(contributors, book.contributors)
-        && Objects.equals(creators, book.creators);
+        && Objects.equals(creators, book.creators)
+        && Objects.equals(publicationDate, book.publicationDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, subjects, languages, contributors, creators);
+    return Objects.hash(id, title, subjects, languages, contributors, creators, publicationDate);
   }
 
   @Override
@@ -109,6 +122,8 @@ public class Book extends ReactivePanacheMongoEntityBase {
         + contributors
         + ", creators="
         + creators
+        + ", publicationDate="
+        + publicationDate
         + '}';
   }
 }
