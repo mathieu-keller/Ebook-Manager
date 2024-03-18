@@ -107,7 +107,6 @@ jobs:
         run: ./gradlew build -x test -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Dquarkus.container-image.tag=${{ needs.dry-release.outputs.new_version }} -Dquarkus.container-image.group=${{ secrets.DOCKER_USER }} -Dquarkus.container-image.push=true
       - uses: geekyeggo/delete-artifact@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: frontend
   release:
     name: create release
