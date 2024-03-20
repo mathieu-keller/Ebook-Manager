@@ -1441,12 +1441,13 @@ eslint-plugin-promise@6.1.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-6.1.1.tgz#269a3e2772f62875661220631bd4dafcb4083816"
   integrity sha512-tjqWDwVZQo7UIPMeDReOpUgHCmCiH+ePnVT+5zVapL0uuHnegBUs2smM13CzOs2Xb5+MHMRFTs9v24yjba4Oig==
 
-eslint-plugin-solid@0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-solid/-/eslint-plugin-solid-0.13.1.tgz#608b8afd981b0f981ee97fa18a8acfe1efc0a9c4"
-  integrity sha512-PdNrAylFzeh/SbnLc2pQ432l+bXFGzXj/qNqkh5QNVZCoWIdSs0CJA2D7hqW0DloztwUrzkVZCDWFWc3iRAm/Q==
+eslint-plugin-solid@0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-solid/-/eslint-plugin-solid-0.13.2.tgz#ae6a286667d1f78c7e330c69c3f7f54b8f7ab565"
+  integrity sha512-Ndeuc6MEO11YVqzIzxtKKEG0t4HPJ4ob/WQyduwpTW//NtyZqWx/gPii5GF656DLqBbsfsmMaX0zkFQ8ElyOdQ==
   dependencies:
     "@typescript-eslint/utils" "^6.4.0"
+    estraverse "^5.3.0"
     is-html "^2.0.0"
     kebab-case "^1.0.2"
     known-css-properties "^0.24.0"
@@ -1532,7 +1533,7 @@ esrecurse@^4.3.0:
   dependencies:
     estraverse "^5.2.0"
 
-estraverse@^5.1.0, estraverse@^5.2.0:
+estraverse@^5.1.0, estraverse@^5.2.0, estraverse@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.3.0.tgz#2eea5290702f26ab8fe5370370ff86c965d21123"
   integrity sha512-MMdARuVEQziNTeJD8DgMqmhwR11BRQ/cBP+pLtYdSTnf3MIO8fFeiINEbX36ZdNlfU/7A9f3gUw49B3oQsvwBA==
