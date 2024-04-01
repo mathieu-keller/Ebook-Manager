@@ -25,7 +25,7 @@ services:
       admin-username: "admin"
       admin-password: "changeme"
     volumes:
-      - '<path_where_to_save_epubs>:/work/upload'
+      - '<path_where_to_save_epubs>:/home/jboss/upload'
     depends_on:
       - "db"
   db:
