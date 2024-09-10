@@ -29,7 +29,7 @@ services:
     depends_on:
       - "db"
   db:
-    image: postgres:16.2-alpine
+    image: postgres:16.4-alpine
     restart: on-failure
     environment:
       POSTGRES_PASSWORD: "changeme"
