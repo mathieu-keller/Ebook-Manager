@@ -1389,10 +1389,10 @@ eslint-plugin-promise@7.1.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-7.1.0.tgz#06b3ad6d36b3c3ef3ec201c8a8d97049cf5dbb20"
   integrity sha512-8trNmPxdAy3W620WKDpaS65NlM5yAumod6XeC4LOb+jxlkG4IVcp68c6dXY2ev+uT4U1PtG57YDV6EGAXN0GbQ==
 
-eslint-plugin-solid@0.14.3:
-  version "0.14.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-solid/-/eslint-plugin-solid-0.14.3.tgz#c101eeb04d653b8e3e32c3d7eae945bf711b0b80"
-  integrity sha512-eDeyPrijSjVGeyb4oKoyidgLlMDZwAg/YdxiY9QvGXl2kLgpcHvLpgpaGK4KJ8xSsg0ym3B2dPRBAIlT7iUrEQ==
+eslint-plugin-solid@0.14.4:
+  version "0.14.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-solid/-/eslint-plugin-solid-0.14.4.tgz#99c7ea94c40a0cd669d770f93a91b826900d62ab"
+  integrity sha512-uWsNA2okBgwBRPxjsQ7DxlRksq1EKdMhwQlViHdkkRDLnWqwnZEjQASWeckZ0DI24sVzPeETJhPv1BWKKiu99A==
   dependencies:
     "@typescript-eslint/utils" "^7.13.1 || ^8.0.0"
     estraverse "^5.3.0"
