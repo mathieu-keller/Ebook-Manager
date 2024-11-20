@@ -15,14 +15,14 @@ jobs:
       release-branch: main
       dry: true
   version-echo:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [dry-release]
     steps:
       - name: echo
         run: echo ${{ needs.dry-release.outputs.new_version }}
   yarn:
     name: cache node modules
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,7 +41,7 @@ jobs:
         run: yarn install
   lint:
     name: lint frontend
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ yarn ]
     steps:
       - name: Checkout
@@ -61,7 +61,7 @@ jobs:
   frontend_build:
     name: build frontend
     needs: [ yarn ]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -84,7 +84,7 @@ jobs:
           path: src/frontend/dist
   backend_build:
     name: build backend
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ frontend_build, lint, dry-release ]
     steps:
       - uses: actions/checkout@v4
@@ -119,7 +119,7 @@ jobs:
   deploy:
     name: deploy
     if: ${{ github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ backend_build, dry-release  ]
     steps:
       - name: Checkout
