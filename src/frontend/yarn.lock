@@ -2622,10 +2622,10 @@ signal-exit@^4.0.1:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
-solid-js@1.8.22:
-  version "1.8.22"
-  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.8.22.tgz#6df23f8a172eb14395a2984261e5782397d0a74a"
-  integrity sha512-VBzN5j+9Y4rqIKEnK301aBk+S7fvFSTs9ljg+YEdFxjNjH0hkjXPiQRcws9tE5fUzMznSS6KToL5hwMfHDgpLA==
+solid-js@1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.9.3.tgz#078f026fe32f6b9b48e8e0557be150f0c2d610a9"
+  integrity sha512-5ba3taPoZGt9GY3YlsCB24kCg0Lv/rie/HTD4kG6h4daZZz7+yK02xn8Vx8dLYBc9i6Ps5JwAbEiqjmKaLB3Ag==
   dependencies:
     csstype "^3.1.0"
     seroval "^1.1.0"
